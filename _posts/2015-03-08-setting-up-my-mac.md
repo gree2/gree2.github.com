@@ -64,4 +64,16 @@ tags: [ruby, jekyll]
     ===================
     disable.android.first.run=true
 
+### lock screen
+
+1. `system preferences`
+1. `security & privacy` under `general` tab
+1. `require password immediately` after sleep or screen saver begins
+1. `control+shift+power`
+
+### ssh localhost
+
+1. `system preferences`
+1. `sharing`
+1. `remote login`
     
