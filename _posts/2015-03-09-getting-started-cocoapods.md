@@ -41,8 +41,8 @@ updating cocoapods
 
 
     pod 'AFNetworking', '~>2.0'
-    pod 'ObjectiveSugar', '~>0.5'
 
+    pod 'ObjectiveSugar', '~>0.5'
 
 2. run in your project directory
 
