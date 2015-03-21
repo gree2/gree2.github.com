@@ -79,3 +79,117 @@ tags: [mvc,TabBar, SplitView, Navigation]
     * just impl this in your UIViewController
 
             func shouldPerformSegueWithIdentifier(identifier: String?, sender: AnyObject?) -> Bool
+
+### popover
+
+1. `prepareForSegue`
+
+        func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?){
+            if let identifier = segue.identifier{
+                switch identifier{
+                    case "segue_do_sth":
+                        if let vc = segue.destinationViewController as? MyController{
+                            if let ppc = vc.popoverPresentationController{
+                                ppc.permittedArrowDirections = UIPopoverArrowDirection.Any
+                                ppc.delegate = self
+                            }
+                        }
+                }
+            }
+        }
+
+1. delegate
+
+        func adaptivePresentationStyleForPresentationController(UIPresentationController)
+            -> UIModalPresentationStyle
+        {
+            return UIModalPresentationStyle.None // don't adapt default is .FullScreen
+        }
+
+        func presentationController(UIPresentationController, style: UIModalPresentationStyle)
+            -> UIViewController?
+        {
+            // return a UIViewController to use
+            // eg. wrap a nc around your mvc
+        }
+
+1. popover size
+
+    * a popover will be made pretty large unless someone tells it otherwise
+    * mvc being presented knows best what it's `preferred` size inside a popover would be
+    * it expresses that via this property in itself
+
+            var preferredContentSize: CGFloat
+
+    * mvc is not guaranteed to be that size but the system will try its best
+
+1. demo
+
+    * UIViewController
+
+            class TextViewController: UIViewController, UIPopoverPresentationControllerDelegate {
+                @IBOutlet weak var textView: UITextView!{
+                    didSet{
+                        textView.text = text
+                    }
+                }
+
+                var text: String = ""{
+                    didSet{
+                        textView?.text = text
+                    }
+                }
+
+                override var preferredContentSize: CGFloat{
+                    get {
+                        if textView != nil && presentingViewController != nil{
+                            return textView.sizeThatFits(presentingViewController!.view.bounds.size)
+                        } else {
+                            return super.preferredContentSize
+                        }
+                    }
+                    set { super.preferredContentSize = newValue }
+                }
+            }
+
+    * DiagnosedHappinessViewController
+
+            DiagnosedHappinessViewController: HappinessViewControl{
+
+                override var happiness: Int{
+                    didSet{
+                        diagnosticHistory += [happiness]
+                    }
+                }
+                private let defaults = NSUserDefaults.standardUserDefaults()
+
+                var diagnosticHistory: [Int] {
+                    get { return defaults.objectForKey(History.DefaultKey) as? [Int] ?? [] }
+                    set { defaults.setObject(newValue, forKey: History.DefaultKey) }
+                }
+
+                private struct History {
+                    static let SegueIdentifier = "SegueIdentifier"
+                    static let DefaultKey = "ClassName.History"
+                }
+
+                override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?){
+                    if let identifier = segue.identifier{
+                        switch identifier{
+                            case History.SegueIdentifier:
+                                if let tvc = setup.destinationViewController as? TextViewController{
+                                    if let ppc = tvc.popoverPresentationController{
+                                        ppc.delegate = self
+                                    }
+                                    tvc.text = "\(diagnosticHistory)"
+                                }
+                            default: break
+                        }
+                    }
+                }
+
+                func adaptivePresentationStyleForPresentationController(controller: UIPresentationController)
+                    -> UIModalPresentationStyle{
+                    return UIModalPresentationStyle.None
+                }
+            }
