@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "getting started realm"
+title: "getting started realm for ios"
 description: ""
 category: [swift]
 tags: [realm]
