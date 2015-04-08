@@ -258,3 +258,56 @@ this tutorial is form [youtube](https://www.youtube.com/watch?v=UWmZAAfXds4)
 * Cython magic
 
 * [In-depth IPython tutorial this afternoon](https://conference.scipy.org/scipy2013/tutorial_detail.php?id=104)
+
+### command line interaction
+
+    $ anaconda_on
+    $ ipython
+
+    $ touch myfile.py
+    $ echo "hello world"
+    $ cat myfile.py
+    $ pico myfile.py
+    print ("hello world")
+
+    $ python myfile.py
+    $ ipython
+    in [1]: run myfile.py
+    hello world
+
+    in [2]: hist
+
+    in [3]: %cd
+    in [4]: cd
+
+    in [5]: %cpaste
+    pasting code; enther '--' alone on the line to stop or user Ctrl-D
+    s = "hello world"
+    print(s)
+    --
+
+    in [6]: %debug
+    in [7]: %quickref
+    in [8]: %magic
+    in [9]: alias
+
+    in [10]: x = 10
+    in [11]: x. # press tab here
+
+    in [12]: clear
+    in [13]: %reset
+    Once deleted, variables cannot be recovered. Proceed (y/[n])?
+
+    in [14]: x = 10
+    in [15]: whos
+
+### the numpy array object
+
+* Elementwise operations
+* Basic reductions
+* Broadcasting
+* Array shape manipulation
+* Sorting data
+* Summary
+
+stop at [1:17:00](https://www.youtube.com/watch?v=UWmZAAfXds4)
