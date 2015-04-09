@@ -300,14 +300,3 @@ this tutorial is form [youtube](https://www.youtube.com/watch?v=UWmZAAfXds4)
 
     in [14]: x = 10
     in [15]: whos
-
-### the numpy array object
-
-* Elementwise operations
-* Basic reductions
-* Broadcasting
-* Array shape manipulation
-* Sorting data
-* Summary
-
-stop at [1:17:00](https://www.youtube.com/watch?v=UWmZAAfXds4)
