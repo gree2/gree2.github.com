@@ -58,9 +58,9 @@ tags: [plot, mp3, ]
             from pylab import *
 
             # convert mp3, read wav
-            mp3filename = 'XC124158.mp3'
+            mp3filename = 'quit.playing.games.mp3'
             wname = mktemp('.wav')
-            check_call(['avconv', '-i', mp3filename, wname])
+            check_call(['/usr/local/bin/avconv', '-i', mp3filename, wname])
             sig, fs, enc = wavread(wname)
             os.unlink(wname)
 
@@ -83,8 +83,19 @@ tags: [plot, mp3, ]
 
             play(sig_filt, fs)
 
+### api
 
-### todo
+1. [scipy.signal.remez](http://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.remez.html)
+
+    * scipy.signal.remez(numtaps, bands, desired, weight=None, Hz=1, type='bandpass', maxiter=25, grid_density=16)[source]
+
+
+1. [scipy.signal.lfilter](http://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.lfilter.html)
+
+    * scipy.signal.lfilter(b, a, x, axis=-1, zi=None)
+
+
+### todo 1
 
 * there is still some error here
 
@@ -93,3 +104,34 @@ tags: [plot, mp3, ]
             raise child_exception
 
             OSError: [Errno 2] No such file or directory
+
+* solution
+
+    * use full path of `avconv`
+
+            $ which avconv
+            /usr/local/bin/avconv
+
+    * run `check_call`
+
+            In [4]: from subprocess import check_call
+               ...: from tempfile import mktemp
+               ...: mp3filename = 'quit.playing.games.mp3'
+               ...: wname = mktemp('.wav')
+               ...: check_call(['/usr/local/bin/avconv', '-i', mp3filename, wname])
+               ...: 
+
+            Out[4]: 0
+
+### todo 2
+
+* problem
+
+            Traceback (most recent call last):
+
+              File "<ipython-input-6-42c328711091>", line 20, in <module>
+                sig_filt /=  1.05 * max(abs(sig_filt)) # normalize
+
+            ValueError: The truth value of an array with more than one element is ambiguous. Use a.any() or a.all()
+
+* solution
