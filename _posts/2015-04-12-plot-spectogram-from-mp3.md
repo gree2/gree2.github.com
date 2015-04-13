@@ -89,6 +89,8 @@ tags: [plot, mp3, ]
 
     * scipy.signal.remez(numtaps, bands, desired, weight=None, Hz=1, type='bandpass', maxiter=25, grid_density=16)[source]
 
+    * [reference](https://gist.github.com/WarrenWeckesser/67bef61f496080aeb798)
+
 
 1. [scipy.signal.lfilter](http://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.lfilter.html)
 
