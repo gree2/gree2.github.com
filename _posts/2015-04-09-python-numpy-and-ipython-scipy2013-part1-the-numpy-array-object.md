@@ -3,7 +3,7 @@ layout: post
 title: "python numpy and ipython scipy2013 part1 the numpy array object"
 description: ""
 category: [python]
-tags: [numpy, scipy]
+tags: [numpy, scipy, prime]
 ---
 {% include JB/setup %}
 
@@ -405,6 +405,16 @@ for example, an array containing
             np.nonzero(is_prime)
             (array([ 2,  3,  5,  7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59,
         61, 67, 71, 73, 79, 83, 89, 97], dtype=int64),)
+
+    * all together
+
+            import numpy as np
+            is_prime = np.ones((100,), dtype=bool)
+            is_prime[:2] = False
+            N_max = int(np.sqrt(len(is_prime)))
+            for j in range(2, N_max):
+                is_prime[2*j::j] = False
+            np.nonzero(is_prime)
 
 ### fancy indexing
 
