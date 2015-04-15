@@ -73,7 +73,7 @@ tags: [wave, plot, channel, sampwidth, framerate, nframes, comptype, compname]
                 plt.plot(time, wave_data[1], c="g")
                 plt.xlabel("time (seconds)")
                 plt.title('quit.playing.games.mp3 channel 2', loc='left')
-                plt.savefig('quit.playing.games.png', dpi=100)
+                plt.savefig('quit.playing.games.png', dpi=100, bbox_inches='tight', pad_inches=0.1)
                 #plt.show()
                 plt.close(figure)
 
