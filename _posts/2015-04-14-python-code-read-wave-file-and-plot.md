@@ -64,7 +64,8 @@ tags: [wave, plot, channel, sampwidth, framerate, nframes, comptype, compname]
                 figure = plt.gcf() # get current figure
                 figure.set_size_inches(8*20, 6)
 
-                xticks = np.arange(0, 240, 2)
+                duration = nframes/float(framerate)
+                xticks = np.arange(0, duration, 2)
                 plt.subplot(211).set_xticks(xticks)
                 plt.plot(time, wave_data[0])
                 plt.title('quit.playing.games.mp3 channel 1', loc='left')
@@ -163,3 +164,28 @@ tags: [wave, plot, channel, sampwidth, framerate, nframes, comptype, compname]
         1. bbox_extra_artists
 
                 a list of extra artists that will be considered when the tight bbox is calculated
+
+### reference
+
+1. [get wav file duration](http://stackoverflow.com/questions/7833807/get-wav-file-length-or-duration)
+
+    * [python package songdetails]({% post_url 2015-04-04-python-package-songdetails %})
+
+                In [16]: >>> import songdetails
+                    ...: >>> song = songdetails.scan("quit.playing.games.mp3")
+                    ...: >>> song.duration
+                    ...: >>> print song.duration
+                    ...: 
+                0:03:58
+
+                In [17]: 3 * 60 + 58
+                238
+
+    * `duration = nframes/float(framerate)`
+
+                the duration is equal to the number of frames divided by the framerate (frames per second)
+
+                In [18]: duration = nframes/float(framerate)
+
+                In [19]: duration
+                Out[19]: 238.00163265306122
