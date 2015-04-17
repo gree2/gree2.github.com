@@ -11,6 +11,19 @@ tags: [hadoop, max, osx, yosemite]
 ### install hadoop
 
             $ brew install hadoop
+            ==> Downloading http://www.apache.org/dyn/closer.cgi?path=hadoop/common/hadoop-2.6.0/h
+            ==> Best Mirror http://mirrors.hust.edu.cn/apache/hadoop/common/hadoop-2.6.0/hadoop-2.
+            ######################################################################## 100.0%
+            ==> Caveats
+            In Hadoop's config file:
+              /usr/local/Cellar/hadoop/2.6.0/libexec/etc/hadoop/hadoop-env.sh,
+              /usr/local/Cellar/hadoop/2.6.0/libexec/etc/hadoop/mapred-env.sh and
+              /usr/local/Cellar/hadoop/2.6.0/libexec/etc/hadoop/yarn-env.sh
+            $JAVA_HOME has been set to be the output of:
+              /usr/libexec/java_home
+            ==> Summary
+            🍺  /usr/local/Cellar/hadoop/2.6.0: 6140 files, 307M, built in 8.9 minutes
+
 
 * hadoop will be installed in the directory `/usr/local/Cellar/hadoop`
 
