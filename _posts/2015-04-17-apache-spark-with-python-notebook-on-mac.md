@@ -14,7 +14,7 @@ tags: [spark, python, notebook, mac]
 
 * to use spark we need to configure the hadoop eco system of yarn and hdfs
 
-* this can be done following [installing hadoop on yosemite](http://amodernstory.com/2014/09/23/installing-hadoop-on-mac-osx-yosemite/)
+* this can be done following [installing hadoop on yosemite](http://amodernstory.com/2014/09/23/installing-hadoop-on-mac-osx-yosemite/) and my [post]({% post_url 2015-04-17-apache-hadoop-on-mac-osx-yosemite %})
 
 ### install homebrew
 
@@ -52,36 +52,18 @@ tags: [spark, python, notebook, mac]
 
     * check my [post anaconda on mac]({% post_url 2015-04-03-anaconda-on-mac %})
 
-### running ipython notebook
+### minimizing the verbosity of spark
 
-* minimizing the verbosity of spark
-
-    * locate on `/usr/local/Cellar/apache-spark/1.3.0/libexec/conf`
+1. locate on `/usr/local/Cellar/apache-spark/1.3.0/libexec/conf`
 
             $ cp log4j.properties.template log4j.properties
 
-    * edit `log4j.properties` replace `INFO` with `WARN`
+1. edit `log4j.properties` replace `INFO` with `WARN`
 
-* in the ternimal
-
-            $ IPYTHON_OPTS="notebook --pylab inline" pyspark
-
-    * which starts python, creates the spark hdfs connection, and automatically open up a new browser window with the python notebook
-
-    * in the top right corner click on new notebook
-
-            words = sc.textFile("hdfs://localhost:9000/Python/book.txt")
-            words.filter(lambda w: w.startswith(" ")).take(5)
-            counts = words.flatMap(lambda line: line.split(" ")) \
-                .map(lambda word: (word, 1)) \
-                .reduceByKey(lambda a, b: a + b)
-
-            counts.saveAsTextFile("hdfs://localhost:9000/Python/spark_output1")
-            counts.collect()
 
 ### configure pyspark with ipython notebook
 
-1. create an ipython notebook `profile` for `spark`
+1. create an ipython notebook `profile` for `spark` [reference](http://ramhiser.com/2015/02/01/configuring-ipython-notebook-support-for-pyspark/)
 
             $ ipython profile create spark
 
@@ -92,7 +74,7 @@ tags: [spark, python, notebook, mac]
             [ProfileCreate] Generating default config file: u'/Users/hqlgree2/.ipython/profile_spark/ipython_notebook_config.py'
             [ProfileCreate] Generating default config file: u'/Users/hqlgree2/.ipython/profile_spark/ipython_nbconvert_config.py'
 
-1. create a file in `~/.ipython/profile_spark/startup/00-pyspark-setup.py`
+1. create `00-pyspark-setup.py` in `~/.ipython/profile_spark/startup/`
 
             $ touch 00-pyspark-setup.py
 
@@ -111,18 +93,35 @@ tags: [spark, python, notebook, mac]
             sys.path.insert(0, os.path.join(SPARK_HOME, "python", "build"))
             sys.path.insert(0, os.path.join(SPARK_HOME, "python"))
 
-1. start up ipython notebook with the profile
+1. start up ipython notebook with the profile and [notebook-dir](http://www.dattamsha.com/2014/11/wordcount-spark-ipython-notebook/)
 
-            $ ipython notebook --profile spark
+            $ PYSPARK_DRIVER_PYTHON=ipython PYSPARK_DRIVER_PYTHON_OPTS="notebook --profile spark --notebook-dir=/Users/hqlgree2/Documents/hadoop" /usr/local/bin/pyspark
 
 1. in your notebook you should see the variables we just created
 
             print SPARK_HOME
 
-1. at the top of your notebook make sure you add the `spark context`
+1. word count example [reference](http://nbviewer.ipython.org/github/marek5050/Hadoop_Examples/blob/master/SparkieNET.ipynb)
 
-            from pyspark import SparkContext
-            sc = SparkContext( 'local', 'pyspark')
+            words = sc.textFile("hdfs://localhost:9000/python/book.txt")
+            words.filter(lambda w: w.startswith(" ")).take(5)
+
+            counts = words.flatMap(lambda line: line.split(" ")) \
+            .map(lambda word: (word, 1))                         \
+            .reduceByKey(lambda a, b: a + b)
+
+            counts.saveAsTextFile("hdfs://localhost:9000/python/spark_output_book")
+            counts.collect()
+
+    * you can [download 30760-0.txt](http://www.gutenberg.org/files/30760/30760-0.txt) from notebook cell [reference](http://nbviewer.ipython.org/github/marek5050/Hadoop_Examples/blob/master/SparkieNET.ipynb)
+
+            import urllib2
+            response = urllib2.urlopen('http://www.gutenberg.org/files/30760/30760-0.txt')
+            html = response.read()
+            file("book_temp.txt","w").write(html)
+            words = sc.textFile("book_temp.txt")
+
+            file("book_temp.txt", "w").write(urllib2.urlopen("http://www.gutenberg.org/files/30760/30760-0.txt").read())
 
 1. test the spark context by doing a simple computation using ipython
 
