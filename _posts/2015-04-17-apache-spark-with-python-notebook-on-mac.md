@@ -10,15 +10,15 @@ tags: [spark, python, notebook, mac]
 
 ### first thing first
 
-* this tutorial if from [installing and running spark with python notebook on mac](http://amodernstory.com/2015/03/05/installing-and-running-spark-with-python-notebook-on-mac/)
+* this tutorial if from [reference installing and running spark with python notebook on mac](http://amodernstory.com/2015/03/05/installing-and-running-spark-with-python-notebook-on-mac/)
 
 * to use spark we need to configure the hadoop eco system of yarn and hdfs
 
-* this can be done following [installing hadoop on yosemite](http://amodernstory.com/2014/09/23/installing-hadoop-on-mac-osx-yosemite/) and my [post]({% post_url 2015-04-17-apache-hadoop-on-mac-osx-yosemite %})
+* this can be done following [reference installing hadoop on yosemite](http://amodernstory.com/2014/09/23/installing-hadoop-on-mac-osx-yosemite/) and my [post apache hadoop on mac osx yosemite]({% post_url 2015-04-17-apache-hadoop-on-mac-osx-yosemite %})
 
 ### install homebrew
 
-* found here [http://brew.sh/](http://brew.sh/) or `paste` this `inside the terminal`
+* found here [reference http://brew.sh/](http://brew.sh/) or `paste` this `inside the terminal`
 
             ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 
@@ -54,6 +54,8 @@ tags: [spark, python, notebook, mac]
 
 ### minimizing the verbosity of spark
 
+1. [reference getting started with spark in python](https://districtdatalabs.silvrback.com/getting-started-with-spark-in-python)
+
 1. locate on `/usr/local/Cellar/apache-spark/1.3.0/libexec/conf`
 
             $ cp log4j.properties.template log4j.properties
@@ -63,7 +65,7 @@ tags: [spark, python, notebook, mac]
 
 ### configure pyspark with ipython notebook
 
-1. create an ipython notebook `profile` for `spark` [reference](http://ramhiser.com/2015/02/01/configuring-ipython-notebook-support-for-pyspark/)
+1. create an ipython notebook `profile` for `spark` [reference configuring ipython notebook support for pyspark](http://ramhiser.com/2015/02/01/configuring-ipython-notebook-support-for-pyspark/)
 
             $ ipython profile create spark
 
@@ -101,7 +103,7 @@ tags: [spark, python, notebook, mac]
 
             print SPARK_HOME
 
-1. word count example [reference](http://nbviewer.ipython.org/github/marek5050/Hadoop_Examples/blob/master/SparkieNET.ipynb)
+1. word count example [reference http://nbviewer.ipython.org](http://nbviewer.ipython.org/github/marek5050/Hadoop_Examples/blob/master/SparkieNET.ipynb)
 
             words = sc.textFile("hdfs://localhost:9000/python/book.txt")
             words.filter(lambda w: w.startswith(" ")).take(5)
@@ -113,7 +115,7 @@ tags: [spark, python, notebook, mac]
             counts.saveAsTextFile("hdfs://localhost:9000/python/spark_output_book")
             counts.collect()
 
-    * you can [download 30760-0.txt](http://www.gutenberg.org/files/30760/30760-0.txt) from notebook cell [reference](http://nbviewer.ipython.org/github/marek5050/Hadoop_Examples/blob/master/SparkieNET.ipynb)
+    * you can [download 30760-0.txt](http://www.gutenberg.org/files/30760/30760-0.txt) from notebook cell [reference http://nbviewer.ipython.org](http://nbviewer.ipython.org/github/marek5050/Hadoop_Examples/blob/master/SparkieNET.ipynb)
 
             import urllib2
             response = urllib2.urlopen('http://www.gutenberg.org/files/30760/30760-0.txt')
