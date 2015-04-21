@@ -111,6 +111,51 @@ MSreplication=options=|=1=|=optname=|=0=|=0=|=nvarchar=|=256=|=128=|=0=|=0=|=|=
 -=|=5=|=revision=|=0=|=0=|=int=|=4=|=10=|=0=|=0=|=|=
 -=|=6=|=install=failures=|=0=|=0=|=int=|=4=|=10=|=0=|=0=|=|=  
 
+1. batch export database tables to csv files
+
+    1. without header [reference ms sql server 2008 how to export all the tables into csv](http://serverfault.com/questions/210526/ms-sql-server-2008-how-to-export-all-the-tables-into-csv)
+
+            SELECT 'bcp '
+            + QUOTENAME(DB_NAME())
+            + '.'
+            + QUOTENAME(SCHEMA_NAME(schema_id))
+            + '.'
+            + QUOTENAME(name)
+            + ' '+'out'+' '
+            + name + '.csv -w -t"," -E -S '
+            + @@servername
+            + ' -T'
+            FROM sys.objects
+            WHERE TYPE='u' AND is_ms_shipped=0
+            order by name
+
+    1. with header [reference export sql data into csv file with header using sqlcmd](http://www.dbascript.com/export-sql-data-into-csv-file-with-header-using-sqlcmd)
+
+            select 'EXEC ' + QUOTENAME(DB_NAME()) + '..xp_cmdshell ''sqlcmd -E -s"|" -W -Q "set nocount on; set ansi_warnings off; SELECT * FROM '
+            + QUOTENAME(DB_NAME()) + '.dbo.'
+            + QUOTENAME(name)
+            + '" | findstr /V /C:"-" /B > '
+            + name+'.csv'''
+            FROM sys.objects
+            WHERE TYPE='u' AND is_ms_shipped=0
+            order by name
+
+1. configure to use xp_cmdshell
+
+    * [reference enable xp cmdshell sql server](http://stackoverflow.com/questions/5131491/enable-xp-cmdshell-sql-server?answertab=votes#tab-top)
+
+            -- To allow advanced options to be changed.
+            EXEC sp_configure 'show advanced options', 1
+            GO
+            -- To update the currently configured value for advanced options.
+            RECONFIGURE
+            GO
+            -- To enable the feature.
+            EXEC sp_configure 'xp_cmdshell', 1
+            GO
+            -- To update the currently configured value for this feature.
+            RECONFIGURE
+            GO
 
 ### querying the sql server system catalog faq
 
