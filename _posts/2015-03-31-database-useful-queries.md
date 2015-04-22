@@ -129,6 +129,25 @@ MSreplication=options=|=1=|=optname=|=0=|=0=|=nvarchar=|=256=|=128=|=0=|=0=|=|=
             WHERE TYPE='u' AND is_ms_shipped=0
             order by name
 
+    1. [with utf-8 format](http://www.saianudeep.com/post/31881768923/export-csv-from-sql-server)
+
+            bcp mydb.mytable out c:\data.csv -c -T -C65001 -r^^ -t^_
+
+            -C65001 is to use utf-8 format
+
+            -r is used to specify the row delimiter
+
+            -t is used to specify the field separator
+
+            '^^'=ctrl+shift+6
+            '^_'=ctrl+shift+-
+
+            octal representation
+            '^^'='\036'
+            '^_'='\037'
+
+1. batch export database tables to csv files
+
     1. with header [reference export sql data into csv file with header using sqlcmd](http://www.dbascript.com/export-sql-data-into-csv-file-with-header-using-sqlcmd)
 
             select 'EXEC ' + QUOTENAME(DB_NAME()) + '..xp_cmdshell ''sqlcmd -E -s"|" -W -Q "set nocount on; set ansi_warnings off; SELECT * FROM '
