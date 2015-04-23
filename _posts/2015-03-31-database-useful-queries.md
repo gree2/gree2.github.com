@@ -129,6 +129,8 @@ MSreplication=options=|=1=|=optname=|=0=|=0=|=nvarchar=|=256=|=128=|=0=|=0=|=|=
             WHERE TYPE='u' AND is_ms_shipped=0
             order by name
 
+            file mime encoding is: utf-16le
+
     1. [with utf-8 format](http://www.saianudeep.com/post/31881768923/export-csv-from-sql-server)
 
             bcp mydb.mytable out c:\data.csv -c -T -C65001 -r^^ -t^_
@@ -158,6 +160,21 @@ MSreplication=options=|=1=|=optname=|=0=|=0=|=nvarchar=|=256=|=128=|=0=|=0=|=|=
             FROM sys.objects
             WHERE TYPE='u' AND is_ms_shipped=0
             order by name
+
+            file mime encoding is: iso-8859-1
+
+    1. with header and utf-8 encoding
+
+            select 'EXEC ' + QUOTENAME(DB_NAME()) + '..xp_cmdshell ''sqlcmd -E -s"|" -W -f 65001 -w 4000 -Q "set nocount on; set ansi_warnings off; SELECT * FROM '
+            + QUOTENAME(DB_NAME()) + '.dbo.'
+            + QUOTENAME(name)
+            + '" -o "'
+            + name+'.csv"'''
+            FROM sys.objects
+            WHERE TYPE='u' AND is_ms_shipped=0
+            order by name
+
+            -f 65001 is utf-8 encoding
 
 1. configure to use xp_cmdshell
 
