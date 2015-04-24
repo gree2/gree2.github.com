@@ -76,6 +76,7 @@ tags: [ruby, jekyll]
     * [download for Mac OSX](http://yunpan.cn/cVNik48h2iRtX) code 7cfa
 
             default location
+            /Users/username/Library/Android/android-sdk-macosx
 
 ### lock screen
 
