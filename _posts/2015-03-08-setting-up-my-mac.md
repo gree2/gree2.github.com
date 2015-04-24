@@ -60,9 +60,22 @@ tags: [ruby, jekyll]
 
 ### setup android studio
 
+1. disable first run
+
     bin/idea.properties
     ===================
     disable.android.first.run=true
+
+1. android sdk rar package
+
+    * [download for windows x64](http://yunpan.cn/cKpvzwbSdUAcZ) code 8750
+
+            default location
+            C:\Users\username\AppData\Local\Android\sdk
+
+    * [download for Mac OSX](http://yunpan.cn/cVNik48h2iRtX) code 7cfa
+
+            default location
 
 ### lock screen
 
