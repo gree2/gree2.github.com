@@ -62,9 +62,9 @@ tags: [ruby, jekyll]
 
 1. disable first run
 
-    bin/idea.properties
-    ===================
-    disable.android.first.run=true
+            bin/idea.properties
+            ===================
+            disable.android.first.run=true
 
 1. android sdk rar package
 
