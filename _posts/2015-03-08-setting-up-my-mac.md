@@ -91,3 +91,6 @@ tags: [ruby, jekyll]
 1. `sharing`
 1. `remote login`
     
+### open current foler in finder form terminal
+
+            $ open .
