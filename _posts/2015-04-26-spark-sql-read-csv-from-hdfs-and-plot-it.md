@@ -14,19 +14,20 @@ tags: [spark, sql, csv, plot]
             from pyspark.sql.types import StructField, IntegerType, StringType, StructType
             %matplotlib inline
             import matplotlib.pyplot as plt
+            import matplotlib
+            print matplotlib.matplotlib_fname()
+            matplotlib.rcParams['font.sans-serif'] = ['Microsoft YaHei']
+            matplotlib.rcParams['axes.unicode_minus'] = False
 
             csv_dt = sc.textFile("hdfs://localhost:9000/python/temp.csv", use_unicode=False)
             header = csv_dt.take(2)
-            for h in header:
-                print h
+            for h in header: print h
 
             footer = csv_dt.filter(lambda x: x not in header)
-            for f in footer.collect():
-                print f
+            for f in footer.collect(): print f
 
             parts = footer.map(lambda x: x.split("|"))
-            for p in parts.collect():
-                print p
+            for p in parts.collect(): print p
 
             table = parts.map(lambda x: (int(x[0]), x[1].decode('utf-8')))
             table
@@ -46,14 +47,11 @@ tags: [spark, sql, csv, plot]
             resultsPandas = results.toPandas()
             resultsPandas
 
-            #xlabels = df.select(df.name).map(lambda x: x.name.encode('utf-8')).collect()
-            xlabels = df.select(df.name).map(lambda x: x.name).collect()
-            for l in xlabels:
-                print l
+            #xlabels = df.select(df.name).map(lambda x: x.name).collect()
+            #for l in xlabels: print l
 
-            from __future__ import unicode_literals
             fig = resultsPandas.plot(kind="bar", x="name")
-            fig.set_xticklabels(xlabels)
+            #fig.set_xticklabels(xlabels, rotation=45)
             #fig
 
             plt.clf()
