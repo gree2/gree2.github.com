@@ -16,6 +16,10 @@ tags: [chinese, character, pinyin, cjklib, hanzi2pinyin]
 
 1. [hanzi2pinyin](https://pypi.python.org/pypi/hanzi2pinyin)
 
+1. [Unidecode](https://pypi.python.org/pypi/Unidecode/0.04.1)
+
+* [uc-to-py.tbl](http://www.ic.unicamp.br/~stolfi/voynich/Notes/061/uc-to-py.tbl)
+
 ### package `cjklib`
 
 1. check my [post anaconda on mac]({% post_url 2015-04-03-anaconda-on-mac %})
@@ -69,10 +73,21 @@ tags: [chinese, character, pinyin, cjklib, hanzi2pinyin]
 
     * `No packages found` in current `osx-64 channels` matching: `cjklib`
 
-1. install form pypi [hanzi2pinyin](https://pypi.python.org/pypi/hanzi2pinyin)
+1. install form pypi [source](https://pypi.python.org/pypi/hanzi2pinyin)
 
 1. code snippet
 
             >>> from hanzi2pinyin import hanzi2pinyin
             >>> hanzi2pinyin(u"你好")
             ... nihao
+
+### package `Unidecode`
+
+1. install from pypi [source](https://pypi.python.org/pypi/Unidecode/0.04.1)
+
+1. code snippet
+
+            from unidecode import unidecode
+            print unidecode(u"\u5317\u4EB0")
+
+            # That prints: Bei Jing
