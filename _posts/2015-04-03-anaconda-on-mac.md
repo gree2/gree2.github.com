@@ -73,3 +73,53 @@ tags: [anaconda, python mac]
             show()
 
             play(sig_filt, fs)
+
+### conda and binstar
+
+1. use `conda` to install a package
+
+            $ conda install cjklib
+            Fetching package metadata: ....
+            Error: No packages found in current osx-64 channels matching: cjklib
+
+            You can search for this package on Binstar with
+
+                binstar search -t conda cjklib
+
+1. then use `binstar`
+
+            $ binstar search -t conda cjklib
+            Using binstar api site https://api.binstar.org
+            Run 'binstar show <USER/PACKAGE>' to get more details:
+            Packages:
+                 Name                      |  Version | Package Types   | Platforms      
+                 ------------------------- |   ------ | --------------- | ---------------
+                 auto/cjklib               |    0.3.2 | conda           | linux-64, linux-32
+                                                      : http://cjklib.org
+                 travis/cjklib             |    0.3.2 | conda           | linux-64       
+                                                      : http://cjklib.org
+            Found 2 packages
+
+1. use `binstar show` to get more details
+
+            $ binstar show travis/cjklib
+            Using binstar api site https://api.binstar.org
+            Name:    cjklib
+            Summary: http://cjklib.org
+            Access:  public
+            Package Types:  conda
+            Versions:
+               + 0.3.2
+
+            To install this package with conda run:
+                 conda install --channel https://conda.binstar.org/travis cjklib
+
+1. install package
+
+            $ conda install --channel https://conda.binstar.org/travis cjklib
+            Fetching package metadata: ......
+            Error: No packages found in current osx-64 channels matching: cjklib
+
+            You can search for this package on Binstar with
+
+                binstar search -t conda cjklib
