@@ -193,6 +193,187 @@ MSreplication=options=|=1=|=optname=|=0=|=0=|=nvarchar=|=256=|=128=|=0=|=0=|=|=
             RECONFIGURE
             GO
 
+### generate backup script for all databases
+
+1. [use cursor](http://www.mssqltips.com/sqlservertip/1070/simple-script-to-backup-all-sql-server-databases/)
+
+    * sql
+
+            DECLARE @sd_name VARCHAR(50)   -- database name  
+            DECLARE @path_bak VARCHAR(256)     -- path for backup files  
+            DECLARE @fileName VARCHAR(256) -- filename for backup  
+
+            -- specify database backup directory
+            SET @path_bak = 'D:\\database\\150507\\'
+
+            -- specify filename format
+            -- SELECT @fileDate = CONVERT(VARCHAR(20), GETDATE(), 112) 
+
+            DECLARE db_cursor CURSOR FOR  
+            SELECT name FROM master.dbo.sysdatabases 
+            WHERE name NOT IN ('master', 'model', 'msdb', 'tempdb', 'ReportServer', 'ReportServerTempDB')
+
+            OPEN db_cursor   
+            FETCH NEXT FROM db_cursor INTO @sd_name
+
+            WHILE @@FETCH_STATUS = 0   
+            BEGIN   
+                SET @fileName = @path_bak + '\\' + @sd_name + '.bak'
+                --BACKUP DATABASE @sd_name TO DISK = @fileName  
+
+                print '--' + @sd_name
+                print 'BACKUP DATABASE [' + @sd_name + ']'
+                print 'TO DISK = N''' + @fileName + ''''
+                print 'WITH NOFORMAT, NOINIT,'
+                print 'NAME = N''' + @sd_name + ''','
+                print 'SKIP, NOREWIND, NOUNLOAD,  STATS = 10'
+                print 'GO'
+                print ''
+             
+                FETCH NEXT FROM db_cursor INTO @sd_name
+            END   
+
+            CLOSE db_cursor
+            DEALLOCATE db_cursor
+
+    * output
+
+            -- mydb1
+            BACKUP DATABASE [mydb1]
+            TO  DISK = N'D:\\database\\20150507\\mydb1.bak'
+            WITH NOFORMAT, NOINIT,
+            NAME = N'mydb1',
+            SKIP, NOREWIND, NOUNLOAD,  STATS = 10
+            GO
+             
+            -- mydb2
+            BACKUP DATABASE [mydb2]
+            TO  DISK = N'D:\\database\\20150507\\mydb2.bak'
+            WITH NOFORMAT, NOINIT,
+            NAME = N'mydb2',
+            SKIP, NOREWIND, NOUNLOAD,  STATS = 10
+            GO
+
+            ...
+
+1. [use a single sql](http://weblogs.asp.net/jongalloway/461034)
+
+    * sql
+
+            SELECT 'BACKUP DATABASE ' + QUOTENAME(CATALOG_NAME)
+                + ' TO DISK = N''D:\\database\\150507\\' + CATALOG_NAME + '.bak'''
+                + ' WITH NOFORMAT, NOINIT,'
+                + ' NAME = N''' + CATALOG_NAME + ''','
+                + ' SKIP, NOREWIND, NOUNLOAD,  STATS = 10'
+            FROM INFORMATION_SCHEMA.SCHEMATA
+            WHERE CATALOG_NAME NOT IN ('master','tempdb','msdb','model','Northwind','pubs')
+
+    * output
+
+            BACKUP DATABASE [mydb1] TO DISK = N'D:\\database\\150507\\mydb1.bak' WITH NOFORMAT, NOINIT, NAME = N'mydb1', SKIP, NOREWIND, NOUNLOAD,  STATS = 10
+            BACKUP DATABASE [mydb2] TO DISK = N'D:\\database\\150507\\mydb2.bak' WITH NOFORMAT, NOINIT, NAME = N'mydb2', SKIP, NOREWIND, NOUNLOAD,  STATS = 10
+            ...
+
+
+### generate restore script for all databases
+
+1. [use cursor](http://sqldavel.blogspot.com/2013/03/script-to-generate-restore-statements.html)
+
+    * sql
+
+            -- desc: Generate 'restore database' statements
+            -- help: Edit 'where' clause and/or backup path information in variables as needed
+            -- Run script to generate sql, then edit/modify as needed and run selected sql statements.
+            --
+            set nocount ON
+
+            DECLARE @RestoreDB VARCHAR (8000)
+            DECLARE @Move varchar (8000)
+            DECLARE @MoveWithoutComma varchar (8000) 
+            DECLARE @Go varchar (8000) 
+            DECLARE @firsttime varchar (5) -- = 'True'
+            DECLARE @sd_name varchar(255)
+            DECLARE @smf_name varchar(255)
+            DECLARE @smf_physical_name varchar (255)
+            DECLARE @hold_sd_name varchar (255) 
+            DECLARE @path_bak VARCHAR(256)     -- path for backup files  
+
+            select @firsttime = 'True'
+            -- specify database backup directory
+            SET @path_bak = 'D:\\database\\150507\\'
+
+            DECLARE Database_cursor CURSOR FOR 
+            SELECT sd.name,smf.name, smf.physical_name
+            FROM sys.master_files AS smf inner join sys.databases AS sd
+            on smf.database_id = sd.database_id
+            -- Edit where clause as desired
+            where sd.name not in ('master', 'tempdb', 'msdb', 'model')
+            ORDER BY sd.name
+
+            OPEN Database_cursor
+            FETCH NEXT FROM Database_cursor INTO @sd_name, @smf_name, @smf_physical_name
+
+            Select @hold_sd_name = @sd_name
+            WHILE @@FETCH_STATUS = 0 
+            Begin
+                if @firsttime = 'True'
+                    Begin
+                        -- Edit backup path as needed
+                        print '-- ' + @sd_name
+                        select @RestoreDB = 'RESTORE DATABASE [' + @sd_name + ']' + char(13) + char(10)
+                        + 'FROM DISK = ''' + @path_bak
+                        + @sd_name + '.bak''' + char(13) + char(10) + 'WITH MOVE ''' + @smf_name + ''' TO '''
+                        + @smf_physical_name + ''', replace ,' + 'stats = 10' + char(13) + char(10)
+                        print @RestoreDB
+                 
+                        select @Go = 'GO' + char(13) + char(10)
+
+                        FETCH NEXT FROM Database_cursor INTO @sd_name, @smf_name, @smf_physical_name
+
+                        if @hold_sd_name <> @sd_name or @@FETCH_STATUS <> 0
+                            select @hold_sd_name = @sd_name
+                        else
+                            select @firsttime = 'False'
+                    end
+                else
+                    Begin
+                        -- Move with comma ','
+                        select @Move = '     MOVE ''' + @smf_name + ''' TO '''
+                        + @smf_physical_name + ''','
+                        -- Last 'Move' without comma ','
+                        select @MoveWithoutComma = '     MOVE ''' + @smf_name + ''' TO '''
+                        + @smf_physical_name + ''''
+                        FETCH NEXT FROM Database_cursor INTO @sd_name, @smf_name, @smf_physical_name
+                        if @hold_sd_name <> @sd_name or @@FETCH_STATUS <> 0
+                            Begin
+                                print @MoveWithoutComma
+                                print @Go
+                                select @hold_sd_name = @sd_name
+                                select @firsttime = 'True'
+                            end
+                        else
+                            print @Move
+                    end
+            end
+
+            CLOSE Database_cursor
+            DEALLOCATE Database_cursor
+            GO
+
+    * output
+
+            -- mydb1
+            RESTORE DATABASE [mydb1]
+            FROM DISK = 'D:\\database\\150507\\mydb1.bak'
+            WITH MOVE 'mydb1' TO 'D:\Program Files\Microsoft SQL Server\MSSQL10.MSSQLSERVER\MSSQL\DATA\mydb1.mdf', replace ,stats = 10
+                 MOVE 'mydb1_log' TO 'D:\Program Files\Microsoft SQL Server\MSSQL10.MSSQLSERVER\MSSQL\DATA\mydb1_1.LDF'
+            GO
+            -- mydb2
+            RESTORE DATABASE [mydb2]
+            FROM DISK = 'D:\\database\\150507\\mydb2.bak'
+            WITH MOVE 'mydb2' TO 'D:\Program Files\Microsoft SQL Server\MSSQL10.MSSQLSERVER\MSSQL\DATA\mydb2.mdf', replace ,stats = 10
+                 MOVE 'mydb2_log' TO 'D:\Program Files\Microsoft SQL Server\MSSQL10.MSSQLSERVER\MSSQL\DATA\mydb2_1.LDF'
+
 ### querying the sql server system catalog faq
 
 [msdn](https://msdn.microsoft.com/en-us/library/ms345522.aspx)
