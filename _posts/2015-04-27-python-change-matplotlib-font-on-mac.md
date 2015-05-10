@@ -14,7 +14,7 @@ tags: [font, matplotlib, mac]
 
 1. use FontBook app to install msyh.ttf
 
-    * this will install msyh.ttf for `User` use, check my [post ]({% post_url 2015-04-27-mac-font-locations-and-their-purposes %})
+    * this will install msyh.ttf for `User` use, check my [2015-04-27-mac-font-locations-and-their-purposes]({% post_url 2015-04-27-mac-font-locations-and-their-purposes %})
 
             $ cd ~/Library/Fonts; ls
             msyh.ttf
@@ -80,7 +80,7 @@ tags: [font, matplotlib, mac]
 
 1. you can use FontBook.app
 
-1. check my [post ]({% post_url 2015-04-27-mac-font-locations-and-their-purposes %})
+1. check my [2015-04-27-mac-font-locations-and-their-purposes]({% post_url 2015-04-27-mac-font-locations-and-their-purposes %})
 
 ### find where matplotlib stores its data
 
