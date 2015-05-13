@@ -3,7 +3,7 @@ layout: post
 title: "tool mdbtools read access databases"
 description: ""
 category: [tool]
-tags: [mdbtools, access database]
+tags: [mdbtools, access, schema, mysql, oracle, postgres, dump, csv]
 ---
 {% include JB/setup %}
 
@@ -82,4 +82,41 @@ tags: [mdbtools, access database]
 
             $ mdb-schema database.mdb mysql | mysql -u username -p mysql_database
 
-### [reference](http://nialldonegan.me/2007/03/10/converting-microsoft-access-mdb-into-csv-or-mysql-in-linux/)
+* [reference](http://nialldonegan.me/2007/03/10/converting-microsoft-access-mdb-into-csv-or-mysql-in-linux/)
+
+### access dump to csvs
+
+* [reference](http://mazamascience.com/WorkingWithData/?p=168)
+
+* code
+
+            #!/usr/bin/env python
+            """
+            access_dump_csv.py
+                A simple script to dump the contents of a Microsoft Access Database.
+                It depends upon the mdbtools suite:
+                http://sourceforge.net/projects/mdbtools/
+            """
+
+            # the subprocess module is new in python v 2.4
+            import sys, subprocess
+
+            DATABASE = sys.argv[1]
+
+            # Get the list of table names with 'mdb-tables'
+            TABLENAMES = subprocess.Popen(['mdb-tables', '-1', DATABASE], stdout=subprocess.PIPE).communicate()[0]
+
+            # Dump each table as a CSV file using 'mdb-export',
+            # converting ' ' in table names to '_' for the CSV filenames.
+            for tablename in TABLENAMES.split('\n'):
+                if tablename == '':
+                    continue
+                filename = tablename.replace(' ', '_').lower() + '.csv'
+                with open(filename, 'w') as f:
+                    print 'dumping ' + tablename
+                    contents = subprocess.Popen(['mdb-export', DATABASE, tablename], stdout=subprocess.PIPE).communicate()[0]
+                    f.write(contents)
+
+* usage
+
+            $ python access_dump_csv.py database.mdb
