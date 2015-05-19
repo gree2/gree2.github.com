@@ -11,24 +11,24 @@ tags: [ssh, keys, rsa, linux, mac, windows]
 
 1. generating
 
-			$ ssh-keygen -t rsa -C "hqlgree2@gmail.com"
+            $ ssh-keygen -t rsa -C "hqlgree2@gmail.com"
 
 1. show your public key
 
-			$ cat ~/.ssh/id_rsa.pub
+            $ cat ~/.ssh/id_rsa.pub
 
 ### copy the complete key
 
 1. windows
 
-			> clip < id_rsa.pub
+            > clip < id_rsa.pub
 
 1. linux
 
-			$ xclip -sel clip < id_rsa.pub
+            $ xclip -sel clip < id_rsa.pub
 
 1. mac
 
-			$ pbcopy < id_rsa.pub
+            $ pbcopy < id_rsa.pub
 
 ### [reference](https://gitlab.com/help/ssh/README)
