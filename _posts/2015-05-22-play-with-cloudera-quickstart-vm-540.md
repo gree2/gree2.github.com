@@ -127,3 +127,91 @@ tags: [hue, hadoop, hbase, impala, spark, solr, oozie]
             select count(*), url from tokenized_access_logs
             where url like '%\/product\/%'
             group by rul order by count(*) desc;
+
+1. tutorial 4 relationship strength analytics using spark
+
+    * start spark
+
+            $ spark-shell --jars /usr/lib/avro/avro-mapred.jar \
+            --conf spark.serializer=org.apache.spark.serializer.KryoSerializer
+
+    * paste the following code
+
+            import org.apache.avro.generic.GenericRecord
+            import org.apache.avro.mapred.{AvroInputFormat, AvroWrapper}
+            import org.apache.hadoop.io.NullWritable
+
+            val warehouse = 'hdfs://quickstart/user/hive/warehouse/'
+
+            val order_items_path = warehouse + 'order_items'
+            val order_items = sc.hadoopFile[AvroWrapper[GenericRecord], NullWritable, AvroInputFormat[GenericRecord]](order_items_path)
+
+            val products_path = warehouse + 'products'
+            val products = sc.hadoopFile[AvroWrapper[GenericRecord], NullWritable, AvroInputFormat[GenericRecord]](products_path)
+
+    * extract the fields form order_items and products
+
+            val orders = order_items.map {
+                x => (x._1.datum.get('order_item_product_id'),
+                    (x._1.datum.get('order_item_order_id'), x._1.datum.get('order_item_quantity')))
+            }.join(products.map {
+                x => (x._1.datum.get('product_id'),
+                (x._1.datum.get('product_name')))
+            }).map(x => (
+                // order_id
+                scala.Int.unbox(x._2._1._1),
+                (
+                    // quantity
+                    scala.Int.unbox(x._2._1._2),
+                    // product_name
+                    x._2._2.toString
+                )
+            )).groupByKey()
+
+1. tutorial exercise 5 explore log events interactively
+
+    * extend `flume` configuration that is already ingesting the web log data to also post events to `solr` for indexing in real-time
+
+    * create your search index
+
+            # 1. creating an empty configuration
+            $ solrctl --zk 10.0.2.15:2128/solr instancedir --generate solr_configs
+
+            # 2. edit your schema
+
+            # 3. uploading your configuration
+            $ cd /opt/examples/flume
+            $ solrctl --zk 10.0.2.15:2181/solr instancedir --create live_logs ./solr_configs
+
+            # 4. creating your collection
+            $ solrctl --zk 10.0.2.15:2181/solr collection --create live_logs -s 1
+
+    * verify using `hue`
+
+            # search -> indexes -> live_logs -> click
+            # viewing the fields defined in schema.xml
+
+    * staring the log generator
+
+            $ start_logs
+
+            # verify has started
+            $ tail_logs
+            # ctrl+c
+
+            # stop log generator
+            $ stop_logs
+
+    * flume and the morphline
+
+            flume is a system for collecting, aggregating, and moving large amounts of log data from many different sources to a centralized data source
+
+            with a few simple configuration files, we can use flume and a morphline (a simple way to accomplish on-the-fly etl) to load our data into solr index
+
+    * start flume agent
+
+            $ flume-ng agent \
+            --conf /opt/examples/flume/conf \
+            --conf-file /opt/examples/flume/conf/flume.conf \
+            --name agent1
+            -Dflume.root.logger=DEBUG,INFO,console
