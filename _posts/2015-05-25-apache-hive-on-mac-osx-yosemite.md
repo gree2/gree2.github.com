@@ -20,6 +20,34 @@ tags: [hive, osx, mysql]
 
             $ brew install hive
 
+            Error: Cannot install hive because conflicting formulae are installed.
+
+            apache-spark: because both install `beeline` binaries
+
+            Please `brew unlink apache-spark` before continuing.
+
+            Unlinking removes a formula's symlinks from /usr/local. You can
+            link the formula again after the install finishes. You can --force this
+            install, but the build may fail or cause obscure side-effects in the
+            resulting software.
+
+            $ brew install hive
+            ==> Downloading http://www.apache.org/dyn/closer.cgi?path=hive/hive-1.0.0/apache
+            ==> Best Mirror http://mirrors.hust.edu.cn/apache/hive/hive-1.0.0/apache-hive-1.
+            ######################################################################## 100.0%
+            ==> Caveats
+            Hadoop must be in your path for hive executable to work.
+            After installation, set $HIVE_HOME in your profile:
+              export HIVE_HOME=/usr/local/Cellar/hive/1.0.0/libexec
+
+            If you want to use HCatalog with Pig, set $HCAT_HOME in your profile:
+              export HCAT_HOME=/usr/local/Cellar/hive/1.0.0/libexec/hcatalog
+
+            You may need to set JAVA_HOME:
+              export JAVA_HOME="$(/usr/libexec/java_home)"
+            ==> Summary
+            🍺  /usr/local/Cellar/hive/1.0.0: 671 files,  91M, built in 4.6 minutes
+
 1. add `hadoop` and `hive` to path
 
             $ pico ~/.bash_profile
@@ -37,11 +65,64 @@ tags: [hive, osx, mysql]
 
 1. create mysql metastore
 
+    * mysql
+
             $ mysql
+            ERROR 2002 (HY000): Can't connect to local MySQL server through socket '/tmp/mysql.sock' (2)
+           
+    * start mysql
+
+            $ mysql.server start
+            Starting MySQL
+            . SUCCESS! 
+
+            $ mysql
+            Welcome to the MySQL monitor.  Commands end with ; or \g.
+            Your MySQL connection id is 1
+            Server version: 5.6.23 Homebrew
+
+            Copyright (c) 2000, 2015, Oracle and/or its affiliates. All rights reserved.
+
+            Oracle is a registered trademark of Oracle Corporation and/or its
+            affiliates. Other names may be trademarks of their respective
+            owners.
+
+            Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+            mysql> create database metastore;
+            ERROR 1044 (42000): Access denied for user ''@'localhost' to database 'metastore'
+
+    * login as root
+
+            $ mysql -u root -p
             mysql> create database metastore;
             mysql> use metastore;
             mysql> create user 'hiveuser'@'localhost' identified by 'password';
-            mysql> grant select, insert, update, delete, alter, create on metastore.* to 'hiveuser'
+            mysql> grant select, insert, update, delete, alter, create, index on metastore.* to 'hiveuser'
+
+    * install mysql use homebrew
+
+            $ brew install mysql
+            ==> Downloading https://homebrew.bintray.com/bottles/mysql-5.6.23.yosemite.bottl
+            ######################################################################## 100.0%
+            ==> Pouring mysql-5.6.23.yosemite.bottle.tar.gz
+            ==> Caveats
+            A "/etc/my.cnf" from another install may interfere with a Homebrew-built
+            server starting up correctly.
+
+            To connect:
+                mysql -uroot
+
+            To have launchd start mysql at login:
+                ln -sfv /usr/local/opt/mysql/*.plist ~/Library/LaunchAgents
+            Then to load mysql now:
+                launchctl load ~/Library/LaunchAgents/homebrew.mxcl.mysql.plist
+            Or, if you don't want/need launchctl, you can just run:
+                mysql.server start
+            ==> /usr/local/Cellar/mysql/5.6.23/bin/mysql_install_db --verbose --user=hqlgree
+            ==> Summary
+            🍺  /usr/local/Cellar/mysql/5.6.23: 9687 files, 339M
+
 
 1. copy template to `hive-site.xml`
 
@@ -70,6 +151,12 @@ tags: [hive, osx, mysql]
                 <name>datanucleus.fixedDatastore</name>
                 <value>false</value>
             </property>
+
+    * replace
+
+            ${system:java.io.tmpdir}/${system:user.name} => /tmp/mydir
+
+            ${system:java.io.tmpdir}/${hive.session.id} => /usr/local/Cellar/hive/1.0.0/libexec/iotmp
 
 1. test if hive works
 
