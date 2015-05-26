@@ -51,8 +51,9 @@ tags: [hive, osx, mysql]
 1. add `hadoop` and `hive` to path
 
             $ pico ~/.bash_profile
-            export HADOOP_HOME=/usr/local/Cellar/hadoop/hadoop.version.no
-            export HIVE_HOME=/usr/local/Cellar/hive/hive.version.no/libexec
+            export HADOOP_HOME=/usr/local/Cellar/hadoop/2.7.0
+            export HIVE_HOME=/usr/local/Cellar/hive/1.1.0/libexec
+            export HCAT_HOME=/usr/local/Cellar/hive/1.1.0/libexec/hcatalog
 
             $ source ~/.bash_profile
 
@@ -61,7 +62,7 @@ tags: [hive, osx, mysql]
             $ curl -L 'http://www.mysql.com/get/Downloads/Connector-J/mysql-connector-java-5.1.22.tar.gz/from/http://mysql.he.net/' | tar xz
 
             # copy the jar to `hive lib folder`
-            $ sudo cp mysql-connector-java-5.1.15/mysql-connector-java-5.1.22-bin.jar /usr/local/Cellar/hive/hive.version.no/libexec/lib/
+            $ sudo cp mysql-connector-java-5.1.15/mysql-connector-java-5.1.22-bin.jar /usr/local/Cellar/hive/1.1.0/libexec/lib/
 
 1. create mysql metastore
 
@@ -126,7 +127,7 @@ tags: [hive, osx, mysql]
 
 1. copy template to `hive-site.xml`
 
-            $ cd /usr/local/Cellar/hive/hive.version.no/libexec/conf
+            $ cd /usr/local/Cellar/hive/1.1.0/libexec/conf
             $ cp hive-default.xml.template hive-site.xml
 
 1. add/edit `hive-site.xml`
