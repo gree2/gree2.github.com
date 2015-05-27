@@ -155,7 +155,7 @@ tags: [sqoop, import, export, mysql, sqlserver, db2, oracle, avro, csv, teradata
             --warehouse-dir sqoopdata -m 1
 
             $ hdfs dfs -ls /user/hqlgree2/sqoopdata/employee/
-            Found 3 items
+            Found 2 items
             -rw-r--r--   1 hqlgree2 supergroup          0 2015-05-27 22:02 /user/hqlgree2/sqoopdata/employee/_SUCCESS
             -rw-r--r--   1 hqlgree2 supergroup         59 2015-05-27 22:02 /user/hqlgree2/sqoopdata/employee/part-m-00000
 
