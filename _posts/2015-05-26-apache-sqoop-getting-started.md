@@ -78,66 +78,7 @@ tags: [sqoop, hive]
     1. [python]({% post_url 2015-04-03-anaconda-on-mac %})
     1. [zookeeper]({% post_url 2015-05-26-apache-zookeeper-getting-started %})
 
-### usage
-
-1. [import cookbook](https://cwiki.apache.org/confluence/display/SQOOP/Import+Cookbook)
-
-    1. importing a small table from `db2` (using one map process)
-
-            $ sqoop import --driver com.ibm.db2.jcc.DB2Driver --connect jdbc:db2://db2host:50000/DBNAME \
-            --username USER --password passw0rd --table MYTABLE -m 1
-
-    1. import from `oracle` to `avro file` (using 6 map processes)
-
-            # Note: User name and table name must be ALL CAPS
-            # You'll get exceptions about lack of columns or non-existent table otherwise.
-
-            $ sqoop import --connect "jdbc:oracle:thin:@(description=(address=(protocol=tcp)(host=orahost)(port=1521))(connect_data=(service_name=myser)))" \
-            --username SCOTT --password tiger --table MYTABLE -m 6 \
-            --as-avrodatafile --warehouse-dir /staging/sqoop/MYTABLE
-
-    1. sqoop import from `mssql`
-
-            $ sqoop import --driver com.microsoft.sqlserver.jdbc.SQLServerDriver \
-            --table MYTABLE --connect 'jdbc:sqlserver://MSSQLSeverHost;database=DBNAME;username=USER;password=PASSWORD'
-
-1. [export cookbook](https://cwiki.apache.org/confluence/display/SQOOP/Export+Cookbook)
-
-    1. exporting data from `csv file` to `teradata`
-
-            # note: teradata connector is required.
-            $ sqoop export --connect jdbc:teradata://terahost/DATABASE=MYDB \    
-            --username myuser --password mypass \ 
-            --export-dir /user/hive/warehouse/mydb.db/data_stg \ 
-            --table MYTABLE --input-fields-terminated-by ','  
- 
-    1. merging data into `oracle` with `oraoop`
-            
-            $ sqoop export -Doraoop.export.merge=true -Doraoop.update.key.extra.columns="period_start_time" \
-            -D mapred.map.max.attempts=1 \
-            --connect ... --username user --password pass --table table2 \
-            --export-dir /user/hive/warehouse/tables/mytable \
-            --verbose -m 16 --update-key co_gid
- 
-    1. exporting a `hive table` stored in a custom schema to `postgresql`
-
-            # sqoop does not have a notion of custom schemas
-            # you need to specify the parameter 
-            # --schema with a schema name if your table is stored in a different schema
-            # please note that the hive schema must have the same name as the postgres one
-            # the --schema parameter must be separated from the rest of the parameters
-            # with an extra set of dashes (i.e. -- )
-            # and the --schema parameter must come last
-
-            $ sqoop export --connect jdbc:postgresql://postgresql.example.com/database \
-            --username sqoop --password sqoop \
-            --table cities --export-dir cities --schema us
- 
-    1. exporting `hdfs dir` to `netezza`
-
-            $ sqoop export --direct --connect jdbc:netezza://NetezzaHost:5480/MyTable --username USER \ 
-            --password-file <pwd file location> --batch --export-dir <HDFS dir to export> --table NZTable \ 
-            --input-fields-terminated-by '\0001' --input-null-string '\\N' --input-null-non-string '\\N’ 
+### setup
 
 1. run sqoop
 
@@ -158,17 +99,17 @@ tags: [sqoop, hive]
             +======================================================================+
             Error: Could not find or load main class org.apache.sqoop.Sqoop
 
-    1. [set JAVA_HOME on mac](http://stackoverflow.com/questions/6588390/where-is-java-home-on-osx-yosemite-10-10-mavericks-10-9-mountain-lion-10)
+1. [set JAVA_HOME on mac](http://stackoverflow.com/questions/6588390/where-is-java-home-on-osx-yosemite-10-10-mavericks-10-9-mountain-lion-10)
 
             $ pico .bash_profile
             export JAVA_HOME=`/usr/libexec/java_home -v 1.8`
 
-    1. [set HCAT_HOME]({% post_url 2015-05-25-apache-hive-on-mac-osx-yosemite %})
+1. [set HCAT_HOME]({% post_url 2015-05-25-apache-hive-on-mac-osx-yosemite %})
 
             $ pico .bash_profile
             export HCAT_HOME=/usr/local/Cellar/hive/1.1.0/libexec/hcatalog
 
-    1. [installing the jdbc drivers](http://www.cloudera.com/content/cloudera/en/documentation/cdh4/latest/CDH4-Installation-Guide/cdh4ig_topic_13_7.html) and check my post [2015-05-25-apache-hive-on-mac-osx-yosemite]({% post_url 2015-05-25-apache-hive-on-mac-osx-yosemite %}) and [connectors and drivers](https://blogs.apache.org/sqoop/entry/connectors_and_drivers_in_the) and [documentation](http://sqoop.apache.org/docs/1.4.0-incubating/SqoopUserGuide.html#id1763114)
+1. [installing the jdbc drivers](http://www.cloudera.com/content/cloudera/en/documentation/cdh4/latest/CDH4-Installation-Guide/cdh4ig_topic_13_7.html) and check my post [2015-05-25-apache-hive-on-mac-osx-yosemite]({% post_url 2015-05-25-apache-hive-on-mac-osx-yosemite %}) and [connectors and drivers](https://blogs.apache.org/sqoop/entry/connectors_and_drivers_in_the) and [documentation](http://sqoop.apache.org/docs/1.4.0-incubating/SqoopUserGuide.html#id1763114)
 
             $ curl -L 'http://www.mysql.com/get/Downloads/Connector-J/mysql-connector-java-5.1.35.tar.gz/from/http://mysql.he.net/' | tar xz
             $ cd mysql-connector-java-5.1.35

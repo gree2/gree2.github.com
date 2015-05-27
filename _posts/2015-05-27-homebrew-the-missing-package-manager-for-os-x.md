@@ -105,7 +105,7 @@ tags: [homebrew, brew]
 
             $ export HOMEBREW_NO_EMOJI=1
 
-    1. dependencies
+    1. [dependencies](http://zanshin.net/2014/02/03/how-to-list-brew-dependencies/)
 
             $ brew deps formula
 
