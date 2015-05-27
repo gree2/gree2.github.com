@@ -8,6 +8,47 @@ tags: [sqoop, import, export, mysql, sqlserver, db2, oracle, avro, csv, teradata
 {% include JB/setup %}
 
 
+### test database table data
+
+1. create database table
+
+            $ mysql -u root -p
+            mysql> create database sqoop;
+            mysql> use sqoop;
+            mysql> create table employee(
+            ->  emp_id int not null auto_increment,
+            ->  emp_name  varchar(32) not null,
+            ->  emp_title varchar(32) not null,
+            ->  primary key ( emp_id )
+            ->);
+
+1. polulate data
+
+            mysql> insert into employee values (1, 'name1', 'dev'), (2, 'name2', 'pm'),
+            -> (3, 'name3', 'qa'), (4, 'name4', 'test'), (5, 'name5', 'dev');
+            Query OK, 5 rows affected (0.00 sec)
+            Records: 5  Duplicates: 0  Warnings: 0
+
+            mysql> select * from employee;
+            +--------+----------+-----------+
+            | emp_id | emp_name | emp_title |
+            +--------+----------+-----------+
+            |      1 | name1    | dev       |
+            |      2 | name2    | pm        |
+            |      3 | name3    | qa        |
+            |      4 | name4    | test      |
+            |      5 | name5    | dev       |
+            +--------+----------+-----------+
+            5 rows in set (0.00 sec)
+
+1. grant privileges
+
+            mysql> create user 'sqoop'@'localhost' identified by 'sqoop';
+
+            mysql> grant all privileges on * . * to 'sqoop'@'localhost';
+
+            mysql> flush privileges;
+
 ### import
 
 1. import table `employee`
@@ -16,6 +57,21 @@ tags: [sqoop, import, export, mysql, sqlserver, db2, oracle, avro, csv, teradata
 
             $ sqoop import --connect jdbc:mysql://localhost/sqoop \
             --username sqoop --password sqoop --table employee
+
+            # 1. <----------------
+            # ERROR tool.ImportTool:
+            # Encountered IOException running import job:
+            # java.io.FileNotFoundException:
+            # File does not exist:
+            # hdfs://localhost:9000/usr/local/Cellar/sqoop/1.4.5/libexec/lib/paranamer-2.3.jar
+
+            $ hdfs dfs -mkdir /usr/local/Cellar/sqoop/
+            $ hdfs dfs -put   /usr/local/Cellar/sqoop/* /usr/local/Cellar/sqoop/
+
+            # 2. <----------------
+            # java.lang.Exception:
+            # java.lang.RuntimeException:
+            # java.lang.ClassNotFoundException: Class employee not found
 
             $ mysql -u root -e "show databases;"
 
