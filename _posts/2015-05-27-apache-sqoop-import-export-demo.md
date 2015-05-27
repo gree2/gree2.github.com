@@ -8,7 +8,7 @@ tags: [sqoop, import, export, mysql, sqlserver, db2, oracle, avro, csv, teradata
 {% include JB/setup %}
 
 
-### test database table data
+### mysql test data
 
 1. create database table
 
@@ -44,10 +44,13 @@ tags: [sqoop, import, export, mysql, sqlserver, db2, oracle, avro, csv, teradata
 1. grant privileges
 
             mysql> create user 'sqoop'@'localhost' identified by 'sqoop';
-
             mysql> grant all privileges on * . * to 'sqoop'@'localhost';
-
             mysql> flush privileges;
+
+1. execute sql
+
+            $ mysql -u root -e "show databases;"
+            $ mysql -u root sqoop -e "show tables;"
 
 ### import
 
@@ -72,29 +75,45 @@ tags: [sqoop, import, export, mysql, sqlserver, db2, oracle, avro, csv, teradata
             # java.lang.Exception:
             # java.lang.RuntimeException:
             # java.lang.ClassNotFoundException: Class employee not found
+            $ sqoop codegen --connect jdbc:mysql://localhost/sqoop \
+            --username sqoop --password sqoop --table employee
+            ...
+            /tmp/sqoop-hqlgree2/compile/99451bfd4897ecce9f88ba6c237a51d6/employee.jar
+            ...
+            $ sqoop import -fs local -jt local -libjars \
+            /tmp/sqoop-hqlgree2/compile/99451bfd4897ecce9f88ba6c237a51d6/employee.jar \
+            --connect jdbc:mysql://localhost/sqoop --username sqoop --password sqoop \
+            --table employee --target-dir employee
+            $ ls
+            employee employee.java
 
-            $ mysql -u root -e "show databases;"
+            # http://stackoverflow.com/questions/28935159/sqoop-import-says-can-find-class-tablename
+            # http://ingest.tips/2015/02/06/use-sqoop-transfer-csv-data-local-filesystem-relational-database/
 
-            $ mysql -u root sqoop -e "show tables;"
+            $ hdfs dfs -mkdir /tmp/sqoop-hqlgree2
+            $ hdfs dfs -put   /tmp/sqoop-hqlgree2/* /tmp/sqoop-hqlgree2/
+            $ sqoop import -libjars /tmp/sqoop-hqlgree2/compile/99451bfd4897ecce9f88ba6c237a51d6/employee.jar \
+            --connect jdbc:mysql://localhost/sqoop --username sqoop --password sqoop --table employee \
+            --target-dir sqoopdata/employee
 
     1. --target-dir
 
-            absolute path => /usr/cloudera/mysqldata/employee
-            relative path => mysqldata/employee
+            absolute path => /usr/cloudera/sqoopdata/employee
+            relative path => sqoopdata/employee
 
             $ sqoop import --connect jdbc:mysql://localhost/sqoop \
             --username sqoop --password sqoop --table employee \
-            --target-dir /usr/cloudera/mysqldata/employee
+            --target-dir /usr/cloudera/sqoopdata/employee
 
             $ sqoop import --connect jdbc:mysql://localhost/sqoop \
             --username sqoop --password sqoop --table employee \
-            --target-dir mysqldata/employee
+            --target-dir sqoopdata/employee
 
     1. --warehouse-dir
 
             $ sqoop import --connect jdbc:mysql://localhost/sqoop \
             --username sqoop --password sqoop --table employee \
-            --warehouse-dir mysqldata -m 1
+            --warehouse-dir sqoopdata -m 1
 
     1. -m integer
 
@@ -104,8 +123,7 @@ tags: [sqoop, import, export, mysql, sqlserver, db2, oracle, avro, csv, teradata
 
             $ sqoop import --connect jdbc:mysql://localhost/sqoop \
             --username sqoop --password sqoop --table employee \
-            --target-dir mysqldata/employee -m 1
-
+            --target-dir sqoopdata/employee -m 1
 
     1. --where "filter"
 
@@ -113,48 +131,77 @@ tags: [sqoop, import, export, mysql, sqlserver, db2, oracle, avro, csv, teradata
     
     1. --check-column pkcol
 
-    1. --incremental append | last_modified
+    1. --incremental append
+
+    1. --incremental last_modified
 
     1. --last-value integer
 
             # 1. list database `sqoop` table `employee` data
             $ mysql -u root sqoop -e "select * from employee;"
-            emp_id, name
-            1,      emp_name1
-            2,      emp_name2
-            3,      emp_name3
-            4,      emp_name4
-            5,      emp_name5
-            6,      emp_name6
-            7,      emp_name7
-            8,      emp_name8
-            9,      emp_name9
+            +--------+----------+-----------+
+            | emp_id | emp_name | emp_title |
+            +--------+----------+-----------+
+            |      1 | name1    | dev       |
+            |      2 | name2    | pm        |
+            |      3 | name3    | qa        |
+            |      4 | name4    | test      |
+            |      5 | name5    | dev       |
+            +--------+----------+-----------+
 
             # 2. import
             $ sqoop import --connect jdbc:mysql://localhost/sqoop \
             --username sqoop --password sqoop --table employee \
-            --warehouse-dir mysqldata -m 1
+            --warehouse-dir sqoopdata -m 1
+
+            $ hdfs dfs -ls /user/hqlgree2/sqoopdata/employee/
+            Found 3 items
+            -rw-r--r--   1 hqlgree2 supergroup          0 2015-05-27 22:02 /user/hqlgree2/sqoopdata/employee/_SUCCESS
+            -rw-r--r--   1 hqlgree2 supergroup         59 2015-05-27 22:02 /user/hqlgree2/sqoopdata/employee/part-m-00000
 
             # 3. insert new data into table `employee`
-            $ mysql -u root sqoop -e "insert into table employee values (10, 'emp_name10'), (11, 'emp_name11'), (12, 'emp_name12')"
+            $ mysql -u root sqoop -e "insert into employee values (6, 'name6', 'dev'), (7, 'name7', 'test'), (8, 'name8', 'dev');"
 
             # 4. list database `sqoop` table `employee` data
             $ mysql -u root sqoop -e "select * from employee;"
-            emp_id, name
-            1,      emp_name1
-            ...
-            9,      emp_name9
-            10,     emp_name10
-            11,     emp_name11
-            12,     emp_name12
+            +--------+----------+-----------+
+            | emp_id | emp_name | emp_title |
+            +--------+----------+-----------+
+            |      1 | name1    | dev       |
+            |      2 | name2    | pm        |
+            |      3 | name3    | qa        |
+            |      4 | name4    | test      |
+            |      5 | name5    | dev       |
+            |      6 | name6    | dev       |
+            |      7 | name7    | test      |
+            |      8 | name8    | dev       |
+            +--------+----------+-----------+
 
-            # 5. import `10-12` row into hdfs
+            # 5. import `6-8` row into hdfs
             $ sqoop import --connect jdbc:mysql://localhost/sqoop \
             --username sqoop --password sqoop --table employee \
-            --warehouse-dir mysqldata -m 1 \
+            --warehouse-dir sqoopdata -m 1 \
             --check-column emp_id \
             --incremental append \
-            --last-value 9
+            --last-value 5
+
+            $ hdfs dfs -ls /user/hqlgree2/sqoopdata/employee/
+            Found 3 items
+            -rw-r--r--   1 hqlgree2 supergroup          0 2015-05-27 22:02 /user/hqlgree2/sqoopdata/employee/_SUCCESS
+            -rw-r--r--   1 hqlgree2 supergroup         59 2015-05-27 22:02 /user/hqlgree2/sqoopdata/employee/part-m-00000
+            -rw-r--r--   1 hqlgree2 supergroup         37 2015-05-27 22:04 /user/hqlgree2/sqoopdata/employee/part-m-00001
+            
+            $ hdfs dfs -cat /user/hqlgree2/sqoopdata/employee/part-m-00000
+            1,name1,dev
+            2,name2,pm
+            3,name3,qa
+            4,name4,test
+            5,name5,dev
+            
+            $ hdfs dfs -cat /user/hqlgree2/sqoopdata/employee/part-m-00001
+            6,name6,dev
+            7,name7,test
+            8,name8,dev
 
     1. --options-file filename
 
@@ -180,7 +227,7 @@ tags: [sqoop, import, export, mysql, sqlserver, db2, oracle, avro, csv, teradata
             hive> desc emps;
 
             $ sqoop create-hive-table --connect jdbc:mysql://localhost/sqoop \
-            --username root --table employee --hive-table emps
+            --username sqoop --table employee --hive-table emps
 
             $ hive
             hive> select * from emps;
@@ -201,7 +248,7 @@ tags: [sqoop, import, export, mysql, sqlserver, db2, oracle, avro, csv, teradata
             hive> desc emps;
 
             $ sqoop create-hive-table --connect jdbc:mysql://localhost/sqoop \
-            --username root --table employee --hive-table emps \
+            --username sqoop --table employee --hive-table emps \
             --mysql-delimiters
 
             $ hive
@@ -226,7 +273,7 @@ tags: [sqoop, import, export, mysql, sqlserver, db2, oracle, avro, csv, teradata
 1. --export-dir
 
             $ sqoop export --connect jdbc:mysql://localhost/test \
-            --username root -P --table student -m 1 \
+            --username sqoop -P --table student -m 1 \
             --export-dir '/usr/cloudera/sqoopdata/part-m-00000'
 
 1. --options-file
@@ -236,7 +283,7 @@ tags: [sqoop, import, export, mysql, sqlserver, db2, oracle, avro, csv, teradata
             --connect
             jdbc:mysql://localhost:3306/test
             --username
-            root
+            sqoop
 
             $ sqoop --options-file export.txt -P --table student -m 1 \
             --export-dir '/usr/cloudera/sqoopdata/part-m-00000'
@@ -252,17 +299,17 @@ tags: [sqoop, import, export, mysql, sqlserver, db2, oracle, avro, csv, teradata
 1. list-databases
 
             $ sqoop list-databases --connect jdbc:mysql://localhost \
-            --username root
+            --username sqoop
 
 1. list-tables
 
             $ sqoop list-tables    --connect jdbc:mysql://localhost/mysql \
-            --username root
+            --username sqoop
 
 1. eval
 
             $ sqoop eval --connect jdbc:mysql://localhost/mysql \
-            --username root --query "select * from user;"
+            --username sqoop --query "select * from user;"
 
 ### sqlserver
 
