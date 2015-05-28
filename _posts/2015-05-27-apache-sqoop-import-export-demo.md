@@ -68,20 +68,22 @@ tags: [sqoop, import, export, mysql, sqlserver, db2, oracle, avro, csv, teradata
             # File does not exist:
             # hdfs://localhost:9000/usr/local/Cellar/sqoop/1.4.5/libexec/lib/paranamer-2.3.jar
 
-            $ hdfs dfs -mkdir /usr/local/Cellar/sqoop/
-            $ hdfs dfs -put   /usr/local/Cellar/sqoop/* /usr/local/Cellar/sqoop/
+            $ hdfs dfs -mkdir -p /usr/local/Cellar/sqoop/
+            $ hdfs dfs -put /usr/local/Cellar/sqoop/* /usr/local/Cellar/sqoop/
 
             # 2. <----------------
             # java.lang.Exception:
             # java.lang.RuntimeException:
             # java.lang.ClassNotFoundException: Class employee not found
+
             $ sqoop codegen --connect jdbc:mysql://localhost/sqoop \
             --username sqoop --password sqoop --table employee
-            ...
-            /tmp/sqoop-hqlgree2/compile/99451bfd4897ecce9f88ba6c237a51d6/employee.jar
-            ...
+            # INFO orm.CompilationManager:
+            # Writing jar file:
+            # /tmp/sqoop-hqlgree2/compile/199c329d20fd26512ff0f9593facdb3e/employee.jar
+
             $ sqoop import -fs local -jt local -libjars \
-            /tmp/sqoop-hqlgree2/compile/99451bfd4897ecce9f88ba6c237a51d6/employee.jar \
+            /tmp/sqoop-hqlgree2/compile/199c329d20fd26512ff0f9593facdb3e/employee.jar \
             --connect jdbc:mysql://localhost/sqoop --username sqoop --password sqoop \
             --table employee --target-dir employee
             $ ls
@@ -90,20 +92,25 @@ tags: [sqoop, import, export, mysql, sqlserver, db2, oracle, avro, csv, teradata
             # http://stackoverflow.com/questions/28935159/sqoop-import-says-can-find-class-tablename
             # http://ingest.tips/2015/02/06/use-sqoop-transfer-csv-data-local-filesystem-relational-database/
 
-            $ hdfs dfs -mkdir /tmp/sqoop-hqlgree2
-            $ hdfs dfs -put   /tmp/sqoop-hqlgree2/* /tmp/sqoop-hqlgree2/
-            $ sqoop import -libjars /tmp/sqoop-hqlgree2/compile/99451bfd4897ecce9f88ba6c237a51d6/employee.jar \
+            $ hdfs dfs -mkdir -p /tmp/sqoop-hqlgree2/
+            $ hdfs dfs -put /tmp/sqoop-hqlgree2/* /tmp/sqoop-hqlgree2/
+            $ hdfs dfs -ls /tmp/sqoop-hqlgree2/compile
+
+            $ hdfs dfs -rm -r /tmp/sqoop-hqlgree2/compile
+            $ hdfs dfs -rm -r /user/hqlgree2/sqoopdata/employee
+            
+            $ sqoop import -libjars /tmp/sqoop-hqlgree2/compile/199c329d20fd26512ff0f9593facdb3e/employee.jar \
             --connect jdbc:mysql://localhost/sqoop --username sqoop --password sqoop --table employee \
             --target-dir sqoopdata/employee
 
     1. --target-dir
 
-            absolute path => /usr/cloudera/sqoopdata/employee
+            absolute path => /usr/hqlgree2/sqoopdata/employee
             relative path => sqoopdata/employee
 
             $ sqoop import --connect jdbc:mysql://localhost/sqoop \
             --username sqoop --password sqoop --table employee \
-            --target-dir /usr/cloudera/sqoopdata/employee
+            --target-dir /usr/hqlgree2/sqoopdata/employee
 
             $ sqoop import --connect jdbc:mysql://localhost/sqoop \
             --username sqoop --password sqoop --table employee \
@@ -205,21 +212,22 @@ tags: [sqoop, import, export, mysql, sqlserver, db2, oracle, avro, csv, teradata
 
     1. --options-file filename
 
-            $ pico import.txt
+            $ pico mysql.options
             import
             --connect
             jdbc:mysql://localhost:3306/sqoop
             --username
             sqoop
-            -P
+            --password
+            sqoop
 
-            $ sqoop --options-file import.txt --table employee -m 1
+            $ sqoop --options-file mysql.options --table employee -m 1
 
 1. import data to `hive`
 
     1. multi-command (all null value data)
 
-            $ sqoop --options-file import.txt --table employee \
+            $ sqoop --options-file mysql.options --table employee \
             --warehouse-dir sqoopdata -m 1
 
             $ hive
@@ -227,12 +235,12 @@ tags: [sqoop, import, export, mysql, sqlserver, db2, oracle, avro, csv, teradata
             hive> desc emps;
 
             $ sqoop create-hive-table --connect jdbc:mysql://localhost/sqoop \
-            --username sqoop --table employee --hive-table emps
+            --username sqoop --password sqoop --table employee --hive-table emps
 
             $ hive
             hive> select * from emps;
             # no data
-            hive> load data inpath '/usr/cloudera/sqoopdata/employee/part-m-00000' into table emps;
+            hive> load data inpath '/usr/hqlgree2/sqoopdata/employee/part-m-00000' into table emps;
             hive> select * from emps;
             # all null value data
             hive> drop table emps;
@@ -240,7 +248,7 @@ tags: [sqoop, import, export, mysql, sqlserver, db2, oracle, avro, csv, teradata
 
     1. multi-command (correct data)
 
-            $ sqoop --options-file import.txt --table employee \
+            $ sqoop --options-file mysql.options --table employee \
             --warehouse-dir sqoopdata -m 1
 
             $ hive
@@ -254,7 +262,7 @@ tags: [sqoop, import, export, mysql, sqlserver, db2, oracle, avro, csv, teradata
             $ hive
             hive> select * from emps;
             # no data
-            hive> load data inpath '/usr/cloudera/sqoopdata/employee/part-m-00000' into table emps;
+            hive> load data inpath '/usr/hqlgree2/sqoopdata/employee/part-m-00000' into table emps;
             hive> select * from emps;
             # all null value data
             hive> drop table emps;
@@ -265,7 +273,7 @@ tags: [sqoop, import, export, mysql, sqlserver, db2, oracle, avro, csv, teradata
     1. hive-import
 
             # equals multi-command (correct data)
-            $ sqoop --options-file import.txt --table employee \
+            $ sqoop --options-file mysql.options --table employee \
             --hive-table emps --hive-import
 
 ### export
@@ -274,7 +282,7 @@ tags: [sqoop, import, export, mysql, sqlserver, db2, oracle, avro, csv, teradata
 
             $ sqoop export --connect jdbc:mysql://localhost/test \
             --username sqoop -P --table student -m 1 \
-            --export-dir '/usr/cloudera/sqoopdata/part-m-00000'
+            --export-dir '/usr/hqlgree2/sqoopdata/part-m-00000'
 
 1. --options-file
 
@@ -286,12 +294,12 @@ tags: [sqoop, import, export, mysql, sqlserver, db2, oracle, avro, csv, teradata
             sqoop
 
             $ sqoop --options-file export.txt -P --table student -m 1 \
-            --export-dir '/usr/cloudera/sqoopdata/part-m-00000'
+            --export-dir '/usr/hqlgree2/sqoopdata/part-m-00000'
 
 1. --update-key
 
             $ sqoop --options-file export.txt --table student \
-            --export-dir '/usr/cloudera/sqoopdata/student_detail.txt' \
+            --export-dir '/usr/hqlgree2/sqoopdata/student_detail.txt' \
             --update-key stu_id
 
 ### eval list-databases list-tables
@@ -313,12 +321,46 @@ tags: [sqoop, import, export, mysql, sqlserver, db2, oracle, avro, csv, teradata
 
 ### sqlserver
 
+1. config
+
+    1. [download and config sqljdbc](http://hortonworks.com/hadoop-tutorial/import-microsoft-sql-server-hortonworks-sandbox-using-sqoop/)
+
+            $ curl -L 'http://download.microsoft.com/download/0/2/A/02AAE597-3865-456C-AE7F-613F99F850A8/sqljdbc_4.0.2206.100_enu.tar.gz' | tar xz
+            $ cd sqljdbc_4.0/enu
+            $ cp sqljdbc4.jar /usr/local/Cellar/sqoop/1.4.5/libexec/lib/
+            $ hdfs dfs -put sqljdbc4.jar /usr/local/Cellar/sqoop/1.4.5/libexec/lib/
+
+    1. codegen and put to hdfs
+
+            $ sqoop codegen --connect 'jdbc:sqlserver://192.168.100.100;database=sqoop;username=sa;password=as' --table employee
+            ...
+            INFO orm.CompilationManager: Writing jar file: /tmp/sqoop-hqlgree2/compile/38c5c07622a71bc6695d397b2ad36e40/employee.jar
+
+            $ hdfs dfs -mkdir /tmp/sqoop-hqlgree2/compile/38c5c07622a71bc6695d397b2ad36e40/
+            
+            $ hdfs dfs -put /tmp/sqoop-hqlgree2/compile/38c5c07622a71bc6695d397b2ad36e40/* \
+            /tmp/sqoop-hqlgree2/compile/38c5c07622a71bc6695d397b2ad36e40/
+
+            $ hdfs dfs -rm -r /user/hqlgree2/mssql/employee
+
+    1. options-file
+
+            $ pico mssql.options 
+            import
+            -libjars
+            /tmp/sqoop-hqlgree2/compile/38c5c07622a71bc6695d397b2ad36e40/employee.jar
+            --connect
+            'jdbc:sqlserver://192.168.100.100;database=sqoop;username=sa;password=sa'
+
 1. list-databases
 
             $ sqoop list-databases --connect jdbc:sqlserver://192.168.100.100:1433 \
             --username sa --password as
 
 1. import
+
+            $ sqoop --options-file mssql.options --table employee --target-dir mssql/employee
+            $ hdfs dfs -rm -r /user/hqlgree2/mssql/employee
 
             $ sqoop import --connect jdbc:sqlserver://192.168.100.100:1433;database=demo \
             --username sa --password as --hive-import -m 1 \
@@ -330,9 +372,13 @@ tags: [sqoop, import, export, mysql, sqlserver, db2, oracle, avro, csv, teradata
 
 1. export
 
+            $ sqoop --options-file mssql.options --table employee \
+            --export-dir /user/hqlgree2/sqoopdata/employee/part-m-00000 \
+            --import-fields-terminated-by ','
+
             $ sqoop export --connect jdbc:sqlserver://192.168.100.100:1433;database=demo \
             --username sa --password as --table movie \
-            --export-dir /usr/cloudera/sqoopdata/part-m-00000 \
+            --export-dir /user/hqlgree2/sqoopdata/employee/part-m-00000 \
             --import-fields-terminated-by '\t'
 
 ### cookbook
