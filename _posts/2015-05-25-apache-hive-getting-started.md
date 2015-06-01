@@ -12,36 +12,36 @@ tags: [hive, hadoop]
 
 1. have `hadoop` in your path or `export HADOOP_HOME=hadoop-install-dir`
 
-	* check my post [2015-05-25-apache-hive-on-mac-osx-yosemite]({% post_url 2015-05-25-apache-hive-on-mac-osx-yosemite %})
+    * check my post [2015-05-25-apache-hive-on-mac-osx-yosemite]({% post_url 2015-05-25-apache-hive-on-mac-osx-yosemite %})
 
 1. create dir in hdfs
 
-			$ hadoop fs -mkdir     /tmp
-			$ hadoop fs -mkdir -p  /user/hive/warehouse
-			$ hadoop fs -chmod g+w /tmp
-			$ hadoop fs -chmod g+w /user/hive/warehouse
+            $ hadoop fs -mkdir     /tmp
+            $ hadoop fs -mkdir -p  /user/hive/warehouse
+            $ hadoop fs -chmod g+w /tmp
+            $ hadoop fs -chmod g+w /user/hive/warehouse
 
 1. running hiveserver2 and beeline
 
-	* hiveserver2 has its own cli beeline
+    * hiveserver2 has its own cli beeline
 
-	* HiveCLI is now deprecated
+    * HiveCLI is now deprecated
 
-			$ bin/hiveserver2
+            $ bin/hiveserver2
 
-			$ bin/beeline -u jdbc:hive2://$HS2_HOST:$HS_PORT
+            $ bin/beeline -u jdbc:hive2://$HS2_HOST:$HS_PORT
 
-	* start beeline and hiveserver2 in the same process for testing purpose
+    * start beeline and hiveserver2 in the same process for testing purpose
 
-			$ bin/beeline -u jdbc:hive2://
+            $ bin/beeline -u jdbc:hive2://
 
 1. running hcatalog
 
-			$ hcatalog/sbin/hcat_server.sh
+            $ hcatalog/sbin/hcat_server.sh
 
 1. running webhcat (templeton)
 
-			$ hcatalog/sbin/webhcat_server.sh
+            $ hcatalog/sbin/webhcat_server.sh
 
 ### configuration management overview
 
@@ -57,41 +57,41 @@ tags: [hive, hadoop]
 
 1. manipulate hive configuration
 
-	* editing `hive-site.xml`
+    * editing `hive-site.xml`
 
-	* using set command
+    * using set command
 
-	* invoking hive (deprecated), beeline or hiveserver2
+    * invoking hive (deprecated), beeline or hiveserver2
 
-			$ bin/hive        --hiveconf x1=y1 --hiveconf x2=y2
+            $ bin/hive        --hiveconf x1=y1 --hiveconf x2=y2
 
-			$ bin/hiveserver2 --hiveconf x1=y1 --hiveconf x2=y2
+            $ bin/hiveserver2 --hiveconf x1=y1 --hiveconf x2=y2
 
-			$ bin/beeline     --hiveconf x1=y1 --hiveconf x2=y2
+            $ bin/beeline     --hiveconf x1=y1 --hiveconf x2=y2
 
-	* setting `HIVE_OPTS` environment variable
+    * setting `HIVE_OPTS` environment variable
 
-			--hiveconf x1=y1 --hiveconf x2=y2
+            --hiveconf x1=y1 --hiveconf x2=y2
 
 ### hive mr and local-mode
 
 * enable local mode execution
 
-			hive> set mapred.job.tracker=local;
-			# `mapred.local.dir` must point to a valid path
-			# /tmp/<username>/mapred/local
+            hive> set mapred.job.tracker=local;
+            # `mapred.local.dir` must point to a valid path
+            # /tmp/<username>/mapred/local
 
 ### metadata store
 
 * metadata is in an embedded derby database
 
-			javax.jdo.option.ConnectionURL
-			# default => ./metastore_db
+            javax.jdo.option.ConnectionURL
+            # default => ./metastore_db
 
 * metastore can be stored in any database that supported by `jpox`
 
-			javax.jdo.option.ConnectionURL
-			javax.jdo.option.ConnectionDriverName
+            javax.jdo.option.ConnectionURL
+            javax.jdo.option.ConnectionDriverName
 
 * in the future metastore itself can be a standalone server
 
@@ -99,67 +99,113 @@ tags: [hive, hadoop]
 
 1. create a table with tab-delimited text file format
 
-			create table u_data(
-				userid int,
-				movieid int,
-				rating int,
-				unixtime string
-			)
-			row format delimited
-			fields terminated by '\t'
-			stored as textfile;
+            create table u_data(
+                userid int,
+                movieid int,
+                rating int,
+                unixtime string
+            )
+            row format delimited
+            fields terminated by '\t'
+            stored as textfile;
+
+            # 1. <----------------
+            # com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException
+            # Specified key was too long; max key length is 767 bytes
+            mysql> select * from information_schema.schemata s where schema_name='metastore';
+            +--------------+-------------+----------------------------+------------------------+----------+
+            | CATALOG_NAME | SCHEMA_NAME | DEFAULT_CHARACTER_SET_NAME | DEFAULT_COLLATION_NAME | SQL_PATH |
+            +--------------+-------------+----------------------------+------------------------+----------+
+            | def          | metastore   | utf8                       | utf8_general_ci        | NULL     |
+            +--------------+-------------+----------------------------+------------------------+----------+
+            1 row in set (0.00 sec)
+
+            mysql> alter database metastore character set latin1;
+            Query OK, 1 row affected (0.00 sec)
+
+            mysql> select * from information_schema.schemata s where schema_name='metastore';
+            +--------------+-------------+----------------------------+------------------------+----------+
+            | CATALOG_NAME | SCHEMA_NAME | DEFAULT_CHARACTER_SET_NAME | DEFAULT_COLLATION_NAME | SQL_PATH |
+            +--------------+-------------+----------------------------+------------------------+----------+
+            | def          | metastore   | latin1                     | latin1_swedish_ci      | NULL     |
+            +--------------+-------------+----------------------------+------------------------+----------+
+            1 row in set (0.00 sec)
+
+            hive> create table employee(emp_id int, emp_name string, emp_title string) row format delimited fields terminated by ',' stored as textfile;
+            OK
+            Time taken: 0.755 seconds
+
+            # 2. 
+            mysql> show variables like '%char%';
+
 
 1. download [movielens 100k](http://files.grouplens.org/datasets/movielens/ml-100k.zip)
 
-			$ wget http://files.grouplens.org/datasets/movielens/ml-100k.zip
+            $ wget http://files.grouplens.org/datasets/movielens/ml-100k.zip
 
-			# or
+            # or
 
-			$ curl --remote-name http://files.grouplens.org/datasets/movielens/ml-100k.zip
+            $ curl --remote-name http://files.grouplens.org/datasets/movielens/ml-100k.zip
 
-			# unzip
-			$ unzip ml-100k.zip
+            # unzip
+            $ unzip ml-100k.zip
 
 1. load `u.data` into the table just created
 
-			hive> load data local inpath '<path>/u.data'
-			overwrite into table u_data;
+            hive> load data local inpath '<path>/u.data'
+            overwrite into table u_data;
 
-			hive> select count(*) from u_data;
+            hive> select count(*) from u_data;
 
 1. complex data analysis on table `u_data`
 
-	* weekday_maapper.py
+    * weekday_maapper.py
 
-			import sys
-			import datetime
+            import sys
+            import datetime
 
-			for line in sys.stdin:
-				line = line.strip()
-				userid, movieid, rating, unixtime = line.split('\t')
-				weekday = datetime.datetime.fromtimestamp(float(unixtime)).isoweekday()
-				print '\t'.join([userid, movieid, rating, str(weekday)])
+            for line in sys.stdin:
+                line = line.strip()
+                userid, movieid, rating, unixtime = line.split('\t')
+                weekday = datetime.datetime.fromtimestamp(float(unixtime)).isoweekday()
+                print '\t'.join([userid, movieid, rating, str(weekday)])
 
-	* use mapper script
+    * use mapper script
 
-			create table u_data_new(
-				userid int,
-				movieid int,
-				rating int,
-				weekday int
-			)
-			row format delimited
-			fields terminated by '\t';
+            create table u_data_new(
+                userid int,
+                movieid int,
+                rating int,
+                weekday int
+            )
+            row format delimited
+            fields terminated by '\t';
 
-			add file weekday_maapper.py
+            add file weekday_maapper.py
 
-			insert overwrite table u_data_new
-			select 
-				transform (userid, movieid, rating, unixtime)
-				using 'weekday_maapper.py'
-				as (userid, movieid, rating, weekday)
-			from u_data;
+            insert overwrite table u_data_new
+            select 
+                transform (userid, movieid, rating, unixtime)
+                using 'weekday_maapper.py'
+                as (userid, movieid, rating, weekday)
+            from u_data;
 
-			select weekday, count(*)
-			from u_data_new
-			group by weekday;
+            # 1. <----------------
+            hive> insert overwrite table u_data_new select transform (userid, movieid, rating, unixtime) using 'weekday_maapper.py'as (userid, movieid, rating, weekday) from u_data;
+            Query ID = hqlgree2_20150601170202_150ee6ee-fa50-49d9-ad27-7158cda130ef
+            Total jobs = 3
+            Launching Job 1 out of 3
+            Number of reduce tasks is set to 0 since there's no reduce operator
+            Job running in-process (local Hadoop)
+            2015-06-01 17:02:12,361 Stage-1 map = 0%,  reduce = 0%
+            Ended Job = job_local524868591_0001 with errors
+            Error during job, obtaining debugging information...
+            Job Tracking URL: http://localhost:8080/
+            FAILED: Execution Error, return code 2 from org.apache.hadoop.hive.ql.exec.mr.MapRedTask
+            MapReduce Jobs Launched: 
+            Stage-Stage-1:  HDFS Read: 0 HDFS Write: 0 FAIL
+            Total MapReduce CPU Time Spent: 0 msec
+
+            select weekday, count(*)
+            from u_data_new
+            group by weekday;
