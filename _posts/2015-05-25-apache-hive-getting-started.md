@@ -3,7 +3,7 @@ layout: post
 title: "apache hive getting started"
 description: ""
 category: [apache]
-tags: [hive, hadoop]
+tags: [hive, hadoop, python, mapper]
 ---
 {% include JB/setup %}
 
@@ -135,7 +135,6 @@ tags: [hive, hadoop]
             OK
             Time taken: 0.755 seconds
 
-            # 2. 
             mysql> show variables like '%char%';
 
 
@@ -172,7 +171,7 @@ tags: [hive, hadoop]
 
     * use mapper script
 
-            create table u_data_new(
+            hive> create table u_data_new(
                 userid int,
                 movieid int,
                 rating int,
@@ -190,8 +189,8 @@ tags: [hive, hadoop]
                 as (userid, movieid, rating, weekday)
             from u_data;
 
-            # 1. <----------------
-            hive> insert overwrite table u_data_new select transform (userid, movieid, rating, unixtime) using 'weekday_maapper.py'as (userid, movieid, rating, weekday) from u_data;
+            # 2. <----------------
+            hive> insert overwrite table u_data_new select transform (userid, movieid, rating, unixtime) using 'weekday_maapper.py' as (userid, movieid, rating, weekday) from u_data;
             Query ID = hqlgree2_20150601170202_150ee6ee-fa50-49d9-ad27-7158cda130ef
             Total jobs = 3
             Launching Job 1 out of 3
@@ -206,6 +205,50 @@ tags: [hive, hadoop]
             Stage-Stage-1:  HDFS Read: 0 HDFS Write: 0 FAIL
             Total MapReduce CPU Time Spent: 0 msec
 
-            select weekday, count(*)
-            from u_data_new
-            group by weekday;
+            # solution: 2. <----------------
+            hive> insert overwrite table u_data_new select transform (userid, movieid, rating, unixtime) using 'python /Users/hqlgree2/Documents/hadoop/hive/weekday_mapper.py' as (userid, movieid, rating, weekday) from u_data;
+            Query ID = hqlgree2_20150601221515_9686053f-8a88-45e9-b02a-90e0fff696e9
+            Total jobs = 3
+            Launching Job 1 out of 3
+            Number of reduce tasks is set to 0 since there's no reduce operator
+            Job running in-process (local Hadoop)
+            2015-06-01 22:15:19,293 Stage-1 map = 100%,  reduce = 0%
+            Ended Job = job_local526336603_0006
+            Stage-4 is selected by condition resolver.
+            Stage-3 is filtered out by condition resolver.
+            Stage-5 is filtered out by condition resolver.
+            Moving data to: hdfs://localhost:9000/user/hive/warehouse/u_data_new/.hive-staging_hive_2015-06-01_22-15-18_053_7587415369814957289-1/-ext-10000
+            Loading data to table default.u_data_new
+            Table default.u_data_new stats: [numFiles=1, numRows=100000, totalSize=1179173, rawDataSize=1079173]
+            MapReduce Jobs Launched: 
+            Stage-Stage-1:  HDFS Read: 4134474 HDFS Write: 1179256 SUCCESS
+            Total MapReduce CPU Time Spent: 0 msec
+            OK
+            Time taken: 1.377 seconds
+
+            hive> select weekday, count(*) from u_data_new group by weekday;
+            Query ID = hqlgree2_20150601221616_fb0af076-8d19-4788-bd16-383152f1856d
+            Total jobs = 1
+            Launching Job 1 out of 1
+            Number of reduce tasks not specified. Defaulting to jobconf value of: 1
+            In order to change the average load for a reducer (in bytes):
+              set hive.exec.reducers.bytes.per.reducer=<number>
+            In order to limit the maximum number of reducers:
+              set hive.exec.reducers.max=<number>
+            In order to set a constant number of reducers:
+              set mapreduce.job.reduces=<number>
+            Job running in-process (local Hadoop)
+            2015-06-01 22:16:47,499 Stage-1 map = 100%,  reduce = 100%
+            Ended Job = job_local111019165_0007
+            MapReduce Jobs Launched: 
+            Stage-Stage-1:  HDFS Read: 10627460 HDFS Write: 2358512 SUCCESS
+            Total MapReduce CPU Time Spent: 0 msec
+            OK
+            1   12254
+            2   13579
+            3   14430
+            4   15114
+            5   14743
+            6   18229
+            7   11651
+            Time taken: 1.802 seconds, Fetched: 7 row(s)
