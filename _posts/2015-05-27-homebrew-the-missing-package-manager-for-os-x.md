@@ -42,10 +42,12 @@ tags: [homebrew, brew]
     1. pre-downloading a file for a formula
 
             # download the file and drop it in
-            # `~/Library/Caches/Homebrew`
+            # `/Library/Caches/Homebrew`
+            # find cache folder
+            $ brew --cache
 
             # homebrew downloads files as
-            # `{{ formula name }}-{{ version }}`
+            # `formula-version`
 
             # eg. erlang
             # `otp_src_R13B03` to `erlang-R13B03`
