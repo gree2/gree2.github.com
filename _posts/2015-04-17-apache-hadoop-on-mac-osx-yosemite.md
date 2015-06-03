@@ -29,70 +29,78 @@ tags: [hadoop, max, osx, yosemite]
 
 ### configuring hadoop
 
-1. edit hadoop-env.sh
+1. create a `soft-link` check my post [command ln difference between soft link and hard link]({% post_url 2015-05-31-command-ln-difference-between-soft-link-and-hard-link %})
 
-    * locate at `/usr/local/Cellar/hadoop/2.6.0/libexec/etc/hadoop/hadoop-env.sh`
+            $ cd /usr/local
+            $ ln -s Cellar/hadoop/2.6.0 hadoop
 
-            where 2.6.0 is the hadoop version
+1. edit `hadoop-env.sh`
 
-    * find the line with
-
-            export HADOOP_OPTS="$HADOOP_OPTS -Djava.net.preferIPv4Stack=true"
-
-    * and change it to
-
+            $ cd hadoop/libexec/etc/hadoop/
+            $ pico hadoop-env.sh
+            # export HADOOP_OPTS="$HADOOP_OPTS -Djava.net.preferIPv4Stack=true"
             export HADOOP_OPTS="$HADOOP_OPTS -Djava.net.preferIPv4Stack=true -Djava.security.krb5.realm= -Djava.security.krb5.kdc="
 
 1. edit `core-site.xml`
 
-    * lacate at `/usr/local/Cellar/hadoop/2.6.0/libexec/etc/hadoop/core-site.xml`
+            $ pico core-site.xml
+
+            <?xml version="1.0" encoding="UTF-8"?>
+            <?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
 
             <configuration>
                 <property>
                     <name>hadoop.tmp.dir</name>  
-                    <value>/usr/local/Cellar/hadoop/hdfs/tmp</value>
+                    <value>/usr/local/hadoop/hdfs/tmp</value>
                     <description>A base for other temporary directories.</description>
                 </property>
                 <property>
                     <name>fs.default.name</name>
                     <value>hdfs://localhost:9000</value> 
                 </property>
-            </configuration> 
+            </configuration>
 
 1. edit `mapred-site.xml`
 
-    * locate at `/usr/local/Cellar/hadoop/2.6.0/libexec/etc/hadoop/mapred-site.xml`
+            $ pico mapred-site.xml
 
-    * by default it will be blank
-
+            <?xml version="1.0"?>
+            <?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
             <configuration>
                 <property>
                     <name>mapred.job.tracker</name>
                     <value>localhost:9010</value>
                 </property>
-             </configuration>
+            </configuration>
 
 1. edit `hdfs-site.xml`
 
-    * locate at `/usr/local/Cellar/hadoop/2.6.0/libexec/etc/hadoop/hdfs-site.xml`
+            $ pico hdfs-site.xml
 
+            <?xml version="1.0" encoding="UTF-8"?>
+            <?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
             <configuration>
                 <property>
-                    <name>dfs.replication</name>
-                    <value>1</value>
+                    <name>mapred.job.tracker</name>
+                    <value>localhost:9010</value>
                 </property>
-             </configuration> 
+            </configuration>
 
-    * add `hstart` and `hstop` alias
+1. create alias
 
-            alias hstart="/usr/local/Cellar/hadoop/2.6.0/sbin/start-dfs.sh;/usr/local/Cellar/hadoop/2.6.0/sbin/start-yarn.sh"
-            alias hstop="/usr/local/Cellar/hadoop/2.6.0/sbin/stop-yarn.sh;/usr/local/Cellar/hadoop/2.6.0/sbin/stop-dfs.sh"
+    1. create `hstart` and `hstop`
 
-    * and execute
+            $ cd
+            $ pico .bash_profile
+
+            alias hstart="/usr/local/hadoop/sbin/start-dfs.sh;/usr/local/hadoop/sbin/start-yarn.sh"
+            alias hstop="/usr/local/hadoop/sbin/stop-yarn.sh;/usr/local/hadoop/sbin/stop-dfs.sh"
+
+    1. and execute
 
             $ source ~/.bash_profile
 
-    * `before we can run hadoop we first need to format the hdfs`
+1. before we can run hadoop we first need to format the hdfs
 
             $ hdfs namenode -format
 
