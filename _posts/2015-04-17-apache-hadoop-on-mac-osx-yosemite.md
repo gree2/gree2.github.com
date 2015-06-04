@@ -114,13 +114,19 @@ tags: [hadoop, max, osx, yosemite]
 
     * if not the keys can be generated using
 
-            $ ssh-keygen -t rsa
+            $ ssh-keygen -t rsa -P ""
 
 1. enable `remote login`
 
     * check `remote login`
 
-            system preferences -> sharing -> remote login
+            # system preferences -> sharing -> remote login
+            $ sudo systemsetup -setremotelogin on
+            Password:
+            setremotelogin: remote login is already On.
+            $ sudo systemsetup -setremotelogin off
+            Do you really want to turn remote login off? If you do, you will lose this connection and can only turn it back on locally at the server (yes/no)? yes
+            $ sudo systemsetup -setremotelogin on
 
     * authorize ssh keys
 
