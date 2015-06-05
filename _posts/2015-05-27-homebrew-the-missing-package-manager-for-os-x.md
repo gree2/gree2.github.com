@@ -113,6 +113,102 @@ tags: [homebrew, brew]
 
             $ brew uses --installed formula
 
+1. upgrade
+
+    * list outdated
+
+            # list outdated
+            $ brew outdated
+            apache-spark (1.3.0 < 1.3.1_1)
+            cmake (3.2.1 < 3.2.2)
+            glib (2.42.2 < 2.44.1)
+            libmagic (5.22 < 5.22_1)
+            mysql (5.6.23 < 5.6.24)
+
+    * upgrade glib
+
+            # upgrade
+            $ brew upgrade glib
+            ==> Upgrading 1 outdated package, with result:
+            glib 2.44.1
+            ==> Upgrading glib
+            ==> Downloading https://homebrew.bintray.com/bottles/glib-2.44.1.yosemite.bottle
+            ######################################################################## 100.0%
+            ==> Pouring glib-2.44.1.yosemite.bottle.tar.gz
+            🍺  /usr/local/Cellar/glib/2.44.1: 416 files, 18M
+
+    * upgrade cmake and libmagic
+
+            $ brew upgrade cmake libmagic
+            ==> Upgrading 2 outdated packages, with result:
+            cmake 3.2.2, libmagic 5.22_1
+            ==> Upgrading cmake
+            ==> Downloading https://homebrew.bintray.com/bottles/cmake-3.2.2.yosemite.bottle.3.tar.gz
+            ######################################################################## 100.0%
+            ==> Pouring cmake-3.2.2.yosemite.bottle.3.tar.gz
+            ==> Caveats
+            Bash completion has been installed to:
+              /usr/local/etc/bash_completion.d
+            ==> Summary
+            🍺  /usr/local/Cellar/cmake/3.2.2: 1850 files, 32M
+            ==> Upgrading libmagic
+            ==> Downloading https://homebrew.bintray.com/bottles/libmagic-5.22_1.yosemite.bottle.tar.gz
+            ######################################################################## 100.0%
+            ==> Pouring libmagic-5.22_1.yosemite.bottle.tar.gz
+            🍺  /usr/local/Cellar/libmagic/5.22_1: 272 files, 4.7M
+            hqlgree2:~ hqlgree2$ brew outdated
+
+    * update brew
+
+            # update brew
+            $ brew update
+
+    * upgrade all formula
+
+            # upgrade all formula
+            $ brew upgrade
+            Warning: brew upgrade with no arguments will change behaviour soon!
+            It currently upgrades all formula but this will soon change to require '--all'.
+            Please update any workflows, documentation and scripts!
+            ==> Upgrading 3 outdated packages, with result:
+            hive 1.1.1, libav 11.4, mysql 5.6.25
+            ==> Upgrading hive
+            ==> Downloading https://www.apache.org/dyn/closer.cgi?path=hive/hive-1.1.1/apache-hive-1.1.1-bin.tar.
+            ^C
+            hqlgree2:conf hqlgree2$ brew upgrade libav
+            ==> Upgrading 1 outdated package, with result:
+            libav 11.4
+            ==> Upgrading libav
+            ==> Downloading https://homebrew.bintray.com/bottles/libav-11.4.yosemite.bottle.tar.gz
+            ######################################################################## 100.0%
+            ==> Pouring libav-11.4.yosemite.bottle.tar.gz
+            🍺  /usr/local/Cellar/libav/11.4: 8 files, 18M
+            hqlgree2:conf hqlgree2$ brew outdated
+            hive (1.1.0 < 1.1.1)
+            mysql (5.6.23 < 5.6.25)
+            hqlgree2:conf hqlgree2$ brew upgrade mysql
+            ==> Upgrading 1 outdated package, with result:
+            mysql 5.6.25
+            ==> Upgrading mysql
+            ==> Downloading https://homebrew.bintray.com/bottles/mysql-5.6.25.yosemite.bottle.tar.gz
+            ######################################################################## 100.0%
+            ==> Pouring mysql-5.6.25.yosemite.bottle.tar.gz
+            ==> Caveats
+            A "/etc/my.cnf" from another install may interfere with a Homebrew-built
+            server starting up correctly.
+
+            To connect:
+                mysql -uroot
+
+            To have launchd start mysql at login:
+                ln -sfv /usr/local/opt/mysql/*.plist ~/Library/LaunchAgents
+            Then to load mysql now:
+                launchctl load ~/Library/LaunchAgents/homebrew.mxcl.mysql.plist
+            Or, if you don't want/need launchctl, you can just run:
+                mysql.server start
+            ==> Summary
+            🍺  /usr/local/Cellar/mysql/5.6.25: 9833 files, 339M
+
 ### hadoop ecosystem installation
 
 1. [2015-04-16-apache-spark]({% post_url 2015-04-16-apache-spark %})
