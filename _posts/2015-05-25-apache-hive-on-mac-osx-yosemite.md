@@ -159,6 +159,27 @@ tags: [hive, osx, mysql]
 
             ${system:java.io.tmpdir}/${hive.session.id} => /usr/local/Cellar/hive/1.0.0/libexec/iotmp
 
+            <property>
+                <name>hive.server2.logging.operation.log.location</name>
+                <value>/tmp/mydir/operation_logs</value>
+                <description>Top level directory where operation logs are stored if logging functionality is enabled</description>
+            </property>
+            <property>
+                <name>hive.exec.local.scratchdir</name>
+                <value>/tmp/mydir</value>
+                <description>Local scratch space for Hive jobs</description>
+            </property>
+            <property>
+                <name>hive.querylog.location</name>
+                <value>/tmp/mydir</value>
+                <description>Location of Hive run time structured log file</description>
+            </property>
+            <property>
+                <name>hive.downloaded.resources.dir</name>
+                <value>/usr/local/Cellar/hive/1.0.0/libexec/iotmp_resources</value>
+                <description>Temporary local directory for added resources in the remote file system.</description>
+            </property>
+
 1. test if hive works
 
             $ hive
