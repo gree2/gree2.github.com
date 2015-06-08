@@ -3,7 +3,7 @@ layout: post
 title: "apache kafka getting started"
 description: ""
 category: [apache]
-tags: [kafka]
+tags: [kafka, tree]
 ---
 {% include JB/setup %}
 
@@ -14,14 +14,11 @@ tags: [kafka]
 
 1. use cases
 
-    1. messaging comparable to traditional messaging systems such as [ActiveMQ](http://activemq.apache.org/) or [RabbitMQ](https://www.rabbitmq.com/)
+    1. `messaging` comparable to traditional messaging systems such as [ActiveMQ](http://activemq.apache.org/) or [RabbitMQ](https://www.rabbitmq.com/)
 
     1. website activity tracking
 
     1. metrics
-
-            for operational monitoring data
-            aggregating statistics from distributed app to produce centralized feeds of operational data
 
     1. log aggregation
 
@@ -74,22 +71,22 @@ tags: [kafka]
     1. start  the server
 
             # single-node zookeeper instance
-            $ bin/zookeeper-server-start.sh config/zookeeper.properties
+            $ zookeeper-server-start.sh config/zookeeper.properties
 
             # start the kafka server
-            $ bin/kafka-server-start.sh config/server.properties
+            $ kafka-server-start.sh config/server.properties
 
     1. create a topic
 
             # create a topic name `test`
             # with single partition
             # and only one replica
-            $ bin/kafka-topics.sh --create --zookeeper \
+            $ kafka-topics.sh --create --zookeeper \
             localhost:2181 --replication-factor 1 \
             --partition 1 --topic test
 
             # list topic command
-            $ bin/kafka-topics.sh --list --zookeeper localhost:2181
+            $ kafka-topics.sh --list --zookeeper localhost:2181
 
     1. send some messages
 
@@ -97,7 +94,7 @@ tags: [kafka]
             # take input form a file
             # form standard input
             # and send out as messages to kafka cluster
-            $ bin/kafka-console-producer.sh --broker-list localhost:9092 \
+            $ kafka-console-producer.sh --broker-list localhost:9092 \
             --topic test
             this is a message
             this is another message
@@ -106,7 +103,7 @@ tags: [kafka]
 
             # command line consumer
             # dump out message to standard output
-            $ bin/kafka-console-consumer.sh --zookeeper localhost:2181 \
+            $ kafka-console-consumer.sh --zookeeper localhost:2181 \
             --topic test --from-beginning
 
 1. setting up a multi-broker cluster
@@ -129,20 +126,20 @@ tags: [kafka]
 
     1. just start two new nodes
     
-            $ bin/kafka-server-start.sh config/server-1.properties &
-            $ bin/kafka-server-start.sh config/server-2.properties &
+            $ kafka-server-start.sh config/server-1.properties &
+            $ kafka-server-start.sh config/server-2.properties &
 
     1. create new topic with replication factor of three
 
-            $ bin/kafka-topics.sh --create --zookeeper localhost:2181 \
+            $ kafka-topics.sh --create --zookeeper localhost:2181 \
             --replication-factor 3 --partition 1 --topic my-replicated-topic
 
     1. find out which broker is doing what
 
-            $ bin/kafka-topics.sh --describe --zookeeper localhost:2181 \
+            $ kafka-topics.sh --describe --zookeeper localhost:2181 \
             --topic my-replicated-topic
 
-            $ bin/kafka-topics.sh --describe --zookeeper localhost:2181 \
+            $ kafka-topics.sh --describe --zookeeper localhost:2181 \
             --topic test
 
     1. publish a few messages to our new topic
@@ -173,3 +170,66 @@ tags: [kafka]
 
             $ kafka-console-consumer.sh --zookeeper localhost:2181 \
             --from-beginning --topic my-replicated-topic
+
+### demo
+
+1. [running-a-multi-broker-apache-kafka-cluster-on-a-single-node](http://www.michael-noll.com/blog/2013/03/13/running-a-multi-broker-apache-kafka-cluster-on-a-single-node/)
+
+    1. diagram
+
+                                +---------------+                     
+                                | kafka cluster |                     
+                                |               |                     
+                                |  +----------+ |                     
+                          +------->| broker1  |-------+               
+                          |     |  +----------+ |     |               
+                          |     |  +---+  +---+ |     |               
+                          |     |  | P0|  | P2| |     |               
+                          |     |  | R1|  | R1| |     |               
+                          |     |  +---+  +---+ |     |               
+            +----------+  |     |               |     |   +----------+
+            |          |  |     |  +----------+ |     |   |          |
+            | producer ---+------->| broker2  |-------+---->consumer |
+            |          |  |     |  +----------+ |     |   |          |
+            +----------+  |     |  +---+  +---+ |     |   +----------+
+                          |     |  | P0|  | P1| |     |               
+                          |     |  | R2|  | R2| |     |               
+                          |     |  +---+  +---+ |     |               
+                          |     |               |     |               
+                          |     |  +----------+ |     |               
+                          +------->| broker3  |-------+               
+                                |  +----------+ |                     
+                                |  +---+  +---+ |                     
+                                |  | P1|  | P2| |                     
+                                |  | R3|  | R3| |                     
+                                |  +---+  +---+ |                     
+                                |               |                     
+                                |  +----------+ |                     
+                                |  | zookeeper| |                     
+                                |  +----------+ |                     
+                                +---------------+                     
+
+    1. log.dir `/usr/local/var/lib/`
+
+            $ tree kafka-logs kafka-logs1 kafka-logs2
+            kafka-logs
+            ├── my-replicated-topic-0
+            │   ├── 00000000000000000000.index
+            │   └── 00000000000000000000.log
+            ├── recovery-point-offset-checkpoint
+            ├── replication-offset-checkpoint
+            └── test-0
+                ├── 00000000000000000000.index
+                └── 00000000000000000000.log
+            kafka-logs1
+            ├── my-replicated-topic-0
+            │   ├── 00000000000000000000.index
+            │   └── 00000000000000000000.log
+            ├── recovery-point-offset-checkpoint
+            └── replication-offset-checkpoint
+            kafka-logs2
+            ├── my-replicated-topic-0
+            │   ├── 00000000000000000000.index
+            │   └── 00000000000000000000.log
+            ├── recovery-point-offset-checkpoint
+            └── replication-offset-checkpoint
