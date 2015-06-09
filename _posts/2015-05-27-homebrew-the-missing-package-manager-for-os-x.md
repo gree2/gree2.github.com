@@ -113,6 +113,27 @@ tags: [homebrew, brew]
 
             $ brew uses --installed formula
 
+1. [search](http://superuser.com/questions/390191/where-can-i-find-a-list-of-all-formulas-available-for-homebrew)
+
+    1. list all installed formula
+
+            $ brew list
+
+    1. list all formula
+
+            $ brew search
+
+    1. search a formula
+
+            $ brew search flume
+            No formula found for "flume".
+            Searching pull requests...
+            Closed pull requests:
+            Bug fix for flume Formula (https://github.com/Homebrew/homebrew/pull/9689)
+            Added a formula for cloudera's flume (https://github.com/Homebrew/homebrew/pull/5271)
+            Upgrading flume to the newest version 0.9.4-cdh3u2 (https://github.com/Homebrew/homebrew/pull/8333)
+            Add a formula for Apache Flume NG ("next gen"). (https://github.com/Homebrew/homebrew/pull/15249)
+
 1. upgrade
 
     * list outdated
