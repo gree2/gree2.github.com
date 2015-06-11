@@ -78,6 +78,19 @@ tags: [solr, lucene]
             Waiting to see Solr listening on port 8983 [-]  
             Started Solr server on port 8983 (pid=22992). Happy searching!
 
+            $ solr start
+
+            Solr home directory /usr/local/solr/libexec must contain a solr.xml file!
+
+            $ pwd
+            /usr/local/solr/server/solr
+            $ ls
+            README.txt configsets demo       solr.xml   zoo.cfg
+            $ cp solr.xml ../../libexec/
+            $ solr start
+            Waiting to see Solr listening on port 8983 [-]  
+            Started Solr server on port 8983 (pid=24935). Happy searching!
+
             # windows
             > solr.cmd start
 
