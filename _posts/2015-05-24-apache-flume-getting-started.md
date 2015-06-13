@@ -44,42 +44,86 @@ tags: [flume]
             # after you've configured flume ng (see below) you can run it
             $ bin/flume-ng
 
-### configuration
+### demo
 
-* flume uses java property file based configuration format
+1. flume uses java property file based configuration format
 
-* use `-f <file>` to tell flume which file to use
+1. use `-f file` to tell flume which file to use
 
-* example of `conf/flume.conf`
+1. demo 1
 
-            # define a memory channel called ch1 on agent1
-            agent1.channels.ch1.type = memory
+    1. example of `conf/avro.flume.conf`
 
-            # define an avro source called avro-source1 on agent1
-            # bind to 0.0.0.0:41414
-            # connect it to channel ch1
-            agent1.sources.avro-source1.channels = ch1
-            agent1.sources.avro-source1.type = avro
-            agent1.sources.avro-source1.bind = 0.0.0.0
-            agent1.sources.avro-source1.port = 41414
+            agent-av.sources = avro-source
+            agent-av.channels = memory-channel
+            agent-av.sinks = logger-sink
 
-            # define a logger sink that simply logs all events it receives
-            # connect it to the other end of the same channel
-            agent1.sinks.log-sink1.channel = ch1
-            agnet1.sinks.log-sink1.type = logger
+            agent-av.sources.avro-source.type = avro
+            agent-av.sources.avro-source.channels = memory-channel
+            agent-av.sources.avro-source.bind = 0.0.0.0
+            agent-av.sources.avro-source.port = 41414
 
-            # define all components
-            # tell agent1 which ones we want to activate
-            agent1.channels = ch1
-            agent1.sources = avro-source1
-            agent1.sinks = log-sink1
+            agent-av.channels.memory-channel.type = memory
+            agent-av.channels.memory-channel.capacity = 100
+            agent-nc.channels.memory-channel.transactionCapacity = 100
 
-* channel type
+            agent-av.sinks.logger-sink.type = logger
+            agent-av.sinks.logger-sink.channel = memory-channel
+
+    1. to start flume server using the `flume.conf` above
+
+            # agent name specified by `-n agent-av`
+            # must match a agent name give in `-f conf/flume.conf`
+            $ flume-ng agent --conf ./conf/ -f conf/avro.flume.conf -Dflume.root.logger=DEBUG,confole -n agent-av
+
+    1. in a new window type
+
+            $ flume-ng avro-client --conf conf -H localhost -p 41414 -F /etc/passwd -Dflume.root.logger=DEBUG,console
+
+1. demo 2
+
+    1. example of `conf/netcat.flume.conf`
+
+            agent-nc.sources = netcat-source
+            agent-nc.channels = memory-channel
+            agent-nc.sinks = logger-sink
+
+            agent-nc.sources.netcat-source.type = netcat
+            agent-nc.sources.netcat-source.channels = memory-channel
+            agent-nc.sources.netcat-source.bind = localhost
+            agent-nc.sources.netcat-source.port = 44444
+
+            agent-nc.channels.memory-channel.type = memory
+            agent-nc.channels.memory-channel.capacity = 1000
+            agent-nc.channels.memory-channel.transactionCapacity = 100
+
+            agent-nc.sinks.logger-sink.type = logger
+            agent-nc.sinks.logger-sink.channel = memory-channel
+
+    1. to start flume server
+
+            $ flume-ng agent --conf ./conf/ -f conf/netcat.flume.conf -Dflume.root.logger=DEBUG,confole -n agent-nc
+
+    1. in a new window type
+
+            $ telnet localhost 44444
+            Trying ::1...
+            telnet: connect to address ::1: Connection refused
+            Trying 127.0.0.1...
+            Connected to localhost.
+            Escape character is '^]'.
+            hello
+            OK
+            are you ok
+
+### channel, sources, sinks type
+
+    * channel type
 
             memory, file, jdbc, recoverablememory
             org.apache.flume.channel.PseudoTxnMemoryChannel
 
-* source type
+    * source type
 
             avro, exec, netcat, seq
             org.apache.flume.source.StressSource
@@ -88,86 +132,77 @@ tags: [flume]
             org.apache.flume.source.thriftLegacy.ThrigtLegacySource
             org.apache.flume.source.scribe.ScribeSource
 
-* sink type
+    * sink type
 
             hdfs, logger, avro, file_roll, irc, null
             org.apache.flume.sink.hbase.HBaseSink
             org.apache.flume.sink.hbase.AsyncHBaseSink
 
-* channelselector type
+    * channelselector type
 
             replicating, multiplexing, (custom type)
 
-* sinkprocessor type
+    * sinkprocessor type
 
             default, failover, load_balance
 
-* interceptor$builder type
+    * interceptor$builder type
 
             host, timestamp, static, regex_filter
 
-* eventserializer$builder type
+    * eventserializer$builder type
 
             text, avro_event
             org.apache.flume.sink.hbase.SimpleHbaseEventSerializer
             org.apache.flume.sink.hbase.SimpleAsyncHbaseEventSerializer
             org.apache.flume.sink.hbase.RegexHbaseEventSerializer
 
-* to start flume server using the `flume.conf` above
+### flume-ng options
 
-            $ bin/flume-ng agent --conf ./conf/ -f conf/flume.conf -Dflume.root.logger=DEBUG,confole -n agent1
-            # agent name specified by `-n agent1`
-            # must match a agent name give in
-            # `-f conf/flume.conf`
+1. global
 
-### flume-ng global options
+    1. --conf,-c `conf`
 
-* --conf,-c <conf>
+            use configs in `conf` directory
 
-            use configs in <conf> directory
-
-* --classpath,-C <cp>
+    1. --classpath,-C `cp`
 
             append to the classpath
 
-* --dryrun,-d
+    1. --dryrun,-d
 
             do not actually start flume, just print the command
 
-* -Dproperty=value
+    1. -Dproperty=value
 
             set a jdk system property value
 
-### flume-ng agent options
+1. agent
 
-* --conf-file,-f <file>
+    1. --conf-file,-f `file`
 
             indicates which configuration file you want to run with (required)
 
-* --name,-n <agentname>
+    1. --name,-n `agentname`
 
             indicates the name of agent on which we're running (required)
 
-### flume-ng avro-client options
+1. avro-client
 
-* --host,-H <hostname>
+    1. --host,-H `hostname`
 
             specifies the hostname of the flume agent (may be localhost)
 
-* --port,-p <port>
+    1. --port,-p `port`
 
             specified the port on which the avro source is listening
 
-* --filename,-F <filename>
+    1. --filename,-F `filename`
 
-            send each line of <filename> to flume (optional)
+            send each line of `filename` to flume (optional)
 
-* --headerFile,-F <file>
+    1. --headerFile,-F `file`
 
             header file containning headers as key/value pairs on each new line
 
             # avro client treats each line (\n, \r, \r\n) as an event
-
-### in a new window type
-
-            $ bin/flume-ng avro-client --conf conf -H localhost -p 41414 -F /etc/passwd -Dflume.root.logger=DEBUG,console
