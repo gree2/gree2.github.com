@@ -3,7 +3,7 @@ layout: post
 title: "apache flume getting started"
 description: ""
 category: [apache]
-tags: [flume]
+tags: [flume, avro, netcat, source, sink, channel]
 ---
 {% include JB/setup %}
 
@@ -45,10 +45,6 @@ tags: [flume]
             $ bin/flume-ng
 
 ### demo
-
-1. flume uses java property file based configuration format
-
-1. use `-f file` to tell flume which file to use
 
 1. demo 1
 
@@ -118,12 +114,12 @@ tags: [flume]
 
 ### channel, sources, sinks type
 
-    * channel type
+1. channel type
 
             memory, file, jdbc, recoverablememory
             org.apache.flume.channel.PseudoTxnMemoryChannel
 
-    * source type
+1. source type
 
             avro, exec, netcat, seq
             org.apache.flume.source.StressSource
@@ -132,25 +128,25 @@ tags: [flume]
             org.apache.flume.source.thriftLegacy.ThrigtLegacySource
             org.apache.flume.source.scribe.ScribeSource
 
-    * sink type
+1. sink type
 
             hdfs, logger, avro, file_roll, irc, null
             org.apache.flume.sink.hbase.HBaseSink
             org.apache.flume.sink.hbase.AsyncHBaseSink
 
-    * channelselector type
+1. channelselector type
 
             replicating, multiplexing, (custom type)
 
-    * sinkprocessor type
+1. sinkprocessor type
 
             default, failover, load_balance
 
-    * interceptor$builder type
+1. interceptor$builder type
 
             host, timestamp, static, regex_filter
 
-    * eventserializer$builder type
+1. eventserializer$builder type
 
             text, avro_event
             org.apache.flume.sink.hbase.SimpleHbaseEventSerializer

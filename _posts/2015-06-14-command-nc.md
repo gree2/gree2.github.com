@@ -20,7 +20,7 @@ tags: [netcat, nc, network]
 
     1. a socks or http proxyCommand for ssh
 
-### syntax
+### [syntax](http://www.computerhope.com/unix/nc.htm)
 
 1. nc
 
@@ -42,7 +42,7 @@ tags: [netcat, nc, network]
             -x proxy_address:port
             destination port
 
-### usage
+### [usage](http://mylinuxbook.com/linux-netcat-command/)
 
 1. client/server model
 
@@ -98,6 +98,113 @@ tags: [netcat, nc, network]
     1. find out which server software is running
 
             $ echo "QUIT" | nc host.example.com 20-30
+
+1. directory transfer
+
+    1. use tar 
+
+            # 1. server
+            $ tar -cvf - dir_name | nc -l 1567
+
+            # 2. client
+            $ nc -n localhost 1567 | tar -xvf -
+
+    1. usr tar and compress
+
+            # 1. server
+            $ tar -cvf - dir_name | bzip2 -z | nc -l 1567
+
+            # 2. client
+            $ nc -n localhost 1567 | bzip2 -d | tar -xvf -
+
+1. encrypt data when sending over the network
+
+    1. server
+
+            $ nc localhost 1567 | mcrypt -flush -bare -F -q -d -m ecb > file.txt
+
+    1. client
+
+            $ mcrypt -flush -bare -F -q -m ecb < file.txt | nc -l 1567
+
+1. stream a video
+
+    1. server
+
+            $ cat video.avi | nc -l 1567
+
+    1. nc localhost 1567 | mplayer -vo x11 -cache 3000 -
+
+1. cloning a device
+
+    1. server
+
+            $ dd if=/dev/sda | nc -l 1567
+
+    1. client
+
+            $ nc -n localhost 1567 | dd of=/dev/sda
+
+1. opening a shell
+
+    1. support -c and -e option
+
+            # 1. server
+            $ nc -l 1567 -e /bin/bash -i
+
+            # 2. client
+            $ nc localhost 1567
+
+    1. doesn't support -c or -e option (openbsd netcat)
+       
+            $ mkfifo /tmp/tmp_fifo
+            $ cat /tmp/tmp_fifo | /bin/sh -i 2>&1 | nc -l 1567 > /tmp/tmp_fifo
+
+            # 1. the input received from network is written to fifo file
+            # 2.fifo file is read by cat and it content is send to sh command
+            # 3. sh command processes the received input and write it back to netcat
+            # 4. netcat send the output over the network to client
+
+            # 2. client
+            $ nc -n localhost 1567
+
+1. reverse shell
+
+    1. server
+
+            $ nc -l 1567
+
+    1. client
+
+            $ nc localhost 1567 -e /bin/bash
+
+1. specify source port
+
+    1. server
+
+            $ nc -l 1567
+
+    1. client
+
+            $ nc localhost 1567 -p 25
+            # firewall filters all ports but 25
+            # you need root permissions to use port less than 1024
+            # this command will open port 25 at the client
+            # which will be used for communication
+            # otherwise any random port can be used
+
+1. specify source address
+
+    1. server
+
+            $ nc -u -l 1567 < file.txt
+
+    1. client
+
+            $ nc -u localhost 1567 -s 192.168.100.100 > file.txt
+            # have more than one addresses for your machine
+            # want to explicitly tell which address to use for outgoing data
+            # this command will bind the address 192.168.100.100
 
 ### demo
 
