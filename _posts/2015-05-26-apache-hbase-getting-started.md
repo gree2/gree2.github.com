@@ -76,7 +76,7 @@ tags: [hbase, hadoop]
 
 1. standalone hbase
 
-    1. hbase-site.xml
+    1. configure hbase `hbase-site.xml`
 
             <configuration>
                 <property>
@@ -89,9 +89,104 @@ tags: [hbase, hadoop]
                 </property>
             </configuration>
 
+    1. start hbase
+
+            $ start-hbase.sh
+
+            # in standalone mode
+            # hbase runs all daemons within a single jvm
+            # HMaster, a single HRegionServer
+            # and zookeeper daemon
+
+            # if get an error indicating java is not installed
+            $ pico hbase-env.sh
+            export JAVA_HOME="$(/usr/libexec/java_home)"
+
+    1. connect to hbase
+
+            $ hbase shell
+            ...
+            hbase(main):001:0>
+
+    1. display hbase shell help text
+
+            hbase(main):001:0> help
+
+    1. create a table
+
+            hbase(main):001:0> create 'test', 'cf'
+            0 row(s) in 60.4540 seconds
+
+            => Hbase::Table - test
+
+    1. list information of table
+
+            hbase(main):001:0> list 'test'
+            TABLE
+            test                                                                                        
+            1 row(s) in 0.0090 seconds
+
+            => ["test"]
+
+    1. put data into your table
+
+            hbase(main):001:0> put 'test', 'row1', 'cf:a', 'value1'
+            0 row(s) in 0.0640 seconds
+
+            hbase(main):001:0> put 'test', 'row2', 'cf:b', 'value2'
+            0 row(s) in 0.0040 seconds
+
+            hbase(main):001:0> put 'test', 'row3', 'cf:c', 'value3'
+            0 row(s) in 0.0050 seconds
+
+    1. scan table for all data at once
+
+            hbase(main):001:0> scan 'test'
+            ROW                      COLUMN+CELL                                                        
+             row1                    column=cf:a, timestamp=1434334223890, value=value1                 
+             row2                    column=cf:b, timestamp=1434334238864, value=value2                 
+             row3                    column=cf:c, timestamp=1434334250205, value=value3                 
+            3 row(s) in 0.0250 seconds
+
+    1. get a single row of data
+
+            hbase(main):001:0> get 'test', 'row1'
+            COLUMN                   CELL                                                               
+             cf:a                    timestamp=1434334223890, value=value1                              
+            1 row(s) in 0.0190 seconds
+
+    1. disable a table
+
+            hbase(main):001:0> disable 'test'
+            0 row(s) in 1.1770 seconds
+
+            hbase(main):011:0> enable 'test'
+            0 row(s) in 0.1510 seconds
+
+    1. drop table
+
+            hbase(main):001:0> disable 'test'
+            0 row(s) in 1.1620 seconds
+
+            hbase(main):001:0> drop 'test'
+            0 row(s) in 0.1490 seconds
+
+    1. exit the hbase shell
+
+            hbase(main):001:0> quit
+
+    1. stop hbase
+
+            $ stop-hbase.sh
+            stopping hbase.......
+
 1. pseudo-distributed local install
 
-    1. hbase-site.xml
+    1. stop hbase if it is running
+
+            $ stop-hbase.sh
+
+    1. configure habse `hbase-site.xml`
 
             <property>
                 <name>hbase.cluster.distributed</name>
@@ -102,6 +197,33 @@ tags: [hbase, hadoop]
                 <name>hbase.rootdir</name>
                 <value>hdfs://localhost:9000/hbase</value>
             </property>
+
+            # hbase.cluster.distributed
+            # directs hbase to run in distributed mode
+            # with one jvm instance per daemon
+
+            # hbase.rootdir
+            # if you create directory
+            # hbase will attempt to do a migration
+
+    1. start hbase
+
+            $ start-hbase.sh
+
+    1. check hbase directory in hdfs
+
+            $ hdfs dfs -ls /hbase
+            Found 8 items
+            drwxr-xr-x   - hqlgree2 supergroup          0 2015-06-15 10:02 /hbase/.tmp
+            drwxr-xr-x   - hqlgree2 supergroup          0 2015-06-15 09:51 /hbase/WALs
+            drwxr-xr-x   - hqlgree2 supergroup          0 2015-06-15 10:20 /hbase/archive
+            drwxr-xr-x   - hqlgree2 supergroup          0 2015-06-04 10:27 /hbase/corrupt
+            drwxr-xr-x   - hqlgree2 supergroup          0 2015-05-31 22:41 /hbase/data
+            -rw-r--r--   3 hqlgree2 supergroup         42 2015-05-31 22:41 /hbase/hbase.id
+            -rw-r--r--   3 hqlgree2 supergroup          7 2015-05-31 22:41 /hbase/hbase.version
+            drwxr-xr-x   - hqlgree2 supergroup          0 2015-06-15 10:13 /hbase/oldWALs
+
+    1. create table and populate it with data
 
     1. start and stop a backup hbase master server (HMaster)
 
@@ -171,6 +293,9 @@ tags: [hbase, hadoop]
             # run a backup master server
             # and a zookeeper instance
             # 1. setup hbase just as standalone
+            # in conf/ create a file `backup-masters`
+            $ pico backup-masters
+            hostname-b
 
             # 2. copy configuration
             # node-a => node-b
@@ -247,70 +372,3 @@ tags: [hbase, hadoop]
             SLF4J: Found binding in [jar:file:/usr/local/Cellar/hadoop/2.7.0/libexec/share/hadoop/common/lib/slf4j-log4j12-1.7.10.jar!/org/slf4j/impl/StaticLoggerBinder.class]
             SLF4J: See http://www.slf4j.org/codes.html#multiple_bindings for an explanation.
             SLF4J: Actual binding is of type [org.slf4j.impl.Log4jLoggerFactory]
-
-### demo
-
-1. [shell demo](http://freddy.cellcore.org/post/52568231952/hadoop-hbase-on-osx-10-8-mountain-lion)
-
-    1. launch hbase shell
-
-            $ hbase shell
-            SLF4J: Class path contains multiple SLF4J bindings.
-            SLF4J: Found binding in [jar:file:/usr/local/Cellar/hbase/1.0.1/libexec/lib/slf4j-log4j12-1.7.7.jar!/org/slf4j/impl/StaticLoggerBinder.class]
-            SLF4J: Found binding in [jar:file:/usr/local/Cellar/hadoop/2.7.0/libexec/share/hadoop/common/lib/slf4j-log4j12-1.7.10.jar!/org/slf4j/impl/StaticLoggerBinder.class]
-            SLF4J: See http://www.slf4j.org/codes.html#multiple_bindings for an explanation.
-            SLF4J: Actual binding is of type [org.slf4j.impl.Log4jLoggerFactory]
-            2015-06-04 10:27:53,960 WARN  [main] util.NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
-            HBase Shell; enter 'help<RETURN>' for list of supported commands.
-            Type "exit<RETURN>" to leave the HBase Shell
-            Version 1.0.1, r66a93c09df3b12ff7b86c39bc8475c60e15af82d, Fri Apr 17 22:14:06 PDT 2015
-
-    1. create a `test` table
-
-            hbase(main):001:0> create 'test', 'cf'
-            0 row(s) in 0.3550 seconds
-
-            => Hbase::Table - test
-            hbase(main):002:0> list 'test'
-            TABLE                                                                                                                                                                
-            test                                                                                                                                                                 
-            1 row(s) in 0.0220 seconds
-
-            => ["test"]
-
-    1. put some data
-
-            hbase(main):003:0> put 'test', 'row1', 'cf:a', 'value1'
-            0 row(s) in 0.0580 seconds
-
-            hbase(main):004:0> put 'test', 'row2', 'cf:b', 'value2'
-            0 row(s) in 0.0060 seconds
-
-            hbase(main):005:0> put 'test', 'row3', 'cf:c', 'value3'
-            0 row(s) in 0.0050 seconds
-
-    1. scan table
-
-            hbase(main):006:0> scan 'test'
-            ROW                                        COLUMN+CELL                                                                                                               
-             row1                                      column=cf:a, timestamp=1433384957580, value=value1                                                                        
-             row2                                      column=cf:b, timestamp=1433384968352, value=value2                                                                        
-             row3                                      column=cf:c, timestamp=1433384979644, value=value3                                                                        
-            3 row(s) in 0.0220 seconds
-
-    1. get a value through its key
-
-            hbase(main):007:0> get 'test', 'row1'
-            COLUMN                                     CELL                                                                                                                      
-             cf:a                                      timestamp=1433384957580, value=value1                                                                                     
-            1 row(s) in 0.0230 seconds
-
-    1. disable and drop (delete) the table
-
-            hbase(main):008:0> disable 'test'
-            0 row(s) in 1.1720 seconds
-
-            hbase(main):009:0> drop 'test'
-            0 row(s) in 0.1510 seconds
-
-            hbase(main):010:0> exit
