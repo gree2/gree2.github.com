@@ -110,6 +110,35 @@ tags: [ubuntu, install, pxe]
     1. install
 
             $ brew install isc-dhcp
+            ==> Downloading http://ftp.isc.org/isc/dhcp/4.3.0/dhcp-4.3.0.tar.gz
+            ######################################################################## 100.0%
+            ==> ./configure --prefix=/usr/local/Cellar/isc-dhcp/4.3.0 --localstatedir=/usr/local/var/dhcpd
+            ==> make -C bind
+            ==> make
+            ==> make install
+            ==> Caveats
+            This install of dhcpd expects config files to be in /usr/local/etc.
+            All state files (leases and pids) are stored in /usr/local/var/dhcpd.
+
+            Dhcpd needs to run as root since it listens on privileged ports.
+
+            There are two plists because a single dhcpd process may do either
+            DHCPv4 or DHCPv6 but not both. Use one or both as needed.
+
+            Note that you must create the appropriate config files before starting
+            the services or dhcpd will refuse to run.
+              DHCPv4: /usr/local/etc/dhcpd.conf
+              DHCPv6: /usr/local/etc/dhcpd6.conf
+
+            Sample config files may be found in /usr/local/etc.
+
+            To have launchd start isc-dhcp at startup:
+                sudo cp -fv /usr/local/opt/isc-dhcp/*.plist /Library/LaunchDaemons
+                sudo chown root /Library/LaunchDaemons/homebrew.mxcl.isc-dhcp.plist
+            Then to load isc-dhcp now:
+                sudo launchctl load /Library/LaunchDaemons/homebrew.mxcl.isc-dhcp.plist
+            ==> Summary
+            🍺  /usr/local/Cellar/isc-dhcp/4.3.0: 38 files, 7.2M, built in 7.7 minutes
 
     1. create configuration file
 
