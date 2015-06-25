@@ -237,3 +237,84 @@ tags: []
             ...
 
             $ vagrant up --provider=aws
+
+### demo
+
+1. `pre-download` or copy from the box of your partner [reference](http://tuanchauict.blogspot.com/2014/09/vagrant-development-environments-made.html)
+
+            $ pico Vagrantfile
+            ...
+              config.vm.box_url="path/to/box/file.box"
+            ...
+
+            # it will help you save time downloading
+
+1. my demo 
+
+    1. Vagrantfile
+
+            $ pico Vagrantfile
+            # -*- mode: ruby -*-
+            # vi: set ft=ruby :
+
+            # Ipython port to forward (also set in IPython notebook config)
+            ipythonPort = 8001
+
+            Vagrant.configure(2) do |config|
+              config.ssh.insert_key = true
+              config.vm.define "sparkvm" do |master|
+                master.vm.box = "sparkmooc/base"
+                master.vm.box_url = "/Users/hqlgree2/.vagrant.d/boxes/virtualbox.box"
+                master.vm.box_download_insecure = true
+                master.vm.boot_timeout = 900
+                # IPython port (set in notebook config)
+                master.vm.network :forwarded_port, host: ipythonPort, guest: ipythonPort, auto_correct: true
+                # Spark UI (Driver)
+                master.vm.network :forwarded_port, host: 4040, guest: 4040, auto_correct: true
+                master.vm.hostname = "sparkvm"
+                master.vm.usable_port_range = 4040..4090
+
+                master.vm.provider :virtualbox do |v|
+                  v.name = master.vm.hostname.to_s
+                end
+              end
+            end
+
+    1. start
+
+            $ vagrant up
+            Bringing machine 'sparkvm' up with 'virtualbox' provider...
+            ==> sparkvm: Box 'sparkmooc/base' could not be found. Attempting to find and install...
+                sparkvm: Box Provider: virtualbox
+                sparkvm: Box Version: >= 0
+            ==> sparkvm: Adding box 'sparkmooc/base' (v0) for provider: virtualbox
+                sparkvm: Downloading: file:///Users/hqlgree2/.vagrant.d/boxes/virtualbox.box
+            ==> sparkvm: Successfully added box 'sparkmooc/base' (v0) for 'virtualbox'!
+            ==> sparkvm: Importing base box 'sparkmooc/base'...
+            ==> sparkvm: Matching MAC address for NAT networking...
+            ==> sparkvm: Setting the name of the VM: sparkvm
+            ==> sparkvm: Clearing any previously set network interfaces...
+            ==> sparkvm: Preparing network interfaces based on configuration...
+                sparkvm: Adapter 1: nat
+            ==> sparkvm: Forwarding ports...
+                sparkvm: 8001 => 8001 (adapter 1)
+                sparkvm: 4040 => 4040 (adapter 1)
+                sparkvm: 22 => 2222 (adapter 1)
+            ==> sparkvm: Booting VM...
+            ==> sparkvm: Waiting for machine to boot. This may take a few minutes...
+                sparkvm: SSH address: 127.0.0.1:2222
+                sparkvm: SSH username: vagrant
+                sparkvm: SSH auth method: private key
+                sparkvm: Warning: Connection timeout. Retrying...
+                sparkvm: 
+                sparkvm: Vagrant insecure key detected. Vagrant will automatically replace
+                sparkvm: this with a newly generated keypair for better security.
+                sparkvm: 
+                sparkvm: Inserting generated public key within guest...
+                sparkvm: Removing insecure key from the guest if its present...
+                sparkvm: Key inserted! Disconnecting and reconnecting using new SSH key...
+            ==> sparkvm: Machine booted and ready!
+            ==> sparkvm: Checking for guest additions in VM...
+            ==> sparkvm: Setting hostname...
+            ==> sparkvm: Mounting shared folders...
+                sparkvm: /vagrant => /Users/hqlgree2/Documents/hadoop/vagrant
