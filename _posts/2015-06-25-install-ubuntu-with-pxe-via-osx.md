@@ -29,7 +29,20 @@ tags: [ubuntu, install, pxe]
 
     1. tftp server
 
-    1. a pc that is to be installed to supports pxe
+    1. a pc that is to be installed to [supports pxe](http://www.tomshardware.com/forum/329569-30-ipv4-ipv6-support)
+
+            # ASUS Z97-K BIOS setup
+            => power up
+            => press `DEL` or `F2` enter  `UEFI BIOS Utility`
+            => press `F7`          enter  `Advanced Mode`
+            => press `right arrow` select `Advanced`
+            => press `down arrow`  select `Network stack Configuration`
+            => press `enter`       enter  `Network stack`
+            => press `enter`       choose `Enabled`
+            => Ipv4 PXE support    choose `Enabled`
+            => Ipv6 PXE support    choose `Disabled`
+            => press `F7`          exit   `ExMode`
+            => press `F10`                `Save & Exit`
 
 ### download ubuntu netboot installer
 
