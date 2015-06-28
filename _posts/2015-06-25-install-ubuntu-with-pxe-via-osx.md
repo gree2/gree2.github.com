@@ -54,7 +54,7 @@ tags: [ubuntu, install, pxe]
 1. extract `netboot.tar.gz`
 
             $ mkdir tftp
-            $ tar -zxvf netboot.tar.gz
+            $ tar -zxvf netboot.tar.gz -C tftp
 
 1. fix folder permissions
 
@@ -115,6 +115,14 @@ tags: [ubuntu, install, pxe]
             # or
 
             $ sudo launchctl stop com.apple.tftpd
+
+1. test tftp server
+
+            $ tftp localhost
+            tftp> get pxelinux.0
+            Received 43574 bytes in 0.0 seconds
+            tftp> quit
+
 
 ### setup dhcp server
 
