@@ -18,6 +18,8 @@ tags: [ubuntu, ssh, static ip]
 
 1. config and start
 
+1. fixed
+
 ### 1. setup ubuntu
 
 1. download and install ubuntu desktop on 5 nodes
@@ -351,22 +353,106 @@ tags: [ubuntu, ssh, static ip]
 
 1. format and start
 
-    1. format
+    1. on node5 format hdfs
 
-            $ ./hdfs namenode -format
+            $ bin/hdfs namenode -format
 
             # exit safemode
-            $ ./hdfs dfsadmin -safemode leave
+            $ bin/hdfs dfsadmin -report
+            Configured Capacity: 5854310649856 (5.32 TB)
+            Present Capacity: 5532915458048 (5.03 TB)
+            DFS Remaining: 5532915384320 (5.03 TB)
+            DFS Used: 73728 (72 KB)
+            DFS Used%: 0.00%
+            Under replicated blocks: 0
+            Blocks with corrupt replicas: 0
+            Missing blocks: 0
+            Missing blocks (with replication factor 1): 0
 
-            # report
-            $ ./hdfs dfsadmin -report
+            -------------------------------------------------
+            Live datanodes (3):
 
-    1. start
+            Name: 192.168.120.154:50010 (node4)
+            Hostname: node4
+            Decommission Status : Normal
+            Configured Capacity: 1951699709952 (1.78 TB)
+            DFS Used: 24576 (24 KB)
+            Non DFS Used: 103953088512 (96.81 GB)
+            DFS Remaining: 1847746596864 (1.68 TB)
+            DFS Used%: 0.00%
+            DFS Remaining%: 94.67%
+            Configured Cache Capacity: 0 (0 B)
+            Cache Used: 0 (0 B)
+            Cache Remaining: 0 (0 B)
+            Cache Used%: 100.00%
+            Cache Remaining%: 0.00%
+            Xceivers: 1
+            Last contact: Wed Jul 08 08:50:45 CST 2015
 
-            $ start-dfs.sh
-            $ start-yarn.sh
 
-    1. stop
+            Name: 192.168.120.152:50010 (node2)
+            Hostname: node2
+            Decommission Status : Normal
+            Configured Capacity: 1951307567104 (1.77 TB)
+            DFS Used: 24576 (24 KB)
+            Non DFS Used: 104823349248 (97.62 GB)
+            DFS Remaining: 1846484193280 (1.68 TB)
+            DFS Used%: 0.00%
+            DFS Remaining%: 94.63%
+            Configured Cache Capacity: 0 (0 B)
+            Cache Used: 0 (0 B)
+            Cache Remaining: 0 (0 B)
+            Cache Used%: 100.00%
+            Cache Remaining%: 0.00%
+            Xceivers: 1
+            Last contact: Wed Jul 08 08:50:45 CST 2015
 
-            $ stop-yarn.sh
-            $ stop-dfs.sh
+
+            Name: 192.168.120.153:50010 (node3)
+            Hostname: node3
+            Decommission Status : Normal
+            Configured Capacity: 1951303372800 (1.77 TB)
+            DFS Used: 24576 (24 KB)
+            Non DFS Used: 112618754048 (104.88 GB)
+            DFS Remaining: 1838684594176 (1.67 TB)
+            DFS Used%: 0.00%
+            DFS Remaining%: 94.23%
+            Configured Cache Capacity: 0 (0 B)
+            Cache Used: 0 (0 B)
+            Cache Remaining: 0 (0 B)
+            Cache Used%: 100.00%
+            Cache Remaining%: 0.00%
+            Xceivers: 1
+            Last contact: Wed Jul 08 08:50:45 CST 2015
+
+    1. on node5 start
+
+            $ sbin/start-dfs.sh
+            $ sbin/start-yarn.sh
+
+    1. on node5 stop
+
+            $ sbin/stop-yarn.sh
+            $ sbin/stop-dfs.sh
+
+### fixed
+
+1. problem connecting to server
+
+    1. log on node3
+
+            2015-07-08 08:20:39,044 WARN org.apache.hadoop.hdfs.server.datanode.DataNode: Problem connecting to server: node5/192.168.120.155:9000
+
+            2015-07-08 08:20:48,046 INFO org.apache.hadoop.ipc.Client: Retrying connect to server: node5/192.168.120.155:9000. Already tried 3 time(s); retry policy is RetryUpToMaximumCountWithFixedSleep(maxRetries=10, sleepTime=1000 MILLISECONDS)
+
+    1. [datanode can't talk to namenode](http://stackoverflow.com/questions/30215825/datanodes-cant-talk-to-namenode)
+
+    1. [hdfs service failed to start, issues with datanode and namenode](https://groups.google.com/a/cloudera.org/forum/#!topic/cdh-user/pWAjcfBnueo)
+
+            Harsh J
+
+            Sorry, should've sent you a direct string… I mean something like this: 
+
+            127.0.0.1 localhost johniv-able 
+            # 127.0.1.1 johniv-able 
+            # ^^^^^^^^^^^^^^^^^^^^^
