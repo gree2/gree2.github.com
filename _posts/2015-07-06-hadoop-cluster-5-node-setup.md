@@ -22,6 +22,8 @@ tags: [ubuntu, ssh, static ip]
 
 1. setup hbase
 
+1. setup sqoop
+
 1. fixed
 
 ### 1. setup ubuntu
@@ -192,13 +194,34 @@ tags: [ubuntu, ssh, static ip]
 
 ### 3. setup hadoop
 
-1. copy software to node
+1. topology
+
+                                  node5
+                             +--------------+
+                             |              |
+                             |   NameNode   |
+                             |              |
+                             +--------------+
+                            /       |        \
+                           /        |         \
+                          /         |          \
+                         /          |           \
+                        /           |            \
+                       /            |             \
+                  node2            node3           node4
+            +--------------+ +--------------+ +--------------+
+            |              | |              | |              |
+            |  DataNode    | |  DataNode    | |  DataNode    |
+            |              | |              | |              |
+            +--------------+ +--------------+ +--------------+
+
+1. setup
+
+    1. copy software to node
 
             $ scp hadoop-2.7.0.tar.gz hduser@node5:~/
 
-1. install hadoop on node5 to node1
-
-    1. mkdir
+    1. mkdir to install hadoop
 
             $ ssh hduser@node5
             $ sudo mkdir /opt/bigdata
@@ -626,6 +649,74 @@ tags: [ubuntu, ssh, static ip]
 
             # on node5
             $ /opt/bigdata/hbase/bin/stop-hbase.sh
+
+### 7. setup sqoop
+
+1. topology
+
+                  node2            node3    
+            +--------------+ +--------------+
+            |              | |              |
+            | sqoop server | | sqoop server |
+            |              | |              |
+            +--------------+ +--------------+
+
+1. setup
+
+    1. copy software to node2
+
+            $ scp sqoop-1.99.6-bin-hadoop200.tar.gz hduser@node2:/opt/bigdata
+            $ cd /opt/bigdata
+            $ tar -zxf sqoop-1.99.6-bin-hadoop200.tar.gz
+            $ mv sqoop-1.99.6-bin-hadoop200 sqoop
+
+    1. config sqoop
+
+            # sqoop/server/conf/catalina.properties
+            # hadoop's common    and common's    lib
+            # hadoop's hdfs      and hdfs's      lib
+            # hadoop's mapreduce and mapreduce's lib
+            # hadoop's yarn      and yarn's      lib
+            $ sed 's@/usr/lib/hadoop/\*.jar@/opt/bigdata/hadoop/share/hadoop/common/\*.jar@' -i /opt/bigdata/sqoop/server/conf/catalina.properties
+            $ sed 's@/usr/lib/hadoop/lib/\*.jar@/opt/bigdata/hadoop/share/hadoop/common/lib/\*.jar@' -i /opt/bigdata/sqoop/server/conf/catalina.properties
+            $ sed 's@/usr/lib/hadoop-hdfs/\*.jar@/opt/bigdata/hadoop/share/hadoop/hdfs/\*.jar@' -i /opt/bigdata/sqoop/server/conf/catalina.properties
+            $ sed 's@/usr/lib/hadoop-hdfs/lib/\*.jar@/opt/bigdata/hadoop/share/hadoop/hdfs/lib/\*.jar@' -i /opt/bigdata/sqoop/server/conf/catalina.properties
+            $ sed 's@/usr/lib/hadoop-mapreduce/\*.jar@/opt/bigdata/hadoop/share/hadoop/mapreduce/\*.jar@' -i /opt/bigdata/sqoop/server/conf/catalina.properties
+            $ sed 's@/usr/lib/hadoop-mapreduce/lib/\*.jar@/opt/bigdata/hadoop/share/hadoop/mapreduce/lib/\*.jar@' -i /opt/bigdata/sqoop/server/conf/catalina.properties
+            $ sed 's@/usr/lib/hadoop-yarn/\*.jar@/opt/bigdata/hadoop/share/hadoop/yarn/\*.jar@' -i /opt/bigdata/sqoop/server/conf/catalina.properties
+            $ sed 's@/usr/lib/hadoop-yarn/lib/\*.jar@/opt/bigdata/hadoop/share/hadoop/yarn/lib/\*.jar@' -i /opt/bigdata/sqoop/server/conf/catalina.properties
+            
+            # sqoop/server/conf/sqoop.properties
+            # hadoop's conf dir
+            $ sed 's@/etc/hadoop/conf/@/opt/bigdata/hadoop/etc/hadoop/@' -i /opt/bigdata/sqoop/server/conf/sqoop.properties
+
+    1. verify
+
+            $ /opt/bigdata/sqoop/bin/sqoop2-tool verify
+            ...
+            Verification was successful.
+            Tool class org.apache.sqoop.tools.tool.VerifyTool has finished correctly
+
+1. start stop sqoop server
+
+    1. start
+
+            $ /opt/bigdata/sqoop/bin/sqoop2-server start
+
+            Sqoop home directory: /opt/bigdata/sqoop
+            Setting SQOOP_HTTP_PORT:     12000
+            Setting SQOOP_ADMIN_PORT:     12001
+            Using   CATALINA_OPTS:       
+            Adding to CATALINA_OPTS:    -Dsqoop.http.port=12000 -Dsqoop.admin.port=12001
+            Using CATALINA_BASE:   /opt/bigdata/sqoop/server
+            Using CATALINA_HOME:   /opt/bigdata/sqoop/server
+            Using CATALINA_TMPDIR: /opt/bigdata/sqoop/server/temp
+            Using JRE_HOME:        /usr/lib/jvm/java-8-openjdk-amd64/jre
+            Using CLASSPATH:       /opt/bigdata/sqoop/server/bin/bootstrap.jar
+
+    1. stop
+
+            $ /opt/bigdata/sqoop/bin/sqoop2-server stop
 
 ### fixed
 
