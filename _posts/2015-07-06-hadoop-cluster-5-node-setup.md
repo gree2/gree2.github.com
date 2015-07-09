@@ -661,7 +661,7 @@ tags: [ubuntu, ssh, static ip]
             |              | |              |
             +--------------+ +--------------+
 
-1. setup
+1. [setup](https://sqoop.apache.org/docs/1.99.6/Installation.html)
 
     1. copy software to node2
 
@@ -718,6 +718,198 @@ tags: [ubuntu, ssh, static ip]
 
             $ /opt/bigdata/sqoop/bin/sqoop2-server stop
 
+1. sqoop2-shell
+
+    1. start
+
+            $ /opt/bigdata/sqoop/bin/sqoop2-shell
+
+    1. set server
+
+            sqoop:000> set server --host node2
+
+    1. version
+
+            # 1. version
+            sqoop:000> show version      
+            client version:
+              Sqoop 1.99.6 source revision 07244c3915975f26f03d9e1edf09ab7d06619bb8 
+              Compiled by root on Wed Apr 29 10:40:43 CST 2015
+            sqoop:000> show version --all  
+            client version:
+              Sqoop 1.99.6 source revision 07244c3915975f26f03d9e1edf09ab7d06619bb8 
+              Compiled by root on Wed Apr 29 10:40:43 CST 2015
+            server version:
+              Sqoop 1.99.6 source revision 07244c3915975f26f03d9e1edf09ab7d06619bb8 
+              Compiled by root on Wed Apr 29 10:40:43 CST 2015
+            API versions:
+              [v1]
+
+    1. connector
+
+            sqoop:000> show connector      
+            +----+------------------------+---------+------------------------------------------------------+----------------------+
+            | Id |          Name          | Version |                        Class                         | Supported Directions |
+            +----+------------------------+---------+------------------------------------------------------+----------------------+
+            | 1  | generic-jdbc-connector | 1.99.6  | org.apache.sqoop.connector.jdbc.GenericJdbcConnector | FROM/TO              |
+            | 2  | kite-connector         | 1.99.6  | org.apache.sqoop.connector.kite.KiteConnector        | FROM/TO              |
+            | 3  | hdfs-connector         | 1.99.6  | org.apache.sqoop.connector.hdfs.HdfsConnector        | FROM/TO              |
+            | 4  | kafka-connector        | 1.99.6  | org.apache.sqoop.connector.kafka.KafkaConnector      | TO                   |
+            +----+------------------------+---------+------------------------------------------------------+----------------------+
+
+    1. link - hdfs
+
+            sqoop:000> create link -c 3
+            Creating link for connector with id 3
+            Please fill following values to create new link object
+            Name: hdfs
+
+            Link configuration
+
+            HDFS URI: hdfs://node5:9000
+            Hadoop conf directory: /opt/bigdata/hadoop/etc/hadoop 
+            New link was successfully created with validation status OK and persistent id 1
+            sqoop:000> show link
+            +----+------+--------------+----------------+---------+
+            | Id | Name | Connector Id | Connector Name | Enabled |
+            +----+------+--------------+----------------+---------+
+            | 1  | hdfs | 3            | hdfs-connector | true    |
+            +----+------+--------------+----------------+---------+
+
+    1. link - mysql
+
+            sqoop:000> create link -c 1
+            Creating link for connector with id 1
+            Please fill following values to create new link object
+            Name: mysql
+
+            Link configuration
+
+            JDBC Driver Class: com.mysql.jdbc.Driver
+            JDBC Connection String: jdbc:mysql://node3/sqoop
+            Username: sa
+            Password: **
+            JDBC Connection Properties: 
+            There are currently 0 values in the map:
+            entry# protocol=tcp
+            There are currently 1 values in the map:
+            protocol = tcp
+            entry# 
+
+            There were warnings while create or update, but saved successfully.
+            Warning message: Can't connect to the database with given credentials: Communications link failure
+
+            The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server. 
+            New link was successfully created with validation status WARNING and persistent id 2
+            sqoop:000> show link
+            +----+-------+--------------+------------------------+---------+
+            | Id | Name  | Connector Id |     Connector Name     | Enabled |
+            +----+-------+--------------+------------------------+---------+
+            | 1  | hdfs  | 3            | hdfs-connector         | true    |
+            | 2  | mysql | 1            | generic-jdbc-connector | true    |
+            +----+-------+--------------+------------------------+---------+
+
+    1. link - sqlserver
+
+            sqoop:000> create link -c 1
+            Creating link for connector with id 1
+            Please fill following values to create new link object
+            Name: mssql
+
+            Link configuration
+
+            JDBC Driver Class: com.microsoft.sqlserver.jdbc.SQLServerDriver
+            JDBC Connection String: jdbc:sqlserver://192.168.120.151
+            Username: sa
+            Password: **
+            JDBC Connection Properties: 
+            There are currently 0 values in the map:
+            entry# protocol=tcp 
+            There are currently 1 values in the map:
+            protocol = tcp
+            entry# 
+            New link was successfully created with validation status OK and persistent id 3
+            sqoop:000> show link
+            +----+-------+--------------+------------------------+---------+
+            | Id | Name  | Connector Id |     Connector Name     | Enabled |
+            +----+-------+--------------+------------------------+---------+
+            | 1  | hdfs  | 3            | hdfs-connector         | true    |
+            | 2  | mysql | 1            | generic-jdbc-connector | true    |
+            | 3  | mssql | 1            | generic-jdbc-connector | true    |
+            +----+-------+--------------+------------------------+---------+
+
+    1. create sqoop job to `ingest` data from `mysql` to `hdfs`
+
+            sqoop:000> create job --from 2 --to 1
+            Creating job for links with from id 2 and to id 1
+            Please fill following values to create new job object
+            Name: mysql_to_hdfs
+
+            From database configuration
+
+            Schema name: sqoop
+            Table name: employee
+            Table SQL statement: 
+            Table column names: 
+            Partition column name: 
+            Null value allowed for the partition column: 
+            Boundary query: 
+
+            Incremental read
+
+            Check column: 
+            Last value: 
+
+            To HDFS configuration
+
+            Override null value: 
+            Null value: 
+            Output format: 
+              0 : TEXT_FILE
+              1 : SEQUENCE_FILE
+            Choose: 0
+            Compression format: 
+              0 : NONE
+              1 : DEFAULT
+              2 : DEFLATE
+              3 : GZIP
+              4 : BZIP2
+              5 : LZO
+              6 : LZ4
+              7 : SNAPPY
+              8 : CUSTOM
+            Choose: 0
+            Custom compression format: 
+            Output directory: /user/hduser
+            Append mode: 
+
+            Throttling resources
+
+            Extractors: 
+            Loaders: 
+            New job was successfully created with validation status OK  and persistent id 1
+            sqoop:000> show job
+            +----+---------------+----------------+--------------+---------+
+            | Id |     Name      | From Connector | To Connector | Enabled |
+            +----+---------------+----------------+--------------+---------+
+            | 1  | mysql_to_hdfs | 1              | 3            | true    |
+            +----+---------------+----------------+--------------+---------+
+
+    1. start job and check status
+
+            sqoop:000> start job -j 1 
+            Submission details
+            Job ID: 1
+            Server URL: http://node2:12000/sqoop/
+            Created by: hduser
+            Creation date: 2015-07-09 17:26:59 CST
+            Lastly updated by: hduser
+            External ID: job_1436433861773_0001
+                http://node5:8088/proxy/application_1436433861773_0001/
+            2015-07-09 17:26:59 CST: BOOTING  - Progress is not available
+
+            sqoop:000> status job -j 1
+
 ### fixed
 
 1. problem connecting to server
@@ -739,3 +931,84 @@ tags: [ubuntu, ssh, static ip]
             127.0.0.1 localhost johniv-able 
             # 127.0.1.1 johniv-able 
             # ^^^^^^^^^^^^^^^^^^^^^
+
+1. ERROR 2003 (HY000): Can't connect to MySQL server on 'node3' (61)
+
+    1. [ubuntuforums](http://ubuntuforums.org/showthread.php?t=2242435)
+
+    1. [stackoverflow](http://stackoverflow.com/questions/18083045/error-2003-hy000-cant-connect-to-mysql-server-on-hostname-111)
+
+    1. edit `my.cnf`
+
+            $ sudo pico /etc/alternatives/my.cnf
+            or
+            $ sudo pico /etc/mysql/my.cnf
+            # You can copy this to one of:
+            # - "/etc/mysql/my.cnf" to set global options,
+            # - "~/.my.cnf" to set user-specific options.
+
+            [mysqld]
+            bind-address = 0.0.0.0
+
+    1. restart mysql service
+
+            $ /etc/init.d/mysql restart
+
+1. Connection refused
+
+    1. java.net.ConnectException
+
+            sqoop:000> start job -j 1
+            2015-07-09 16:30:32 CST: FAILURE_ON_SUBMIT 
+            Exception: java.net.ConnectException: Call From node2/192.168.120.152 to node5:8040 failed on connection exception: java.net.ConnectException: Connection refused; For more details see:  http://wiki.apache.org/hadoop/ConnectionRefused
+
+    1. [ConnectionRefused](http://wiki.apache.org/hadoop/ConnectionRefused)
+
+    1. fixed
+
+            # yarn not started
+            # on node5
+            $ cd /opt/bigdata/hadoop/etc/hadoop
+            $ grep 8040 ./*
+            ./yarn-site.xml:        <value>node5:8040</value>
+
+            # so start yarn
+            $ /opt/bigdata/hadoop/sbin/start-yarn.sh
+
+1. Class not found
+
+    1. Error message: Class not found
+
+            sqoop:000> create link -c 1
+            Creating link for connector with id 1
+            Please fill following values to create new link object
+            Name: mssql
+
+            Link configuration
+
+            JDBC Driver Class: com.microsoft.jdbc.sqlserver 
+            JDBC Connection String: jdbc:sqlserver://192.168.120.151
+            Username: sa
+            Password: **
+            JDBC Connection Properties: 
+            There are currently 0 values in the map:
+            entry# protocol=tcp
+            There are currently 1 values in the map:
+            protocol = tcp
+            entry# 
+
+             There are issues with entered data, please revise your input:
+            Name: mssql       
+
+            Link configuration
+
+            Error message: Class not found 
+            JDBC Driver Class: com.microsoft.jdbc.sqlserver.SQLServerDriver
+
+    1. fixed
+
+            # 1. find  `sqljdbc4.jar`
+            # 2. unzip `sqljdbc4.jar`
+            # 3. check path
+            # so sqlserver's driver class is
+            com.microsoft.sqlserver.jdbc.SQLServerDriver
