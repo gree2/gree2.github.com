@@ -16,7 +16,11 @@ tags: [ubuntu, ssh, static ip]
 
 1. setup hadoop
 
-1. config and start
+1. config and start hadoop
+
+1. setup zookeeper
+
+1. setup hbase
 
 1. fixed
 
@@ -188,9 +192,9 @@ tags: [ubuntu, ssh, static ip]
 
 ### 3. setup hadoop
 
-1. cp software to node
+1. copy software to node
 
-            $ scp hadoop-2.7.0.tar.gz node5@node5:~/
+            $ scp hadoop-2.7.0.tar.gz hduser@node5:~/
 
 1. install hadoop on node5 to node1
 
@@ -434,6 +438,194 @@ tags: [ubuntu, ssh, static ip]
 
             $ sbin/stop-yarn.sh
             $ sbin/stop-dfs.sh
+
+### 5. setup zookeeper
+
+1. topology
+
+                node2         node3         node4
+            +-----------+ +-----------+ +-----------+
+            |           | |           | |           |
+            | ZooKeeper | | ZooKeeper | | ZooKeeper |
+            |           | |           | |           |
+            +-----------+ +-----------+ +-----------+
+
+1. setup
+
+    1. copy software to node4
+
+            $ scp zookeeper-3.4.6.tar.gz hduser@node4:/opt/bigdata
+            $ cd /opt/bigdata
+            $ tar -zxf zookeeper-3.4.6.tar.gz
+            $ mv zookeeper-3.4.6 zookeeper
+
+    1. config zookeeper
+
+            $ pico /opt/bigdata/zookeeper/conf/zoo.cfg
+            tickTime=2000
+            dataDir=/app/hadoop/zookeeper/data
+            clientPort=2181
+            initLimit=10
+            syncLimit=5
+            server.4=node4:20010:20011
+            server.3=node3:20010:20011
+            server.2=node2:20010:20011
+
+    1. copy `zookeeper` to node3, node2
+
+            $ scp /opt/bigdata/zookeeper hduser@node3:/opt/bigdata
+            $ scp /opt/bigdata/zookeeper hduser@node2:/opt/bigdata
+
+    1. mkdir for zookeeper data
+
+            # on node2
+            $ mkdir -p /app/hadoop/zookeeper/data
+            $ chown -R hduser@hadoop /app/hadoop/zookeeper
+
+            # on node3
+            $ mkdir -p /app/hadoop/zookeeper/data
+            $ chown -R hduser@hadoop /app/hadoop/zookeeper
+
+            # on node4
+            $ mkdir -p /app/hadoop/zookeeper/data
+            $ chown -R hduser@hadoop /app/hadoop/zookeeper
+
+    1. config node's `myid`
+
+            # on node2
+            $ pico /app/hadoop/zookeeper/data/myid
+            2
+
+            # on node3
+            $ pico /app/hadoop/zookeeper/data/myid
+            3
+
+            # on node4
+            $ pico /app/hadoop/zookeeper/data/myid
+            4
+
+1. start status stop
+
+    1. start zookeeper
+
+            # on node2
+            $ /opt/bigdata/zookeeper/bin/zkServer.sh start
+
+            # on node3
+            $ /opt/bigdata/zookeeper/bin/zkServer.sh start
+
+            # on node4
+            $ /opt/bigdata/zookeeper/bin/zkServer.sh start
+
+    1. check zookeeper status
+
+            # on node2
+            $ /opt/bigdata/zookeeper/bin/zkServer.sh status
+            JMX enabled by default
+            Using config: /opt/bigdata/zookeeper/bin/../conf/zoo.cfg
+            Mode: follower
+
+            # on node3
+            $ /opt/bigdata/zookeeper/bin/zkServer.sh status
+            JMX enabled by default
+            Using config: /opt/bigdata/zookeeper/bin/../conf/zoo.cfg
+            Mode: follower
+
+            # on node4
+            $ /opt/bigdata/zookeeper/bin/zkServer.sh status
+            JMX enabled by default
+            Using config: /opt/bigdata/zookeeper/bin/../conf/zoo.cfg
+            Mode: leader
+
+    1. stop zookeeper
+
+            # on node2
+            $ /opt/bigdata/zookeeper/bin/zkServer.sh stop
+
+            # on node3
+            $ /opt/bigdata/zookeeper/bin/zkServer.sh stop
+
+            # on node4
+            $ /opt/bigdata/zookeeper/bin/zkServer.sh stop
+
+### 6. setup hbase
+
+1. topology
+
+                                  node5
+                             +--------------+
+                             |              |
+                             |    Master    |
+                             |              |
+                             +--------------+
+                            /       |        \
+                           /        |         \
+                          /         |          \
+                         /          |           \
+                        /           |            \
+                       /            |             \
+                  node2            node3           node4
+            +--------------+ +--------------+ +--------------+
+            |              | |              | |              |
+            | ZooKeeper    | | ZooKeeper    | | ZooKeeper    |
+            | RegionServer | | RegionServer | | RegionServer |
+            |              | |              | |              |
+            +--------------+ +--------------+ +--------------+
+
+1. setup
+
+    1. copy software to node5
+
+            $ scp hbase-1.0.1.1-bin.tar.gz hduser@node4:/opt/bigdata
+            $ cd /opt/bigdata
+            $ tar -zxf hbase-1.0.1.1-bin.tar.gz
+            $ mv hbase-1.0.1.1 hbase
+
+    1. config hbase
+
+            $ pico /opt/bigdata/hbase/conf/regionservers
+            node4
+            node3
+            node2
+
+            $ pico /opt/bigdata/hbase/conf/backup-masters
+            node2
+
+            $ pico /opt/bigdata/hbase/conf/hbase-site.xml
+            <?xml version="1.0"?>
+            <?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+            <configuration>
+                <property>
+                    <name>hbase.zookeeper.quorum</name>
+                    <value>node4,node3,node2</value>
+                </property>
+                <property>
+                    <name>hbase.rootdir</name>
+                    <value>hdfs://node5:9000/hbase</value>
+                </property> 
+                <property>
+                    <name>hbase.cluster.distributed</name>
+                    <value>true</value>
+                </property>
+            </configuration>
+
+    1. copy `hbase` to node4, node3, node2
+
+            $ scp /opt/bigdata/hbase hduser@node4:/opt/bigdata
+            $ scp /opt/bigdata/hbase hduser@node3:/opt/bigdata
+            $ scp /opt/bigdata/hbase hduser@node2:/opt/bigdata
+
+1. start stop
+
+    1. start
+
+            # on node5
+            $ /opt/bigdata/hbase/bin/start-hbase.sh
+
+    1. stop
+
+            # on node5
+            $ /opt/bigdata/hbase/bin/stop-hbase.sh
 
 ### fixed
 
