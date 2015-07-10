@@ -24,6 +24,8 @@ tags: [ubuntu, ssh, static ip]
 
 1. setup sqoop
 
+1. setup spark
+
 1. fixed
 
 ### 1. setup ubuntu
@@ -910,6 +912,71 @@ tags: [ubuntu, ssh, static ip]
 
             sqoop:000> status job -j 1
 
+### 8. setup spark
+
+1. topology
+
+                                  node5
+                             +--------------+
+                             |              |
+                             | spark master |
+                             |              |
+                             +--------------+
+                            /       |        \
+                           /        |         \
+                          /         |          \
+                         /          |           \
+                        /           |            \
+                       /            |             \
+                  node2            node3           node4
+            +--------------+ +--------------+ +--------------+
+            |              | |              | |              |
+            | spark worker | | spark worker | | spark worker |
+            |              | |              | |              |
+            +--------------+ +--------------+ +--------------+
+
+
+1. [setup](http://blog.abhinav.ca/blog/2014/04/13/setup-a-spark-cluster-in-5-minutes/)
+
+    1. copy software to node5
+
+            $ scp spark-1.3.1-bin-hadoop2.6.tgz hduser@node5:/opt/bigdata
+            $ cd /opt/bigdata
+            $ tar -zxf spark-1.3.1-bin-hadoop2.6.tgz
+            $ mv spark-1.3.1-bin-hadoop2.6 spark
+
+            $ scp -r /opt/bigdata/spark hduser@node4:/opt/bigdata/spark
+            $ scp -r /opt/bigdata/spark hduser@node3:/opt/bigdata/spark
+            $ scp -r /opt/bigdata/spark hduser@node2:/opt/bigdata/spark
+
+    1. start `spark master` on node5
+
+            $ /opt/bigdata/spark/sbin/start-master.sh
+
+    1. start `spark worker` on node4 node3 node2
+
+            # on node4
+            $ /opt/bigdata/spark/bin/spark-class org.apache.spark.deploy.worker.Worker spark://node5:7077
+
+            # on node3
+            $ /opt/bigdata/spark/bin/spark-class org.apache.spark.deploy.worker.Worker spark://node5:7077
+
+            # on node2
+            $ /opt/bigdata/spark/bin/spark-class org.apache.spark.deploy.worker.Worker spark://node5:7077
+
+    1. demo
+
+            $ /opt/bigdata/spark/bin/spark-submit \
+            --class org.apache.spark.examples.SparkPi \
+            --master yarn-cluster \
+            --num-executors 3 \
+            --driver-memory 4g \
+            --executor-memory 2g \
+            --executor-cores 1 \
+            --queue thequeue \
+            /opt/bigdata/spark/lib/spark-examples*.jar \
+            10
+
 ### fixed
 
 1. problem connecting to server
@@ -936,7 +1003,39 @@ tags: [ubuntu, ssh, static ip]
 
     1. [ubuntuforums](http://ubuntuforums.org/showthread.php?t=2242435)
 
-    1. [stackoverflow](http://stackoverflow.com/questions/18083045/error-2003-hy000-cant-connect-to-mysql-server-on-hostname-111)
+    1. [stackoverflow error-2003](http://stackoverflow.com/questions/18083045/error-2003-hy000-cant-connect-to-mysql-server-on-hostname-111)
+
+    1. [stackoverflow error-61](http://stackoverflow.com/questions/16161889/cant-connect-to-remote-mysql-server-with-error-61)
+
+            # 1. check status
+            $ netstat -tulpen
+            (Not all processes could be identified, non-owned process info
+             will not be shown, you would have to be root to see it all.)
+            Active Internet connections (only servers)
+            Proto Recv-Q Send-Q Local Address           Foreign Address         State       User       Inode       PID/Program name
+            tcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTEN      0          20360       -               
+            tcp        0      0 0.0.0.0:3306            0.0.0.0:*               LISTEN      121        31073       -               
+            tcp        0      0 0.0.0.0:50010           0.0.0.0:*               LISTEN      1001       29143       4193/java       
+            tcp        0      0 0.0.0.0:50020           0.0.0.0:*               LISTEN      1001       33985       4193/java       
+            tcp        0      0 0.0.0.0:50075           0.0.0.0:*               LISTEN      1001       29188       4193/java       
+            tcp        0      0 127.0.0.1:48933         0.0.0.0:*               LISTEN      1001       29149       4193/java       
+            tcp        0      0 127.0.0.1:5939          0.0.0.0:*               LISTEN      0          18701       -               
+            tcp        0      0 127.0.0.1:631           0.0.0.0:*               LISTEN      0          120296      -               
+            tcp6       0      0 192.168.120.153:16020   :::*                    LISTEN      1001       33404       4416/java       
+            tcp6       0      0 ::1:631                 :::*                    LISTEN      0          120295      -               
+            tcp6       0      0 :::13562                :::*                    LISTEN      1001       33608       4840/java       
+            tcp6       0      0 :::16030                :::*                    LISTEN      1001       33425       4416/java       
+            tcp6       0      0 :::22                   :::*                    LISTEN      0          20362       -               
+            tcp6       0      0 :::52600                :::*                    LISTEN      1001       41017       4840/java       
+            tcp6       0      0 :::8040                 :::*                    LISTEN      1001       33604       4840/java       
+            tcp6       0      0 :::8042                 :::*                    LISTEN      1001       33609       4840/java       
+            udp        0      0 0.0.0.0:41761           0.0.0.0:*                           107        16926       -               
+            udp        0      0 0.0.0.0:5353            0.0.0.0:*                           107        16924       -               
+            udp        0      0 0.0.0.0:631             0.0.0.0:*                           0          18693       -               
+            udp6       0      0 :::52756                :::*                                107        16927       -               
+            udp6       0      0 :::5353                 :::*                                107        16925       -               
+
+            # 2. refer edit `my.cnf`
 
     1. edit `my.cnf`
 
@@ -950,9 +1049,15 @@ tags: [ubuntu, ssh, static ip]
             [mysqld]
             bind-address = 0.0.0.0
 
+    1. grant privileges
+
+            mysql> grant all privileges on *.* to 'sa'@'%' identified by 'sa';
+
     1. restart mysql service
 
             $ /etc/init.d/mysql restart
+            or
+            $ service mysql restart
 
 1. Connection refused
 
