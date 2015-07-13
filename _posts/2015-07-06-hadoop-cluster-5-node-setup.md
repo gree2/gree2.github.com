@@ -145,6 +145,20 @@ tags: [ubuntu, ssh, static ip]
             $ sudo adduser --ingroup hadoop hduser
             $ sudo chown -R hduser:hadoop /opt/bigdata
 
+1. [sublime text](http://askubuntu.com/questions/172698/how-do-i-install-sublime-text-2-3)
+
+    1. for sublime-text-2:
+
+            $ sudo add-apt-repository ppa:webupd8team/sublime-text-2
+            $ sudo apt-get update
+            $ sudo apt-get install sublime-text
+
+    1. for sublime-text-3:
+
+            $ sudo add-apt-repository ppa:webupd8team/sublime-text-3
+            $ sudo apt-get update
+            $ sudo apt-get install sublime-text-installer
+
 ### 2. setup ssh
 
 1. install [openssh-server](http://www.openssh.com/)
@@ -561,6 +575,67 @@ tags: [ubuntu, ssh, static ip]
             JMX enabled by default
             Using config: /opt/bigdata/zookeeper/bin/../conf/zoo.cfg
             Mode: leader
+
+    1. [check zookeeper status](http://askubuntu.com/questions/314210/how-do-i-find-out-the-version-of-zookeeper-i-am-running)
+
+            # use `echo` and `nc`
+            $ echo ruok | nc node2 2181
+            imok
+
+            $ echo status | nc node2 2181
+            Zookeeper version: 3.4.6-1569965, built on 02/20/2014 09:09 GMT
+            Clients:
+             /192.168.120.154:47757[1](queued=0,recved=25564,sent=25564)
+             /192.168.120.153:44776[1](queued=0,recved=25565,sent=25565)
+             /192.168.120.152:54094[1](queued=0,recved=25565,sent=25565)
+             /192.168.120.152:38021[0](queued=0,recved=1,sent=0)
+             /192.168.120.152:54089[1](queued=0,recved=25648,sent=25662)
+             /192.168.120.155:35662[1](queued=0,recved=25565,sent=25565)
+             /192.168.120.153:44772[1](queued=0,recved=25566,sent=25566)
+
+            Latency min/avg/max: 0/0/36
+            Received: 170608
+            Sent: 170657
+            Connections: 7
+            Outstanding: 0
+            Zxid: 0x100000117
+            Mode: follower
+            Node count: 42
+
+            $ echo status | nc node3 2181
+            Zookeeper version: 3.4.6-1569965, built on 02/20/2014 09:09 GMT
+            Clients:
+             /192.168.120.154:39911[1](queued=0,recved=227,sent=227)
+             /192.168.120.152:48327[0](queued=0,recved=1,sent=0)
+
+            Latency min/avg/max: 0/0/14
+            Received: 235
+            Sent: 234
+            Connections: 2
+            Outstanding: 0
+            Zxid: 0x100000117
+            Mode: follower
+            Node count: 42
+
+            Zookeeper version: 3.4.6-1569965, built on 02/20/2014 09:09 GMT
+            Clients:
+             /192.168.120.155:53241[1](queued=0,recved=29290,sent=29290)
+             /192.168.120.153:40275[1](queued=0,recved=25644,sent=25652)
+             /192.168.120.152:54308[1](queued=0,recved=25570,sent=25570)
+             /192.168.120.155:53240[1](queued=0,recved=25568,sent=25568)
+             /192.168.120.154:48195[1](queued=0,recved=25625,sent=25634)
+             /192.168.120.152:38243[0](queued=0,recved=1,sent=0)
+             /192.168.120.155:53234[1](queued=0,recved=31166,sent=31203)
+             /192.168.120.154:48202[1](queued=0,recved=25568,sent=25568)
+
+            Latency min/avg/max: 0/0/110
+            Received: 218610
+            Sent: 218675
+            Connections: 8
+            Outstanding: 0
+            Zxid: 0x100000117
+            Mode: leader
+            Node count: 42
 
     1. stop zookeeper
 
