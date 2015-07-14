@@ -25,3 +25,25 @@ tags: [sysctl, wget, grep]
             | grep '^--' | awk '{ print $3 }' \
             | grep -v '\.\(css\|js\|png\|gif\|jpg\)$' \
             > urls.m3u
+
+1. locale
+
+    1. [set locale zh_CN.UTF-8](http://askubuntu.com/questions/162391/how-do-i-fix-my-locale-issue/229512#229512)
+
+            $ sudo locale-gen zh_CN.UTF-8
+            $ sudo dpkg-reconfigure locales
+
+    1. [ssh server](https://wiki.debian.org/Locale)
+
+            $ sudo pico /etc/ssh/sshd_config
+            # conment out this line
+            # AcceptEnv LANG LC_*
+
+            # restart ssh
+            $ /etc/init.d/ssh restart
+
+    1. [ssh client](https://wiki.debian.org/Locale)
+
+            $ sudo pico /etc/ssh/ssh_config
+            # conment out this line
+            # SendEnv LANG LC_*
