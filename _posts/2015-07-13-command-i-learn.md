@@ -47,3 +47,11 @@ tags: [sysctl, wget, grep]
             $ sudo pico /etc/ssh/ssh_config
             # conment out this line
             # SendEnv LANG LC_*
+
+1. tr
+
+    1. [squeeze spaces](http://stackoverflow.com/questions/7142735/linux-cut-help-how-to-specify-more-spaces-for-the-delimiter)
+
+            $ fab sete hd1 | grep part-m-00000 | tr -s ' ' | cut -f 10 -d ' '
+            # get hdfs dfs -ls -R output's file path
+

@@ -374,6 +374,33 @@ MSreplication=options=|=1=|=optname=|=0=|=0=|=nvarchar=|=256=|=128=|=0=|=0=|=|=
             WITH MOVE 'mydb2' TO 'D:\Program Files\Microsoft SQL Server\MSSQL10.MSSQLSERVER\MSSQL\DATA\mydb2.mdf', replace ,stats = 10
                  MOVE 'mydb2_log' TO 'D:\Program Files\Microsoft SQL Server\MSSQL10.MSSQLSERVER\MSSQL\DATA\mydb2_1.LDF'
 
+### datetime
+
+1. convert unix timestamp to weekday
+
+    1. steps
+
+            timestamp => date => weekday
+
+    1. [how can i convert bigint unix timestamp to datetime in sql server](http://stackoverflow.com/questions/2904256/how-can-i-convert-bigint-unix-timestamp-to-datetime-in-sql-server)
+
+
+            select dateadd(s, 1274756183, '19700101 05:00:00:000')
+
+
+    1. [datename method in sqlserver](http://stackoverflow.com/questions/1431496/datename-method-in-sqlserver)
+
+            select datename(dw, getdate())
+
+    1. in all
+
+            select day_name, count(*) as day_count from (
+                select datename(dw,
+                    convert(varchar(50), dateadd(s, cast(time_stamp as int), '19700101 05:00:00:000'), 121)
+                    ) as day_name
+                from ratings
+            ) as day_group group by day_name
+
 ### querying the sql server system catalog faq
 
 [msdn](https://msdn.microsoft.com/en-us/library/ms345522.aspx)
