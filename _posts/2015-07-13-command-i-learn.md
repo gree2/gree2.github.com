@@ -55,3 +55,8 @@ tags: [sysctl, wget, grep]
             $ fab sete hd1 | grep part-m-00000 | tr -s ' ' | cut -f 10 -d ' '
             # get hdfs dfs -ls -R output's file path
 
+1. grep
+
+    1. [find command that returns line number of the string](http://stackoverflow.com/questions/7600313/find-command-that-returns-line-number-of-the-string)
+
+            $ grep -n 'search-term' *.c

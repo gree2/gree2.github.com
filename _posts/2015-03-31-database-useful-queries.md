@@ -401,6 +401,40 @@ MSreplication=options=|=1=|=optname=|=0=|=0=|=nvarchar=|=256=|=128=|=0=|=0=|=|=
                 from ratings
             ) as day_group group by day_name
 
+### alter
+
+1. table
+
+    1. [sql server alter rename table](http://stackoverflow.com/questions/5335528/sql-server-alter-rename-table)
+
+            -- to rename a column:
+            sp_rename 'table_name.old_column_name', 'new_column_name' , 'column';
+
+            -- to rename a table:
+            sp_rename 'old_table_name','new_table _name';
+
+    1. batch rename all tables with prefix
+
+            --sp_rename old_table_name, new_table_name
+            SELECT 'sp_rename ' + t.name + ', prefix' + t.name AS sql,
+            SCHEMA_NAME(schema_id) AS schema_name,
+            c.name AS column_name
+            FROM sys.tables AS t
+            INNER JOIN sys.columns c ON t.OBJECT_ID = c.OBJECT_ID
+            ORDER BY schema_name, sql;
+
+1. column
+
+    1. batch add column
+
+            SELECT 'ALTER TABLE ' + t.name + ' ADD BMDM VARCHAR(20) NULL;' AS sql,
+            SCHEMA_NAME(schema_id) AS schema_name,
+            c.name AS column_name
+            FROM sys.tables AS t
+            INNER JOIN sys.columns c ON t.OBJECT_ID = c.OBJECT_ID
+            WHERE c.name LIKE '%part_of_column_name%'
+            ORDER BY schema_name, sql;
+
 ### querying the sql server system catalog faq
 
 [msdn](https://msdn.microsoft.com/en-us/library/ms345522.aspx)
