@@ -48,6 +48,59 @@ tags: [sysctl, wget, grep]
             # conment out this line
             # SendEnv LANG LC_*
 
+    1. [fixing locale warnings notices issues on linux server or desktop](http://codetheory.in/fixing-locale-warnings-notices-issues-on-linux-server-or-desktop/)
+
+            $ locale
+            locale: Cannot set LC_CTYPE to default locale: No such file or directory
+            locale: Cannot set LC_MESSAGES to default locale: No such file or directory
+            locale: Cannot set LC_ALL to default locale: No such file or directory
+            LANG=en_US
+            LANGUAGE=
+            LC_CTYPE="en_US"
+            LC_NUMERIC=en_US.UTF-8
+            LC_TIME=en_US.UTF-8
+            LC_COLLATE="en_US"
+            LC_MONETARY=en_US.UTF-8
+            LC_MESSAGES="en_US"
+            LC_PAPER=en_US.UTF-8
+            LC_NAME=en_US.UTF-8
+            LC_ADDRESS=en_US.UTF-8
+            LC_TELEPHONE=en_US.UTF-8
+            LC_MEASUREMENT=en_US.UTF-8
+            LC_IDENTIFICATION=en_US.UTF-8
+            LC_ALL=
+
+            $ sudo update-locale LC_ALL="en_US.UTF-8"
+            $ logout
+            # login
+            $ locale
+            LANG=en_US.UTF-8
+            LANGUAGE=
+            LC_CTYPE="en_US.UTF-8"
+            LC_NUMERIC="en_US.UTF-8"
+            LC_TIME="en_US.UTF-8"
+            LC_COLLATE="en_US.UTF-8"
+            LC_MONETARY="en_US.UTF-8"
+            LC_MESSAGES="en_US.UTF-8"
+            LC_PAPER="en_US.UTF-8"
+            LC_NAME="en_US.UTF-8"
+            LC_ADDRESS="en_US.UTF-8"
+            LC_TELEPHONE="en_US.UTF-8"
+            LC_MEASUREMENT="en_US.UTF-8"
+            LC_IDENTIFICATION="en_US.UTF-8"
+            LC_ALL=en_US.UTF-8
+
+            $ cat /etc/default/locale 
+            LANG="en_US.UTF-8"
+            LC_NUMERIC="en_US.UTF-8"
+            LC_TIME="en_US.UTF-8"
+            LC_MONETARY="en_US.UTF-8"
+            LC_PAPER="en_US.UTF-8"
+            LC_NAME="en_US.UTF-8"
+            LC_ADDRESS="en_US.UTF-8"
+            LC_TELEPHONE="en_US.UTF-8"
+            LC_MEASUREMENT="en_US.UTF-8"
+            LC_IDENTIFICATION="en_US.UTF-8"
 1. tr
 
     1. [squeeze spaces](http://stackoverflow.com/questions/7142735/linux-cut-help-how-to-specify-more-spaces-for-the-delimiter)
@@ -60,3 +113,20 @@ tags: [sysctl, wget, grep]
     1. [find command that returns line number of the string](http://stackoverflow.com/questions/7600313/find-command-that-returns-line-number-of-the-string)
 
             $ grep -n 'search-term' *.c
+
+1. apt-get
+
+    1. install
+
+            $ sudo apt-get install mysql-server mysql-client
+            E: dpkg was interrupted, you must manually run 'sudo dpkg --configure -a' to correct the problem. 
+            $ sudo dpkg --configure -a
+            Setting up libmysqlclient18:amd64 (5.6.24-0ubuntu2) ...
+            Setting up libterm-readkey-perl (2.32-1build1) ...
+            Setting up libaio1:amd64 (0.3.110-1) ...
+            Setting up libdbi-perl (1.631-3build1) ...
+            Setting up mysql-client-core-5.6 (5.6.24-0ubuntu2) ...
+            Setting up mysql-server-core-5.6 (5.6.24-0ubuntu2) ...
+            Setting up libdbd-mysql-perl (4.028-2) ...
+            Setting up mysql-client-5.6 (5.6.24-0ubuntu2) ...
+            Processing triggers for libc-bin (2.21-0ubuntu4) ...
