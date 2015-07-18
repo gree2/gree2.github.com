@@ -53,6 +53,14 @@ tags: [network]
             domain_name_server (ip_mult): {192.168.1.253}
             end (none): 
 
+1. [renew dhcp lease](http://osxdaily.com/2010/09/01/set-ip-address-from-the-mac-command-line/)
+
+            $ ipconfig set en0 DHCP
+
+1. [set a specific ip address](http://osxdaily.com/2010/09/01/set-ip-address-from-the-mac-command-line/)
+
+            $ ipconfig set en0 INFORM 192.168.1.160
+
 ### ifconfig
 
 1. get `network info`
@@ -248,6 +256,10 @@ tags: [network]
 1. make an alias for looking at what has a listener open, called ports
 
             $ alias ports='lsof -n -i4TCP | grep LISTEN'
+
+1. edit hosts file
+
+            $ sudo pico /private/etc/hosts
 
 ### references
 
