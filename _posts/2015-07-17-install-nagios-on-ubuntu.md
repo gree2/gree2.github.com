@@ -3,7 +3,7 @@ layout: post
 title: "install nagios on ubuntu"
 description: ""
 category: [ubuntu]
-tags: [nagios, plugin]
+tags: [nagios, plugin, ubuntu, nrpe, yum, centos]
 ---
 {% include JB/setup %}
 
@@ -326,12 +326,12 @@ tags: [nagios, plugin]
 
 1. [Failed to start nagios.service: Unit nagios.service failed to load: No such file or directory.](http://www.ubuntugeek.com/install-nagios-4-0-8-on-ubuntu-15-04-vivid-vervet-server.html)
 
-    1. copy `/etc/init.d/skeleton` to `/etc/init.d/nagios`
+    1. solution 1 not fixed
 
+            # copy `/etc/init.d/skeleton` to `/etc/init.d/nagios`
             $ cp /etc/init.d/skeleton /etc/init.d/nagios
 
-    1. edit it
-
+            # edit it
             $ sudo pico /etc/init.d/nagios
             DESC="Nagios"
             NAME=nagios
@@ -339,10 +339,26 @@ tags: [nagios, plugin]
             DAEMON_ARGS="-d /usr/local/nagios/etc/nagios.cfg"
             PIDFILE=/usr/local/nagios/var/$NAME.lock
 
-    1. change permissions
-
+            # change permissions
             $ sudo chmod +x /etc/init.d/nagios
 
-    1. start nagios using
-
+            # start nagios using
             $ /etc/init.d/nagios start
+
+    1. solution 2 fixed
+
+            $ reboot
+
+1. references
+
+    1. [Nagios 4.0.1 Released – Install on RHEL/CentOS 6.x/5.x and Fedora 19/18/17](http://www.tecmint.com/install-nagios-in-linux/)
+
+    1. [Nagios 4.0.8 installation and configuration in Ubuntu/Debian/Linux Mint](http://www.2daygeek.com/nagios-4-0-8-installation-ubuntu-debian-linuxmint/)
+
+    1. [How To Install Nagios On Ubuntu 12.10](https://www.digitalocean.com/community/tutorials/how-to-install-nagios-on-ubuntu-12-10)
+
+    1. [Install And Configure Nagios 4 On Ubuntu 14.10/14.04](http://www.unixmen.com/install-configure-nagios-4-ubuntu-14-1014-04/)
+
+    1. [How To Install LAMP Stack On Ubuntu 15.04](http://www.unixmen.com/how-to-install-lamp-stack-on-ubuntu-15-04/)
+
+    1. [How to install Nagios 4 from source on Ubuntu 14.04 LTS](http://sharadchhetri.com/2014/08/25/install-nagios-4-source-ubuntu-14-04-lts/)
