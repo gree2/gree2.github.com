@@ -8,7 +8,7 @@ tags: [nagios, nagiosgraph]
 {% include JB/setup %}
 
 
-### steps
+### [nagios core 4 installation on ubuntu 12.04](https://raymii.org/s/tutorials/Nagios_Core_4_Installation_on_Ubuntu_12.04.html)
 
 1. install
 
@@ -127,6 +127,79 @@ tags: [nagios, nagiosgraph]
 
     1. restart nagios
 
+            $ sudo service nagios restart
+
+### [steps to configure nagiosgraph with nagios core](http://www.linuxfunda.com/2013/04/02/steps-to-configure-nagiosgraph-with-nagios-core/)
+
+1. config
+
+    1. change to nagios core configuration directory
+
+            $ cd /usr/local/nagios/etc
+
+    1. add following lines to the end of `nagios.cfg`
+
+            $ sudo pico nagios.cfg
+            # process nagios performance data using nagiosgraph
+            process_performance_data=1
+            service_perfdata_file=/tmp/perfdata.log
+            service_perfdata_file_template=$LASTSERVICECHECK$||$HOSTNAME$||$SERVICEDESC$||$SERVICEOUTPUT$||$SERVICEPERFDATA$
+            service_perfdata_file_mode=a
+            service_perfdata_file_processing_interval=30
+            service_perfdata_file_processing_command=process-service-perfdata-for-nagiosgraph
+
+    1. add following command definition to `commands.cfg`
+
+            $ sudo pico commands.cfg
+            # command to process nagios performance data for nagiosgraph
+            define command {
+                command_name process-service-perfdata-for-nagiosgraph
+                command_line /usr/local/nagiosgraph/bin/insert.pl
+            }
+
+    1. add following line at the end of `httpd.conf`
+
+            # in a local install of apache httpd
+            # this `httpd.conf` is normarlly in
+            # /usr/local/apache/conf/httpd.conf
+
+            # on debian-derived systems
+            # it may be /etc/apache2/apache2.conf
+
+            $ sudo pico /etc/apache2/apache2.conf
+            Include /usr/local/nagiosgraph/etc/nagiosgraph-apache.conf
+
+    1. [validate config of both apache httpd server](http://makandracards.com/makandra/1263-check-apache-config-files-syntax) and nagios core server and restart them both
+
+            $ sudo apache2ctl configtest
+            or
+            $ sudo apache2ctl -t
+            $ sudo service apache2 restart
+
+            $ sudo /usr/local/nagios/bin/nagios -v /usr/local/nagios/etc/nagios.cfg
+            $ sudo service nagios restart
+
+    1. define an action url for the services
+
+            # 1. edit the template.cfg
+            # append a new service template
+            define service {
+                name nagiosgraph
+                action_url /nagiosgraph/cgi-bin/show.cgi?host=$HOSTNAME$&$SERVICEDESC$
+                register 0
+            }
+
+            # 2. inherit form `nagiosgraph` service
+            define service {
+                use                 genric-service, nagiosgraph
+                host_name           localhost
+                service_description PING
+                check_command       check_ping!100,10%!200,20%
+            }
+
+    1. validate config and restart nagios core server
+
+            $ /usr/local/nagios/bin/nagios -v /usr/local/nagios/etc/nagios.cfg
             $ sudo service nagios restart
 
 ### fixed
