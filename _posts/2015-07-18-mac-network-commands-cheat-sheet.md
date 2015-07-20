@@ -131,7 +131,11 @@ tags: [network]
 
             # so that traffice for 192.168.1.0/24
             # communicates over the 192.168.1.253
-            $ route -n add 192.168.1.0/24 192.168.1.253
+            $ sudo route -n add 192.168.1.0/24 192.168.1.253
+
+1. delete a route
+
+            $ sudo route -n delete 192.168.1.0/24 192.168.1.253
 
 ### netstat
 

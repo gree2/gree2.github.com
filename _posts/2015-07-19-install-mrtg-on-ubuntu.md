@@ -10,7 +10,7 @@ tags: [mrtg, snmp, indexmaker, cfgmaker, cron]
 
 ### solutions
 
-1. [install mrtg ubuntu 11 10 debian squeeze](http://colekcolek.com/2012/02/23/install-mrtg-ubuntu-11-10-debian-squeeze/)
+1. [install mrtg ubuntu 11.10 debian squeeze](http://colekcolek.com/2012/02/23/install-mrtg-ubuntu-11-10-debian-squeeze/)
 
     1. install `mrtg` and `snmp`
 
@@ -65,7 +65,7 @@ tags: [mrtg, snmp, indexmaker, cfgmaker, cron]
             $ sudo crontab -e
             */5 * * * * env LANG=C /usr/bin/mrtg /etc/mrtg.cfg
 
-1. [Nagios switch-check_mrtgtraf: Unable to open MRTG log file
+1. [nagios switch-check_mrtgtraf: unable to open mrtg log file
 ](https://support.nagios.com/forum/viewtopic.php?f=7&t=32639#p137442)
 
     1. place output files in `/etc/mrtg/conf.d`
@@ -278,3 +278,49 @@ tags: [mrtg, snmp, indexmaker, cfgmaker, cron]
 
             # 3. start mrtg use this script
             $ sudo service mrtg start
+
+1. [nagios core 4 installation on ubuntu 12.04](https://raymii.org/s/tutorials/Nagios_Core_4_Installation_on_Ubuntu_12.04.html)
+
+    1. copy the included config from nagios
+
+            $ cd ~/Downloads/nagioscore-nagios-4.0.8/sample-config
+            $ cp mrtg.cfg /usr/local/nagios/etc/
+
+    1. create a folder for the graphs and files
+
+            $ mkdir -p /usr/local/nagios/share/stats
+
+    1. config mrtg to use this folder
+
+            $ sudo pico /usr/local/nagios/etc/mrtg.cfg
+            # add the following at the top of the file
+            WorkDir: /usr/local/nagios/share/stats
+
+    1. do the initial run
+
+            $ sudo env LANG=C /usr/bin/mrtg /usr/local/nagios/etc/mrtg.cfg
+
+    1. create the html pages
+
+            $ sudo /usr/bin/indexmaker /usr/local/nagios/etc/mrtg.cfg \
+            --output=/usr/local/nagios/share/stats/index.html
+
+    1. create a cron job to run mrtg every 5 minutes
+
+            $ sudo pico /etc/cron.d/mrtg-nagios
+            */5 * * * * root env LANG=C /usr/bin/mrtg /usr/local/nagios/etc/mrtg.cfg
+
+    1. browser `http://node5/nagios/stats`
+
+    1. add link to nagios menu
+
+            $ sudo pico /usr/local/nagios/share/side.php
+            <div class="navsection">
+                <div class="navsectiontitle">Extra Tools</div>
+                    <div class="navsectionlinks">
+                        <ul class="navsectionlinks">
+                            <li><a href="/nagios/stats" target="<?php echo $link_target;?>">MRTG stats</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
