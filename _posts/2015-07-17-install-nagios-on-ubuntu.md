@@ -223,6 +223,12 @@ tags: [nagios, plugin, ubuntu, nrpe, yum, centos]
             # on debian/ubuntu clients
             $ sudo apt-get install nagios-nrpe-server nagios-plugins
 
+1. [install](http://askubuntu.com/questions/490740/nagios-nrpe-dameon-check-nrpe-plugin-missing) `nagios-nrpe-plugin`
+
+            $ sudo apt-get install nagios-nrpe-plugin
+            $ cd /usr/lib/nagios/plugins
+            $ ls check_nr*
+
 1. config monitoring targets
 
     1. edit `/etc/nagios/nrpe.cfg`
@@ -362,3 +368,5 @@ tags: [nagios, plugin, ubuntu, nrpe, yum, centos]
     1. [How To Install LAMP Stack On Ubuntu 15.04](http://www.unixmen.com/how-to-install-lamp-stack-on-ubuntu-15-04/)
 
     1. [How to install Nagios 4 from source on Ubuntu 14.04 LTS](http://sharadchhetri.com/2014/08/25/install-nagios-4-source-ubuntu-14-04-lts/)
+
+    1. [nagios installation procedure in fedoracentos](http://www.linuxfunda.com/2012/10/21/nagios-installation-procedure-in-fedoracentos/)

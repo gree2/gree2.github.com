@@ -10,21 +10,38 @@ tags: [sysctl, wget, grep]
 
 ### commands
 
-1. sysctl
+1. apt-get
 
-    1. [ip_local_port_range]((http://zookeeper-user.578899.n2.nabble.com/Zookeeper-listening-to-ports-other-than-clientPort-and-server-x-ports-td7580137.html#a7580138))
+    1. install
 
-            $ sysctl net.ipv4.ip_local_port_range
-            net.ipv4.ip_local_port_range = 32768    61000
+            $ sudo apt-get install mysql-server mysql-client
+            E: dpkg was interrupted, you must manually run 'sudo dpkg --configure -a' to correct the problem. 
+            $ sudo dpkg --configure -a
+            Setting up libmysqlclient18:amd64 (5.6.24-0ubuntu2) ...
+            Setting up libterm-readkey-perl (2.32-1build1) ...
+            Setting up libaio1:amd64 (0.3.110-1) ...
+            Setting up libdbi-perl (1.631-3build1) ...
+            Setting up mysql-client-core-5.6 (5.6.24-0ubuntu2) ...
+            Setting up mysql-server-core-5.6 (5.6.24-0ubuntu2) ...
+            Setting up libdbd-mysql-perl (4.028-2) ...
+            Setting up mysql-client-5.6 (5.6.24-0ubuntu2) ...
+            Processing triggers for libc-bin (2.21-0ubuntu4) ...
 
-1. wget
+1. curl 
 
-    1. [spider a website and return urls only](http://stackoverflow.com/questions/2804467/spider-a-website-and-return-urls-only)
+    1. [curl command resume broken download](http://www.cyberciti.biz/faq/curl-command-resume-broken-download/)
 
-            wget --spider --force-html -r -l2 http://mirrors.cnnic.cn/apache/ 2>&1 \
-            | grep '^--' | awk '{ print $3 }' \
-            | grep -v '\.\(css\|js\|png\|gif\|jpg\)$' \
-            > urls.m3u
+            # 1. auto find out where/how to resume the transfer
+            $ curl -L -o 'filename' -C - url
+
+            # 2. continue a previous file transfer at the given offset
+            $ curl -C offset url
+
+1. grep
+
+    1. [find command that returns line number of the string](http://stackoverflow.com/questions/7600313/find-command-that-returns-line-number-of-the-string)
+
+            $ grep -n 'search-term' *.c
 
 1. locale
 
@@ -101,6 +118,14 @@ tags: [sysctl, wget, grep]
             LC_TELEPHONE="en_US.UTF-8"
             LC_MEASUREMENT="en_US.UTF-8"
             LC_IDENTIFICATION="en_US.UTF-8"
+
+1. sysctl
+
+    1. [ip_local_port_range]((http://zookeeper-user.578899.n2.nabble.com/Zookeeper-listening-to-ports-other-than-clientPort-and-server-x-ports-td7580137.html#a7580138))
+
+            $ sysctl net.ipv4.ip_local_port_range
+            net.ipv4.ip_local_port_range = 32768    61000
+
 1. tr
 
     1. [squeeze spaces](http://stackoverflow.com/questions/7142735/linux-cut-help-how-to-specify-more-spaces-for-the-delimiter)
@@ -108,25 +133,23 @@ tags: [sysctl, wget, grep]
             $ fab sete hd1 | grep part-m-00000 | tr -s ' ' | cut -f 10 -d ' '
             # get hdfs dfs -ls -R output's file path
 
-1. grep
+1. tail
 
-    1. [find command that returns line number of the string](http://stackoverflow.com/questions/7600313/find-command-that-returns-line-number-of-the-string)
+    1. [how can i reverse the order of lines in a file](http://stackoverflow.com/questions/742466/how-can-i-reverse-the-order-of-lines-in-a-file)
 
-            $ grep -n 'search-term' *.c
+            $ tail -r myfile.txt
 
-1. apt-get
+    1. [how reverse selected lines order in vim](http://superuser.com/questions/189947/how-reverse-selected-lines-order-in-vim)
 
-    1. install
+            :g/^/m0
 
-            $ sudo apt-get install mysql-server mysql-client
-            E: dpkg was interrupted, you must manually run 'sudo dpkg --configure -a' to correct the problem. 
-            $ sudo dpkg --configure -a
-            Setting up libmysqlclient18:amd64 (5.6.24-0ubuntu2) ...
-            Setting up libterm-readkey-perl (2.32-1build1) ...
-            Setting up libaio1:amd64 (0.3.110-1) ...
-            Setting up libdbi-perl (1.631-3build1) ...
-            Setting up mysql-client-core-5.6 (5.6.24-0ubuntu2) ...
-            Setting up mysql-server-core-5.6 (5.6.24-0ubuntu2) ...
-            Setting up libdbd-mysql-perl (4.028-2) ...
-            Setting up mysql-client-5.6 (5.6.24-0ubuntu2) ...
-            Processing triggers for libc-bin (2.21-0ubuntu4) ...
+            :help 12.4
+
+1. wget
+
+    1. [spider a website and return urls only](http://stackoverflow.com/questions/2804467/spider-a-website-and-return-urls-only)
+
+            wget --spider --force-html -r -l2 http://mirrors.cnnic.cn/apache/ 2>&1 \
+            | grep '^--' | awk '{ print $3 }' \
+            | grep -v '\.\(css\|js\|png\|gif\|jpg\)$' \
+            > urls.m3u
