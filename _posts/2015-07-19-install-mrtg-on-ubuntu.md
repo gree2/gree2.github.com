@@ -94,7 +94,7 @@ tags: [mrtg, snmp, indexmaker, cfgmaker, cron]
             $ sudo apt-get update
             $ sudo apt-get install mrtg
             # yes => file permissions 640
-            #no  => file permissions 644
+            # no  => file permissions 644
                         
     1. sample configure file
 
@@ -324,3 +324,11 @@ tags: [mrtg, snmp, indexmaker, cfgmaker, cron]
                     </div>
                 </div>
             </div>
+
+### references
+
+1. [linux mrtg configuration](http://www.cyberciti.biz/nixcraft/linux/docs/uniqlinuxfeatures/mrtg/mrtgconifg.php)
+
+1. [mrtg installation and configuration in debian based distributions 2](http://www.debianadmin.com/mrtg-installation-and-configuration-in-debian-based-distributions-2.html)
+
+1. [MRTG - The Multi Router Traffic Grapher](https://help.ubuntu.com/community/MRTG)

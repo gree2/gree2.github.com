@@ -369,4 +369,6 @@ tags: [nagios, plugin, ubuntu, nrpe, yum, centos]
 
     1. [How to install Nagios 4 from source on Ubuntu 14.04 LTS](http://sharadchhetri.com/2014/08/25/install-nagios-4-source-ubuntu-14-04-lts/)
 
-    1. [nagios installation procedure in fedoracentos](http://www.linuxfunda.com/2012/10/21/nagios-installation-procedure-in-fedoracentos/)
+    1. [nagios installation procedure in fedora centos](http://www.linuxfunda.com/2012/10/21/nagios-installation-procedure-in-fedoracentos/)
+
+    1. [nagios core enabling external commands](http://theurbanpenguin.com/wp/index.php/nagios-core-enabling-external-commands/)

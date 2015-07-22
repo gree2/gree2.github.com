@@ -165,3 +165,9 @@ tags: [nagios, nrpe, plugin]
 
             $ sudo /usr/lib/nagios/plugins/check_nrpe -H 192.168.120.152
             NRPE v2.15
+
+### references
+
+1. [network bandwidth monitoring nagios way](http://techdire.com/network-bandwidth-monitoring-nagios-way/)
+
+1. [how to monitor remote linux host using nagios 30](http://www.thegeekstuff.com/2008/06/how-to-monitor-remote-linux-host-using-nagios-30/)
