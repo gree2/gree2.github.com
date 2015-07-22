@@ -43,6 +43,20 @@ tags: [sysctl, wget, grep]
 
             $ grep -n 'search-term' *.c
 
+1. key
+
+    1. [how do i clear delete the current line in terminal](http://stackoverflow.com/questions/9679776/how-do-i-clear-delete-the-current-line-in-terminal)
+
+            $ some command you input_ and after the cursor
+                                    ^
+                                    |
+                                    ctrl + u delete all before
+                                    ctrl + k delete all after
+                                    ctrl + c cancel
+                                    ctrl + y undo
+                                    ctrl + w delete a word
+                                    ctrl + l clear entire prompt
+
 1. locale
 
     1. [set locale zh_CN.UTF-8](http://askubuntu.com/questions/162391/how-do-i-fix-my-locale-issue/229512#229512)
