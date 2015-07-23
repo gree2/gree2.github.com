@@ -133,12 +133,30 @@ tags: [sysctl, wget, grep]
             LC_MEASUREMENT="en_US.UTF-8"
             LC_IDENTIFICATION="en_US.UTF-8"
 
+1. netstat
+
+    1. [nagios connection refused socket timeout](http://stackoverflow.com/questions/12088830/nagios-connection-refused-socket-timeout)
+
+            # check host is listening on port 5666
+            > netstat -aon | findstr 5666
+
 1. sysctl
 
     1. [ip_local_port_range]((http://zookeeper-user.578899.n2.nabble.com/Zookeeper-listening-to-ports-other-than-clientPort-and-server-x-ports-td7580137.html#a7580138))
 
             $ sysctl net.ipv4.ip_local_port_range
             net.ipv4.ip_local_port_range = 32768    61000
+
+1. telnet
+
+    1. [how do i exit telnet](http://superuser.com/questions/486496/how-do-i-exit-telnet)
+
+            $ telnet node1 5666
+            Trying 192.168.120.151...
+            Connected to node1.
+            Escape character is '^]'.
+            ctrl+]
+            telnet> quit
 
 1. tr
 
