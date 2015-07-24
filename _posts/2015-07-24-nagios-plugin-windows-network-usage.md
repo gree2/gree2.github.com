@@ -118,3 +118,9 @@ tags: [nagios, plugin, network, windows, traffic]
     1. use `typeperf.exe`
 
             > typeperf.exe -qx | find "Network Interface"
+
+### references
+
+1. [how to monitor windows network traffic with nagios](http://www.claudiokuenzler.com/blog/207/windows-network-traffic-monitoring-with-nagios#.VbCVyJP048Y)
+
+1. [how to install and use nagiosgraph](http://nagios.fm4dd.com/nagiosgraph/nagiosgraph-man.htm)
