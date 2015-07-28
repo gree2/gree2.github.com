@@ -96,6 +96,11 @@ tags: [rhel, linux, ixgbe]
             and it's not the same as the headers you have installed:
             kernel-headers-2.6.32-431.20.5.el6.x86_64
 
+1. you don't really want to download these rpms
+
+            # check `mount dvd` section
+            # all rmps you need is in dvd's `Packages` folder
+
 ### install compiler
 
 1. [mount dvd](http://www.cyberciti.biz/faq/mounting-cdrom-in-linux/)
