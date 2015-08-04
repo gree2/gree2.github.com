@@ -8,11 +8,7 @@ tags: [chef, puppet, cfengine, bcfg2, fedora, debian osx]
 {% include JB/setup %}
 
 
-### [chef](https://www.chef.io/chef/)
-
-### [puppet](https://puppetlabs.com/)
-
-### [cfengine](http://cfengine.com/)
+### [ansible - python](http://www.ansible.com/home)
 
 ### [bcfg2](http://bcfg2.org/)
 
@@ -29,3 +25,19 @@ tags: [chef, puppet, cfengine, bcfg2, fedora, debian osx]
 	1. osx
 
 			$ port install bcfg2
+
+### [cfengine](http://cfengine.com/)
+
+### [chef](https://www.chef.io/chef/)
+
+### [puppet - ruby](https://puppetlabs.com/)
+
+1. [puppet tutorial](http://www.example42.com/tutorials/PuppetTutorial/#slide-0)
+
+1. [github](https://github.com/puppetlabs/puppet)
+
+### [salt - python](http://saltstack.com/community/)
+
+1. [getstarted](http://docs.saltstack.com/en/getstarted/)
+
+1. [github](https://github.com/saltstack/salt)
