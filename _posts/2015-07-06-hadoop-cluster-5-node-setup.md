@@ -159,6 +159,10 @@ tags: [ubuntu, ssh, static ip]
             $ sudo apt-get update
             $ sudo apt-get install sublime-text-installer
 
+1. install java on five nodes
+
+            $ sudo apt-get install openjdk-7-jdk
+
 ### 2. setup ssh
 
 1. install [openssh-server](http://www.openssh.com/)
@@ -170,6 +174,7 @@ tags: [ubuntu, ssh, static ip]
 1. generate ssh key
 
     1. node5
+    
             $ su - hduser
             $ ssh-keygen -t rsa -P "" 
             $ cd ~/.ssh

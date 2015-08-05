@@ -10,6 +10,12 @@ tags: [chef, puppet, cfengine, bcfg2, fedora, debian osx]
 
 ### [ansible - python](http://www.ansible.com/home)
 
+1. [how ansible works](http://www.ansible.com/how-ansible-works)
+
+1. [docs](http://docs.ansible.com/)
+
+1. [resources](http://www.ansible.com/resources)
+
 ### [bcfg2](http://bcfg2.org/)
 
 1. install
