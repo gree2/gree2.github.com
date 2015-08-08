@@ -30,6 +30,15 @@ tags: [vagrant, ubuntu, trusty64, sed]
             sudo sed 's@security.ubuntu.com@mirrors.163.com@' -i /etc/apt/sources.list
             sudo apt-get update
 
+1. edit `Vagrantfile` add `config.vm.provision`
+
+            # host
+            $ pico Vagrantfile
+            Vagrant.configure(2) do |config|
+              config.vm.box = "ubuntu/trusty64"
+              config.vm.provision "shell", path: "script.sh"
+            end
+
 1. start up vm
 
             # host
