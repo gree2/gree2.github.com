@@ -98,3 +98,128 @@ tags: [vagrant, ubuntu, trusty64, sed]
             ubuntu/trusty64             (virtualbox, 0)
             vagrant-jekyll-shell-v0.1.0 (virtualbox, 0)
 
+    1. using
+
+            # host
+            $ mkdir flowers-vagrant-jekyll-shell
+            $ vagrant init -m vagrant-jekyll-shell-v0.1.0
+
+            # host
+            $ pico Vagrantfile
+            Vagrant.configure(2) do |config|
+                config.vm.box = "vagrant-jekyll-shell-v0.1.0"
+                config.vm.network :forwarded_port, guest: 4000, host: 8100, host_ip: "127.0.0.1"
+
+            $script = <<SCRIPT
+
+            cd /vagrant
+            jekyll serve -H 0.0.0.0 --detach
+
+            SCRIPT
+
+                config.vm.provision "shell", inline: $script, run: "always"
+
+            end
+
+            # host
+            $ vagrant up
+
+            # guest
+            $ cd /vagrant
+            $ jekyll new -f .
+            $ jekyll build
+            $ jekyll serve -H 0.0.0.0 --detach
+            $ logout
+
+1. jekyll
+
+    1. new
+
+            # host
+            $ jekyll new -f .
+            $ tree
+            .
+            ├── Vagrantfile
+            ├── _config.yml
+            ├── _includes
+            │   ├── footer.html
+            │   ├── head.html
+            │   └── header.html
+            ├── _layouts
+            │   ├── default.html
+            │   ├── page.html
+            │   └── post.html
+            ├── _posts
+            │   └── 2015-08-09-welcome-to-jekyll.markdown
+            ├── _sass
+            │   ├── _base.scss
+            │   ├── _layout.scss
+            │   └── _syntax-highlighting.scss
+            ├── about.md
+            ├── css
+            │   └── main.scss
+            ├── feed.xml
+            └── index.html
+
+    1. build
+
+            $ jekyll build
+            Configuration file: /vagrant/_config.yml
+                        Source: /vagrant
+                   Destination: /vagrant/_site
+                  Generating... 
+                                done.
+             Auto-regeneration: disabled. Use --watch to enable.
+
+            # host
+            $ tree
+            .
+            ├── Vagrantfile
+            ├── _config.yml
+            ├── _includes
+            │   ├── footer.html
+            │   ├── head.html
+            │   └── header.html
+            ├── _layouts
+            │   ├── default.html
+            │   ├── page.html
+            │   └── post.html
+            ├── _posts
+            │   └── 2015-08-09-welcome-to-jekyll.markdown
+            ├── _sass
+            │   ├── _base.scss
+            │   ├── _layout.scss
+            │   └── _syntax-highlighting.scss
+            ├── _site
+            │   ├── Vagrantfile
+            │   ├── about
+            │   │   └── index.html
+            │   ├── css
+            │   │   └── main.css
+            │   ├── feed.xml
+            │   ├── index.html
+            │   └── jekyll
+            │       └── update
+            │           └── 2015
+            │               └── 08
+            │                   └── 09
+            │                       └── welcome-to-jekyll.html
+            ├── about.md
+            ├── css
+            │   └── main.scss
+            ├── feed.xml
+            └── index.html
+
+    1. serve
+
+            # host
+            $ jekyll serve -H 0.0.0.0 --detach
+            Configuration file: /vagrant/_config.yml
+                        Source: /vagrant
+                   Destination: /vagrant/_site
+                  Generating... 
+                                done.
+             Auto-regeneration: enabled for '/vagrant'
+            Configuration file: /vagrant/_config.yml
+                Server address: http://0.0.0.0:4000/
+            Server detached with pid '1528'. Run `kill -9 1528' to stop the server.
