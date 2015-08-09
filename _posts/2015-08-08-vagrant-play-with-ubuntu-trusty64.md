@@ -135,8 +135,10 @@ tags: [vagrant, ubuntu, trusty64, sed]
 
     1. new
 
-            # host
+            # guest
             $ jekyll new -f .
+
+            # host
             $ tree
             .
             ├── Vagrantfile
@@ -163,6 +165,7 @@ tags: [vagrant, ubuntu, trusty64, sed]
 
     1. build
 
+            # guest
             $ jekyll build
             Configuration file: /vagrant/_config.yml
                         Source: /vagrant
@@ -212,7 +215,7 @@ tags: [vagrant, ubuntu, trusty64, sed]
 
     1. serve
 
-            # host
+            # guest
             $ jekyll serve -H 0.0.0.0 --detach
             Configuration file: /vagrant/_config.yml
                         Source: /vagrant
