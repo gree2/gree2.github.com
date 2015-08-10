@@ -140,6 +140,18 @@ tags: [sysctl, wget, grep]
             # check host is listening on port 5666
             > netstat -aon | findstr 5666
 
+1. openssl
+
+    1. dgst
+
+            $ echo -n "http://releases.ubuntu.com/14.04/ubuntu-14.04.1-server-i386.iso" | openssl dgst
+            (stdin)= 412e4a818779276896b68b3ba0913534
+
+    1. dgst -sha256
+
+            $ echo -n "http://releases.ubuntu.com/14.04/ubuntu-14.04.1-server-i386.iso" | openssl dgst -sha256
+            (stdin)= 90a2489db0fb9bf8e4062a05cdd528d372c3ff6e028edfde5666b7ae73a3d18a
+
 1. sysctl
 
     1. [ip_local_port_range]((http://zookeeper-user.578899.n2.nabble.com/Zookeeper-listening-to-ports-other-than-clientPort-and-server-x-ports-td7580137.html#a7580138))
