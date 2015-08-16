@@ -2,7 +2,7 @@
 layout: post
 title: "apache hadoop on mac osx yosemite"
 description: ""
-category: [apache]
+category: [bigdata]
 tags: [hadoop, max, osx, yosemite]
 ---
 {% include JB/setup %}

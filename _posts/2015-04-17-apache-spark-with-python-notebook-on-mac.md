@@ -2,7 +2,7 @@
 layout: post
 title: "apache spark with python notebook on mac"
 description: ""
-category: [apache]
+category: [bigdata]
 tags: [spark, python, notebook, mac]
 ---
 {% include JB/setup %}

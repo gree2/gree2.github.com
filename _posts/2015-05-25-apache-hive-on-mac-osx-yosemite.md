@@ -2,7 +2,7 @@
 layout: post
 title: "apache hive on mac osx yosemite"
 description: ""
-category: [apache]
+category: [bigdata]
 tags: [hive, osx, mysql]
 ---
 {% include JB/setup %}

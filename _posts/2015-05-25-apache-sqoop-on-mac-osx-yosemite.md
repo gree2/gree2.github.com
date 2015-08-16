@@ -2,7 +2,7 @@
 layout: post
 title: "apache sqoop on mac osx yosemite"
 description: ""
-category: [apache]
+category: [bigdata]
 tags: [sqoop]
 ---
 {% include JB/setup %}

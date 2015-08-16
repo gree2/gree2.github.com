@@ -2,7 +2,7 @@
 layout: post
 title: "apache flume getting started"
 description: ""
-category: [apache]
+category: [bigdata]
 tags: [flume, avro, netcat, source, sink, channel]
 ---
 {% include JB/setup %}

@@ -2,7 +2,7 @@
 layout: post
 title: "apache hive getting started"
 description: ""
-category: [apache]
+category: [bigdata]
 tags: [hive, hadoop, python, mapper]
 ---
 {% include JB/setup %}

@@ -2,7 +2,7 @@
 layout: post
 title: "hadoop cluster 5 node setup"
 description: ""
-category: [hadoop]
+category: [bigdata]
 tags: [ubuntu, ssh, static ip]
 ---
 {% include JB/setup %}

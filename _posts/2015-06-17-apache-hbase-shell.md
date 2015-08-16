@@ -2,7 +2,7 @@
 layout: post
 title: "apache hbase shell"
 description: ""
-category: [apache]
+category: [bigdata]
 tags: [habse, shell]
 ---
 {% include JB/setup %}

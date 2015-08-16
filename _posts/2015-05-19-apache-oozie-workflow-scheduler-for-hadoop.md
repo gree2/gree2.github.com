@@ -2,7 +2,7 @@
 layout: post
 title: "apache oozie workflow scheduler for hadoop"
 description: ""
-category: [apache]
+category: [bigdata]
 tags: [oozie, workflow, scheduler, hadoop]
 ---
 {% include JB/setup %}

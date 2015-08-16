@@ -2,7 +2,7 @@
 layout: post
 title: "apache spark programming guide"
 description: ""
-category: [apache]
+category: [bigdata]
 tags: [spark, guide, python]
 ---
 {% include JB/setup %}

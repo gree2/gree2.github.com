@@ -2,7 +2,7 @@
 layout: post
 title: "apache spark sql and dataframe guide"
 description: ""
-category: [apache]
+category: [bigdata]
 tags: [spark, sql, dataframe, guide]
 ---
 {% include JB/setup %}

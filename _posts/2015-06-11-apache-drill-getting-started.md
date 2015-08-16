@@ -2,7 +2,7 @@
 layout: post
 title: "apache drill getting started"
 description: ""
-category: [apache]
+category: [bigdata]
 tags: [drill, brew]
 ---
 {% include JB/setup %}

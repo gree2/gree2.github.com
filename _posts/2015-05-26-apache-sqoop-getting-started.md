@@ -2,7 +2,7 @@
 layout: post
 title: "apache sqoop getting started"
 description: ""
-category: [apache]
+category: [bigdata]
 tags: [sqoop, hive]
 ---
 {% include JB/setup %}

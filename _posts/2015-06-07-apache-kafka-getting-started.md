@@ -2,7 +2,7 @@
 layout: post
 title: "apache kafka getting started"
 description: ""
-category: [apache]
+category: [bigdata]
 tags: [kafka, tree]
 ---
 {% include JB/setup %}

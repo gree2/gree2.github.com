@@ -2,7 +2,7 @@
 layout: post
 title: "apache sqoop import export demo"
 description: ""
-category: [apache]
+category: [bigdata]
 tags: [sqoop, import, export, mysql, sqlserver, db2, oracle, avro, csv, teradata, postgresql, netezza]
 ---
 {% include JB/setup %}

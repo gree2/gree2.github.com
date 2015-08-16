@@ -43,6 +43,11 @@ tags: [sysctl, wget, grep]
 
             $ grep -n 'search-term' *.c
 
+    1. [finding all files containing a text string on linux](http://stackoverflow.com/questions/16956810/finding-all-files-containing-a-text-string-on-linux)
+
+            $ grep -rnw _post -e "retry policy"
+            _posts//2015-07-06-hadoop-cluster-5-node-setup.md:1068:            2015-07-08 08:20:48,046 INFO org.apache.hadoop.ipc.Client: Retrying connect to server: node5/192.168.120.155:9000. Already tried 3 time(s); retry policy is RetryUpToMaximumCountWithFixedSleep(maxRetries=10, sleepTime=1000 MILLISECONDS)
+
 1. key
 
     1. [how do i clear delete the current line in terminal](http://stackoverflow.com/questions/9679776/how-do-i-clear-delete-the-current-line-in-terminal)
@@ -151,6 +156,61 @@ tags: [sysctl, wget, grep]
 
             $ echo -n "http://releases.ubuntu.com/14.04/ubuntu-14.04.1-server-i386.iso" | openssl dgst -sha256
             (stdin)= 90a2489db0fb9bf8e4062a05cdd528d372c3ff6e028edfde5666b7ae73a3d18a
+
+1. ssh
+
+    1. [ssh-keyscan](http://askubuntu.com/questions/123072/ssh-automatically-accept-keys)
+
+            # 1. if not in `known_hosts` you must confirm `yes`
+            $ start-dfs.sh
+            Starting namenodes on [singlenode]
+            The authenticity of host 'singlenode (192.168.100.100)' can't be established.
+            ECDSA key fingerprint is f1:14:06:ef:f4:08:e5:a2:bd:c8:54:50:1d:ca:8e:56.
+            Are you sure you want to continue connecting (yes/no)? yes
+            singlenode: Warning: Permanently added 'singlenode,192.168.100.100' (ECDSA) to the list of known hosts.
+            singlenode: starting namenode, logging to /opt/bigdata/hadoop-2.7.0/logs/hadoop-hadoop-namenode-singlenode.out
+            singlenode: starting datanode, logging to /opt/bigdata/hadoop-2.7.0/logs/hadoop-hadoop-datanode-singlenode.out
+            Starting secondary namenodes [0.0.0.0]
+            The authenticity of host '0.0.0.0 (0.0.0.0)' can't be established.
+            ECDSA key fingerprint is f1:14:06:ef:f4:08:e5:a2:bd:c8:54:50:1d:ca:8e:56.
+            Are you sure you want to continue connecting (yes/no)? yes
+            0.0.0.0: Warning: Permanently added '0.0.0.0' (ECDSA) to the list of known hosts.
+            0.0.0.0: starting secondarynamenode, logging to /opt/bigdata/hadoop-2.7.0/logs/hadoop-hadoop-secondarynamenode-singlenode.out
+
+            # 2. stop `dfs` and rm `known_hosts`
+            $ stop-dfs.sh
+            $ rm known_hosts
+
+            # 3. add to `known_hosts`
+            $ ssh-keyscan -H 0.0.0.0 >> known_hosts
+            $ ssh-keyscan -H singlenode >> known_hosts
+            $ ssh-keyscan -H 192.168.100.100 >> known_hosts
+
+            # 4. `start-dfs`
+            Starting namenodes on [singlenode]
+            singlenode: starting namenode, logging to /opt/bigdata/hadoop-2.7.0/logs/hadoop-hadoop-namenode-singlenode.out
+            singlenode: starting datanode, logging to /opt/bigdata/hadoop-2.7.0/logs/hadoop-hadoop-datanode-singlenode.out
+            Starting secondary namenodes [0.0.0.0]
+            0.0.0.0: starting secondarynamenode, logging to /opt/bigdata/hadoop-2.7.0/logs/hadoop-hadoop-secondarynamenode-singlenode.out
+
+1. sudo
+
+    1. [disable ipv6](http://askubuntu.com/questions/440649/how-to-disable-ipv6-in-ubuntu-14-04)
+
+            # 1. append to `/etc/sysctl.conf`
+            $ sudo sh -c 'echo "net.ipv6.conf.all.disable_ipv6 = 1" >> /etc/sysctl.conf'
+            $ sudo sh -c 'echo "net.ipv6.conf.default.disable_ipv6 = 1" >> /etc/sysctl.conf'
+            $ sudo sh -c 'echo "net.ipv6.conf.lo.disable_ipv6 = 1" >> /etc/sysctl.conf'
+
+            # 2. verify edit
+            $ sudo sysctl -p
+            net.ipv6.conf.all.disable_ipv6 = 1
+            net.ipv6.conf.default.disable_ipv6 = 1
+            net.ipv6.conf.lo.disable_ipv6 = 1
+
+            # 3. verify
+            $ cat /proc/sys/net/ipv6/conf/all/disable_ipv6
+            1
 
 1. sysctl
 

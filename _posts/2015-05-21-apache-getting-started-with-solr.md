@@ -2,7 +2,7 @@
 layout: post
 title: "apache getting started with solr"
 description: ""
-category: [apache]
+category: [bigdata]
 tags: [solr, nosql, json, xml, csv, lucene]
 ---
 {% include JB/setup %}

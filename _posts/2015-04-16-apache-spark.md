@@ -2,7 +2,7 @@
 layout: post
 title: "apache spark"
 description: ""
-category: [apache]
+category: [bigdata]
 tags: [bigdata, spark]
 ---
 {% include JB/setup %}

@@ -2,7 +2,7 @@
 layout: post
 title: "spark sql read csv from hdfs and plot it"
 description: ""
-category: [apache]
+category: [bigdata]
 tags: [spark, sql, csv, plot]
 ---
 {% include JB/setup %}

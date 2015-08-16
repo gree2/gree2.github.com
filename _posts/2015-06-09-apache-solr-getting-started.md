@@ -2,7 +2,7 @@
 layout: post
 title: "apache solr getting started"
 description: ""
-category: [apache]
+category: [bigdata]
 tags: [solr, lucene]
 ---
 {% include JB/setup %}

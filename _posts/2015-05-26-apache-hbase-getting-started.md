@@ -2,7 +2,7 @@
 layout: post
 title: "apache hbase getting started"
 description: ""
-category: [apache]
+category: [bigdata]
 tags: [hbase, hadoop]
 ---
 {% include JB/setup %}

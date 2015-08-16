@@ -2,7 +2,7 @@
 layout: post
 title: "apache zookeeper getting started"
 description: ""
-category: [apache]
+category: [bigdata]
 tags: [zookeeper, leader, follower, observer]
 ---
 {% include JB/setup %}
