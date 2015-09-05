@@ -59,13 +59,23 @@ tags: [sysctl, wget, grep]
 
             $ head -n1 /etc/issues
 
-    1. all partitions registered on the system
+    1. disk
 
+            # 1. all partitions registered on the system
             $ cat /proc/partitions
 
-    1. info about disk sda
-
+            # 2. info about disk sda
             $ hdparm -i /dev/sda
+
+            # 3. dispaly installed hard disk and size
+            $ fdisk -l | grep '^Disk /dev/'
+
+            # 4. 
+            $ df -lh
+            Filesystem      Size  Used Avail Use% Mounted on
+            /dev/sda3       611G  2.0G  578G   1% /
+            tmpfs            16G     0   16G   0% /dev/shm
+            /dev/sda1        31G  205M   29G   1% /boot
 
     1. ram total seen by system
 
@@ -84,10 +94,6 @@ tags: [sysctl, wget, grep]
     1. list all block devices
 
             $ lsblk
-
-    1. dispaly installed hard disk and size
-
-            $ fdisk -l | grep '^Disk /dev/'
 
     1. display info about hardware raid
 
