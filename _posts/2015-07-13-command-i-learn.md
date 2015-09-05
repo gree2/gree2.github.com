@@ -48,6 +48,64 @@ tags: [sysctl, wget, grep]
             $ grep -rnw _post -e "retry policy"
             _posts//2015-07-06-hadoop-cluster-5-node-setup.md:1068:            2015-07-08 08:20:48,046 INFO org.apache.hadoop.ipc.Client: Retrying connect to server: node5/192.168.120.155:9000. Already tried 3 time(s); retry policy is RetryUpToMaximumCountWithFixedSleep(maxRetries=10, sleepTime=1000 MILLISECONDS)
 
+1. [hardware info](http://superuser.com/questions/303981/what-is-the-linux-command-to-find-out-hardware-info) and [pixelbeat](http://www.pixelbeat.org/cmdline.html) and [cyberciti](http://www.cyberciti.biz/faq/linux-command-to-find-the-system-configuration-and-hardware-information/)
+
+    1. kernel version and system architecture
+
+            $ uname -mrs
+            $ uname -a
+
+    1. name and version of distribution
+
+            $ head -n1 /etc/issues
+
+    1. all partitions registered on the system
+
+            $ cat /proc/partitions
+
+    1. info about disk sda
+
+            $ hdparm -i /dev/sda
+
+    1. ram total seen by system
+
+            $ grep MemTotal /proc/meminfo
+
+    1. cpu info
+
+            $ grep "model name" /proc/cpuinfo
+            $ less /proc/cpuinfo
+            # lscpu
+
+    1. list all usb devices
+
+            $ lsusb
+
+    1. list all block devices
+
+            $ lsblk
+
+    1. dispaly installed hard disk and size
+
+            $ fdisk -l | grep '^Disk /dev/'
+
+    1. display info about hardware raid
+
+            $ arcconf getconfig DEV
+            # /usr/StorMan/arcconf getconfig 1
+
+    1. dump all hardware info
+
+            # motherboard/cpu/verdor/serial-numbers
+            # ram/disks/other info
+            $ dmidecode | less
+
+    1. using [lspci](https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/6/html/Deployment_Guide/s1-sysinfo-hardware.html)
+
+            $ lspci
+            $ lspci -v
+            $ lspci -vv
+
 1. key
 
     1. [how do i clear delete the current line in terminal](http://stackoverflow.com/questions/9679776/how-do-i-clear-delete-the-current-line-in-terminal)
