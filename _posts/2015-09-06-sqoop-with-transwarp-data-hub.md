@@ -179,3 +179,14 @@ tags: [sqoop, transwarp, tdh]
 
             # 3. `hortonworks hadoop hive`
             # ip:node2 port:10000
+
+    1. data columns with `new line` characters
+
+            # on node2
+            # import 160000 records from sqlserver
+            # but got 320000+ records in hive
+
+            # fixed
+            $ ./sqoop import --connect 'jdbc:sqlserver://sqlhost;database=mydb;username=myuser;password=mypass' \
+            --query "select aa, bb, cc, REPLACE(REPLACE(dd, CHAR(13), '{13}'), CHAR(10), '{10}') dd from mytable where \$CONDITIONS" \
+            --hive-table mytable --hive-import  --target-dir /inceptorsql1/user/hive/warehouse/mytable -m 1
