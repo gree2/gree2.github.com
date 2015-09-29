@@ -3,7 +3,7 @@ layout: post
 title: "kafka storm on ubuntu with python"
 description: ""
 category: [bigdata]
-tags: [kafka, storm, ubuntu, python, kafaka-python, pyleus, nimbus, supervisor, ui, zookeeper]
+tags: [kafka, storm, ubuntu, python, kafka-python, pyleus, nimbus, supervisor, ui, zookeeper]
 ---
 {% include JB/setup %}
 
@@ -19,7 +19,7 @@ tags: [kafka, storm, ubuntu, python, kafaka-python, pyleus, nimbus, supervisor, 
             +---------------+ +---------------+ +---------------+
             | 192.168.1.151 | | 192.168.1.152 | | 192.168.1.153 |
             +---------------+ +---------------+ +---------------+
-            |    kafaka     | |    kafaka     | |     kafaka    |
+            |    kafka      | |    kafka      | |     kafka     |
             |    storm      | |    storm      | |     storm     |
             |    zookeeper  | |    zookeeper  | |     zookeeper |
             +---------------+ +---------------+ +---------------+
@@ -97,7 +97,7 @@ tags: [kafka, storm, ubuntu, python, kafaka-python, pyleus, nimbus, supervisor, 
 
     1. setups
 
-    1. kafaka demo
+    1. kafka demo
 
     1. storm demo
 
@@ -105,7 +105,7 @@ tags: [kafka, storm, ubuntu, python, kafaka-python, pyleus, nimbus, supervisor, 
 
 1. config ubuntu
 
-    1. ip 
+    1. `ip` of node1
 
             $ sudo pico /etc/network/interface
             # This file describes the network interfaces available on your system
@@ -123,7 +123,12 @@ tags: [kafka, storm, ubuntu, python, kafaka-python, pyleus, nimbus, supervisor, 
             gateway 192.168.1.253
             dns-nameservers 192.168.1.253
 
-    1. hosts
+            auto eth1
+            iface eth1 inet static
+            address 10.13.186.251
+            netmask 255.255.254.0
+
+    1. `hosts` of node1
 
             $ sudo pico /etc/hosts
             127.0.0.1   localhost
@@ -134,11 +139,17 @@ tags: [kafka, storm, ubuntu, python, kafaka-python, pyleus, nimbus, supervisor, 
             ff02::1 ip6-allnodes
             ff02::2 ip6-allrouters
 
+            # at home
             192.168.1.151 node1
             192.168.1.152 node2
             192.168.1.153 node3
 
-    1. hostname
+            # at work
+            # 10.13.186.251 node1
+            # 10.13.186.252 node2
+            # 10.13.186.253 node3
+
+    1. `hostname` of node1
 
             $ sudo pico /etc/hostname
             node1
@@ -159,11 +170,56 @@ tags: [kafka, storm, ubuntu, python, kafaka-python, pyleus, nimbus, supervisor, 
 
 ### 2. zookeeper
 
+1. check my post [2015 05 26 apache zookeeper getting started]({% post_url 2015-05-26-apache-zookeeper-getting-started %})
+
 ### 3. kafka
 
-1. [reference](http://www.michael-noll.com/blog/2013/03/13/running-a-multi-broker-apache-kafka-cluster-on-a-single-node/)
+1. config
 
-1. usage
+    1. server.properties
+
+            # Server Basics #
+            broker.id=1
+
+            # Socket Server Settings #
+            port=9092
+            # hostname the broker willbind to.
+            # if not set, the server will bind to all interfaces
+            # host.name=192.168.1.151
+            num.network.threads=3
+            num.io.threads=8
+            socket.send.buffer.bytes=102400
+            socket.receive.buffer.bytes=102400
+            socket.request.max.bytes=104857600
+
+            # Log Basics #
+            log.dirs=/opt/app/kafka/logs1
+            num.partitions=1
+            num.recovery.threads.per.data.dir=1
+
+            # Log Retention Policy #
+            log.retention.hours=168
+            log.segment.bytes=1073741824
+            log.retention.check.interval.ms=300000
+            log.cleaner.enable=false
+
+            # Zookeeper #
+            zookeeper.connect=192.168.1.151:2181,192.168.1.152:2181,192.168.1.153:2181
+            zookeeper.connection.timeout.ms=6000
+
+    1. `host.name=10.13.186.251`
+
+            $ netstat -an | grep 9092
+            tcp6       0      0 10.13.186.251:9092      :::*                    LISTEN     
+            tcp6       0      0 10.13.186.251:9092      10.13.186.252:34001     ESTABLISHED
+
+    1. `#host.name=10.13.186.251`
+
+            $ netstat -an | grep 9092
+            tcp6       0      0 :::9092                 :::*                    LISTEN     
+            tcp6       0      0 192.168.1.151:9092      192.168.1.153:40047     ESTABLISHED
+
+1. [usage]((http://www.michael-noll.com/blog/2013/03/13/running-a-multi-broker-apache-kafka-cluster-on-a-single-node/))
 
     1. start the kafka server
 
@@ -202,9 +258,44 @@ tags: [kafka, storm, ubuntu, python, kafaka-python, pyleus, nimbus, supervisor, 
 
 ### 4. storm
 
-1. [reference](https://storm.apache.org/documentation/Setting-up-a-Storm-cluster.html)
+1. config
 
-1. usage
+    1. storm.yaml
+
+            $ pico storm.yaml
+            storm.zookeeper.servers:
+                - "10.13.186.251"
+                - "10.13.186.252"
+                - "10.13.186.253"
+
+            nimbus.host: "10.13.186.251"
+            storm.local.dir: "/opt/app/storm"
+
+    1. `storm.local.dir`
+
+            $ ls -R /opt/app/storm/
+            /opt/app/storm/:
+            nimbus  supervisor
+
+            /opt/app/storm/nimbus:
+            inbox
+
+            /opt/app/storm/nimbus/inbox:
+
+            /opt/app/storm/supervisor:
+            isupervisor  localstate  tmp
+
+            /opt/app/storm/supervisor/isupervisor:
+            1443500644480  1443500644480.version
+
+            /opt/app/storm/supervisor/localstate:
+            1443501306564          1443501306723.version  1443501312725
+            1443501306564.version  1443501309722          1443501312725.version
+            1443501306723          1443501309722.version
+
+            /opt/app/storm/supervisor/tmp:
+
+1. [usage](https://storm.apache.org/documentation/Setting-up-a-Storm-cluster.html)
 
     1. start nimbus
 
@@ -247,12 +338,12 @@ tags: [kafka, storm, ubuntu, python, kafaka-python, pyleus, nimbus, supervisor, 
 
     1. on dev node
 
-            $ pip install kafaka-python
+            $ pip install kafka-python
             $ pip install pyleus
 
-1. kafaka demo
+1. kafka demo
 
-    1. kafaka producer
+    1. kafka producer
 
             def simple_producer():
                 '''simple producer'''
@@ -268,7 +359,7 @@ tags: [kafka, storm, ubuntu, python, kafaka-python, pyleus, nimbus, supervisor, 
                 # Send unicode message
                 producer.send_messages(b'topic1', u'你怎么样?'.encode('utf-8'))
 
-    1. kafaka consumer
+    1. kafka consumer
 
             def kafka_consumer():
                 '''kafka consumer'''
@@ -327,16 +418,16 @@ tags: [kafka, storm, ubuntu, python, kafaka-python, pyleus, nimbus, supervisor, 
     1. build a topology
 
             # on dev
-            $ pyleus build /path/to/my_topology.yaml
+            $ pyleus build /path/to/word_count.yaml
 
     1. run a topology locally
 
             # on dev
-            $ pyleus local /path/to/my_topology.jar
+            $ pyleus local /path/to/word_count.jar
 
             # run the topology on local machine for debugging
-            $ pyleus build my_topology/my_topology.yaml
-            $ pyleus local --debug my_topology.jar
+            $ pyleus build word_count/word_count.yaml
+            $ pyleus local --debug word_count.jar
 
     1. list all topologies running on a storm cluster
 
@@ -346,19 +437,124 @@ tags: [kafka, storm, ubuntu, python, kafaka-python, pyleus, nimbus, supervisor, 
     1. kill a topology running on a storm cluster
 
             # on dev
-            $ pyleus kill -n 192.168.1.151 my_topology
+            $ pyleus kill -n 192.168.1.151 word_count
 
     1. submit
 
             # on dev
-            $ pyleus submit -n 192.168.1.151 my_topology.jar
+            $ pyleus submit -n 192.168.1.151 word_count.jar
 
     1. directory tree of a simple topology:
 
-            my_topology/
-            |-- my_topology/
-            | |-- __init__.py
-            | |-- dummy_bolt.py
-            | |-- dummy_spout.py
-            |-- my_topology.yaml
-            |-- requirements.txt
+            word_count/
+            ├── word_count
+            │   ├── __init__.py
+            │   ├── count_words.py
+            │   ├── line_spout.py
+            │   ├── log_results.py
+            │   └── split_words.py
+            └── word_count.yaml
+
+1. put all together
+
+    1. data flow chart
+
+            +------------------+
+            | producer.demo.py |
+            +------------------+
+                      ↓         
+            +------------------+
+            | kafka cluster    |
+            +------------------+
+                      ↓         
+            +------------------+
+            | kafka-spout      |
+            +------------------+
+                      ↓         
+            +------------------+
+            | split-words.py   |
+            +------------------+
+                      ↓         
+            +------------------+
+            | count-words.py   |
+            +------------------+
+                      ↓         
+            +------------------+
+            | log-results.py   |
+            +------------------+
+
+    1. local test flow
+
+            +------------------+
+            | start zookeeper  |
+            +------------------+
+                      ↓         
+            +------------------+
+            | start kafka      |
+            +------------------+
+                      ↓         
+            +------------------+
+            | start storm      |
+            +------------------+
+                      ↓         
+            +------------------+
+            | pyleus local     |
+            +------------------+
+                      ↓         
+            +------------------+
+            | run producer * x |
+            +------------------+
+                      ↓         
+            +------------------+
+            | check dir /tmp   |
+            +------------------+
+
+### fixed
+
+1. file does not exist
+
+    1. error
+
+            2015-09-28T16:10:32.987+0800 b.s.d.worker [ERROR] Error on initialization of server mk-worker
+            java.io.FileNotFoundException: File '/opt/app/storm/supervisor/stormdist/word_count-2-1443427681/stormconf.ser' does not exist
+                at org.apache.commons.io.FileUtils.openInputStream(FileUtils.java:299) ~[commons-io-2.4.jar:2.4]
+                at org.apache.commons.io.FileUtils.readFileToByteArray(FileUtils.java:1763) ~[commons-io-2.4.jar:2.4]
+                at backtype.storm.config$read_supervisor_storm_conf.invoke(config.clj:212) ~[storm-core-0.9.5.jar:0.9.5]
+                at backtype.storm.daemon.worker$worker_data.invoke(worker.clj:184) ~[storm-core-0.9.5.jar:0.9.5]
+                at backtype.storm.daemon.worker$fn__6959$exec_fn__1103__auto____6960.invoke(worker.clj:400) ~[storm-core-0.9.5.jar:0.9.5]
+                at clojure.lang.AFn.applyToHelper(AFn.java:185) [clojure-1.5.1.jar:na]
+                at clojure.lang.AFn.applyTo(AFn.java:151) [clojure-1.5.1.jar:na]
+                at clojure.core$apply.invoke(core.clj:617) ~[clojure-1.5.1.jar:na]
+                at backtype.storm.daemon.worker$fn__6959$mk_worker__7015.doInvoke(worker.clj:391) [storm-core-0.9.5.jar:0.9.5]
+                at clojure.lang.RestFn.invoke(RestFn.java:512) [clojure-1.5.1.jar:na]
+                at backtype.storm.daemon.worker$_main.invoke(worker.clj:502) [storm-core-0.9.5.jar:0.9.5]
+                at clojure.lang.AFn.applyToHelper(AFn.java:172) [clojure-1.5.1.jar:na]
+                at clojure.lang.AFn.applyTo(AFn.java:151) [clojure-1.5.1.jar:na]
+                at backtype.storm.daemon.worker.main(Unknown Source) [storm-core-0.9.5.jar:0.9.5]
+            2015-09-28T16:10:33.022+0800 b.s.util [ERROR] Halting process: ("Error on initialization")
+            java.lang.RuntimeException: ("Error on initialization")
+                at backtype.storm.util$exit_process_BANG_.doInvoke(util.clj:325) [storm-core-0.9.5.jar:0.9.5]
+                at clojure.lang.RestFn.invoke(RestFn.java:423) [clojure-1.5.1.jar:na]
+                at backtype.storm.daemon.worker$fn__6959$mk_worker__7015.doInvoke(worker.clj:391) [storm-core-0.9.5.jar:0.9.5]
+                at clojure.lang.RestFn.invoke(RestFn.java:512) [clojure-1.5.1.jar:na]
+                at backtype.storm.daemon.worker$_main.invoke(worker.clj:502) [storm-core-0.9.5.jar:0.9.5]
+                at clojure.lang.AFn.applyToHelper(AFn.java:172) [clojure-1.5.1.jar:na]
+                at clojure.lang.AFn.applyTo(AFn.java:151) [clojure-1.5.1.jar:na]
+                at backtype.storm.daemon.worker.main(Unknown Source) [storm-core-0.9.5.jar:0.9.5]
+
+    1. solution
+
+            # 1. shutdown kafka storm zookeeper
+            # 2. delete `storm`'s folder `storm.localdir` contents
+            # 3. delete `zookeeper`'s folder `dataDir` and `dataLogDir`
+
+1. java.lang.RuntimeException ... pyleus_venv/bin/python
+
+    1. error
+
+            java.lang.RuntimeException: Error when launching multilang subprocess bash: pyleus_venv/bin/python: cannot execute binary file: Exec format error at backtype.storm.utils.ShellProcess.launch(ShellProcess.java:66) at backtype.storm.task.ShellBolt.prepare(ShellBolt.java:117) at backtype.storm.daemon.executor$fn__6647$fn__6659.invoke(executor.clj:692) at backtype.storm.util$async_loop$fn__459.invoke(util.clj:461) at clojure.lang.AFn.run(AFn.java:24) at java.lang.Thread.run(Thread.java:745) Caused by: java.io.IOException: Stream closed at java.lang.ProcessBuilder$NullOutputStream.write(ProcessBuilder.java:434) at java.io.OutputStream.write(OutputStream.java:116) at java.io.BufferedOutputStream.flushBuffer(BufferedOutputStream.java:82) at java.io.BufferedOutputStream.flush(BufferedOutputStream.java:140) at java.io.DataOutputStream.flush(DataOutputStream.java:123) at com.yelp.pyleus.serializer.MessagePackSerializer.writeMessage(MessagePackSerializer.java:215) at com.yelp.pyleus.serializer.MessagePackSerializer.connect(MessagePackSerializer.java:65) at backtype.storm.utils.ShellProcess.launch(ShellProcess.java:64) ... 5 more
+
+    1. solution
+
+            # not found yet
+            # https://yelp.github.io/pyleus/install.html
