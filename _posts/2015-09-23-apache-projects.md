@@ -86,7 +86,7 @@ tags: [ambari, avro, bigtop, cassandra, chukwa, crunch, derby, drill, falcon, fl
 
 1. cate `big-data/library`
 
-1. lang  `c/c++/c#/java/php/python/ruby   
+1. lang  `c/c++/c#/java/php/python/ruby`
 
 1. desc
 
@@ -312,7 +312,7 @@ tags: [ambari, avro, bigtop, cassandra, chukwa, crunch, derby, drill, falcon, fl
 
 1. [site](http://phoenix.apache.org/)
 
-1. cate `big-data/database   
+1. cate `big-data/database`
 
 1. lang  `java/sql`
 

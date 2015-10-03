@@ -329,6 +329,7 @@ tags: [kafka, storm, ubuntu, python, kafka-python, pyleus, nimbus, supervisor, u
 
             # on node1
             $ bash anaconda-2.3.0-linux-x86_64.sh
+            $ pip install pyleus
 
             # on node2
             $ bash anaconda-2.3.0-linux-x86_64.sh
@@ -345,6 +346,8 @@ tags: [kafka, storm, ubuntu, python, kafka-python, pyleus, nimbus, supervisor, u
 
     1. kafka producer
 
+            KAFKA_SERVER = '192.168.1.151:9092'
+
             def simple_producer():
                 '''simple producer'''
                 from kafka import SimpleProducer, KafkaClient
@@ -360,6 +363,8 @@ tags: [kafka, storm, ubuntu, python, kafka-python, pyleus, nimbus, supervisor, u
                 producer.send_messages(b'topic1', u'你怎么样?'.encode('utf-8'))
 
     1. kafka consumer
+
+            KAFKA_SERVER = '192.168.1.151:9092'
 
             def kafka_consumer():
                 '''kafka consumer'''
@@ -388,17 +393,19 @@ tags: [kafka, storm, ubuntu, python, kafka-python, pyleus, nimbus, supervisor, u
 
             $ pyleus -c /path/to/pyleus.conf CMD
 
-    1. demo conf
+    1. demo conf of `dev`
 
+            $ cd ~ && pico .pyleus.conf
             [storm]
             # path to Storm executable (pyleus will automatically look in PATH)
             storm_cmd_path: /usr/local/bin/storm
 
             # optional: use -n option of pyleus CLI instead
             nimbus_host: 192.168.1.151
+            #nimbus_host: 10.13.186.251
 
             # optional: use -p option of pyleus CLI instead
-            nimbus_port: 6628
+            nimbus_port: 6627
 
             # java options to pass to Storm CLI
             jvm_opts: -Djava.io.tmpdir=/tmp
@@ -408,41 +415,69 @@ tags: [kafka, storm, ubuntu, python, kafka-python, pyleus, nimbus, supervisor, u
             pypi_index_url: http://pypi.ninjacorp.com/simple/
 
             # always use system-site-packages for pyleus virtualenvs (default: false)
-            system_site_packages: true
+            system_site_packages: false
 
-            # list of packages to always include in your topologies
-            include_packages: foo bar<4.0 baz==0.127
+    1. demo conf of `node1`
+
+            $ cd ~ && pico .pyleus.conf
+            [storm]
+            # path to Storm executable (pyleus will automatically look in PATH)
+            storm_cmd_path: /opt/storm/bin/storm
+
+            # optional: use -n option of pyleus CLI instead
+            nimbus_host: 192.168.1.151
+            #nimbus_host: 10.13.186.251
+
+            # optional: use -p option of pyleus CLI instead
+            nimbus_port: 6627
+
+            # java options to pass to Storm CLI
+            jvm_opts: -Djava.io.tmpdir=/tmp
+
+            [build]
+            # PyPI server to use during the build of your topologies
+            pypi_index_url: http://pypi.ninjacorp.com/simple/
+
+            # always use system-site-packages for pyleus virtualenvs (default: false)
+            system_site_packages: false
+
+    1. about [system_site_packages: false](https://yelp.github.io/pyleus/install.html)
+
+            You do NOT need to install pyleus on your Storm cluster.
+
+            However, if you are going to use system_site_packages: true in your config file, you should be aware that the environment of your Storm nodes needs to match the one on the machine used for building the topology. This means you actually have to install pyleus on your Storm cluster in this case.
 
 1. [storm demo](https://yelp.github.io/pyleus/tutorial.html)
 
     1. build a topology
 
             # on dev
-            $ pyleus build /path/to/word_count.yaml
+            $ cd ~/word_count
+            $ pyleus build word_count.yaml
 
     1. run a topology locally
 
             # on dev
-            $ pyleus local /path/to/word_count.jar
+            $ cd ~/word_count
+            $ pyleus local word_count.jar
 
             # run the topology on local machine for debugging
-            $ pyleus build word_count/word_count.yaml
             $ pyleus local --debug word_count.jar
 
     1. list all topologies running on a storm cluster
 
             # on dev
-            $ pyleus list -n 192.168.1.151
-
-    1. kill a topology running on a storm cluster
-
-            # on dev
-            $ pyleus kill -n 192.168.1.151 word_count
+            $ pyleus list
 
     1. submit
 
             # on dev
-            $ pyleus submit -n 192.168.1.151 word_count.jar
+            $ pyleus submit word_count.jar
+
+    1. kill a topology running on a storm cluster
+
+            # on dev
+            $ pyleus kill word_count
 
     1. directory tree of a simple topology:
 
@@ -482,6 +517,11 @@ tags: [kafka, storm, ubuntu, python, kafka-python, pyleus, nimbus, supervisor, u
             +------------------+
             | log-results.py   |
             +------------------+
+                      ↓         
+            +------------------+
+            | redis            |
+            +------------------+
+
 
     1. local test flow
 
@@ -507,11 +547,12 @@ tags: [kafka, storm, ubuntu, python, kafka-python, pyleus, nimbus, supervisor, u
                       ↓         
             +------------------+
             | check dir /tmp   |
+            | check redis      |
             +------------------+
 
 ### fixed
 
-1. file does not exist
+1. local mode on dev
 
     1. error
 
@@ -544,11 +585,12 @@ tags: [kafka, storm, ubuntu, python, kafka-python, pyleus, nimbus, supervisor, u
 
     1. solution
 
-            # 1. shutdown kafka storm zookeeper
-            # 2. delete `storm`'s folder `storm.localdir` contents
-            # 3. delete `zookeeper`'s folder `dataDir` and `dataLogDir`
+            # 1. stop kafka storm zookeeper
+            # 2. delete `storm's` folder `storm.localdir` contents
+            # 3. delete `zookeeper's` folder `dataDir` and `dataLogDir`
+            # 3. start zookeeper kafka storm
 
-1. java.lang.RuntimeException ... pyleus_venv/bin/python
+1. local mode on dev
 
     1. error
 
@@ -558,3 +600,50 @@ tags: [kafka, storm, ubuntu, python, kafka-python, pyleus, nimbus, supervisor, u
 
             # not found yet
             # https://yelp.github.io/pyleus/install.html
+
+1. local mode on node1
+
+    1. error
+
+            java.lang.RuntimeException: Error when launching multilang subprocess
+            Traceback (most recent call last):
+              File "/home/node/anaconda/lib/python2.7/runpy.py", line 162, in _run_module_as_main
+                "__main__", fname, loader, pkg_name)
+              File "/home/node/anaconda/lib/python2.7/runpy.py", line 72, in _run_code
+                exec code in run_globals
+              File "/tmp/e50a8af4-bec0-41fa-91cd-22aabd2f1c1b/supervisor/stormdist/word_count-1-1443861558/resources/word_count/log_results.py", line 7, in <module>
+                from pyleus.storm import SimpleBolt
+              File "/home/node/anaconda/lib/python2.7/site-packages/pyleus/__init__.py", line 3, in <module>
+                import pkg_resources
+              File "/tmp/e50a8af4-bec0-41fa-91cd-22aabd2f1c1b/supervisor/stormdist/word_count-1-1443861558/resources/pyleus_venv/lib/python2.7/site-packages/pkg_resources/__init__.py", line 37, in <module>
+                import email.parser
+              File "/home/node/anaconda/lib/python2.7/email/parser.py", line 12, in <module>
+                from email.feedparser import FeedParser
+              File "/home/node/anaconda/lib/python2.7/email/feedparser.py", line 27, in <module>
+                from email import message
+              File "/home/node/anaconda/lib/python2.7/email/message.py", line 16, in <module>
+                import email.charset
+              File "/home/node/anaconda/lib/python2.7/email/charset.py", line 13, in <module>
+                import email.base64mime
+              File "/home/node/anaconda/lib/python2.7/email/base64mime.py", line 40, in <module>
+                from email.utils import fix_eols
+              File "/home/node/anaconda/lib/python2.7/email/utils.py", line 27, in <module>
+                import random
+              File "/home/node/anaconda/lib/python2.7/random.py", line 49, in <module>
+                import hashlib as _hashlib
+              File "/home/node/anaconda/lib/python2.7/hashlib.py", line 138, in <module>
+                _hashlib.openssl_md_meth_names)
+            AttributeError: 'module' object has no attribute 'openssl_md_meth_names'
+
+    1. [solution](http://askubuntu.com/questions/575598/python-attributeerror-with-hashlib-no-such-attribute-openssl-md-meth-names)
+
+            $ cd / && find . | grep hashlib
+            ./usr/lib/python3.4/lib-dynload/_hashlib.cpython-34m-x86_64-linux-gnu.so
+            ./usr/lib/python3.4/hashlib.py
+            ./usr/lib/python3.4/__pycache__/hashlib.cpython-34.pyc
+            ./usr/lib/python2.7/lib-dynload/_hashlib.x86_64-linux-gnu.so
+            ./usr/lib/python2.7/hashlib.py
+            ./usr/lib/python2.7/hashlib.pyc
+            ...
+
+            $ sudo rm -f /usr/lib/python2.7/lib-dynload/_hashlib.x86_64-linux-gnu.so
