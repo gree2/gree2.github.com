@@ -550,6 +550,24 @@ tags: [kafka, storm, ubuntu, python, kafka-python, pyleus, nimbus, supervisor, u
             | check redis      |
             +------------------+
 
+    1. process
+
+            +----------------+   
+            | sentence spout |   {"sentence": "i am learning kafka storm redis"}
+            +----------------+   
+                    ↓            
+            +----------------+   
+            | split bolt     |   {"word" : "i"} {"word" : "am"} {"word" : "learning"}
+            +----------------+   
+                    ↓            
+            +----------------+   
+            | count bolt     |   {"word" : "i", "count" : 1} {"word" : "am", "count" : 1}
+            +----------------+   
+                    ↓            
+            +----------------+   
+            | log bolt       |   write to log and to redis
+            +----------------+   
+
 ### fixed
 
 1. local mode on dev

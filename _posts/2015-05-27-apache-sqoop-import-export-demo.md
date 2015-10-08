@@ -43,8 +43,18 @@ tags: [sqoop, import, export, mysql, sqlserver, db2, oracle, avro, csv, teradata
 
 1. grant privileges
 
+    1. user `sqoop`
+
             mysql> create user 'sqoop'@'localhost' identified by 'sqoop';
-            mysql> grant all privileges on * . * to 'sqoop'@'localhost';
+            mysql> grant all privileges on *.* to 'sqoop'@'localhost';
+            mysql> flush privileges;
+
+    1. user `root`
+
+            mysql> grant all privileges on *.* to 'root'@'%';
+            mysql> flush privileges;
+            mysql> use mysql;
+            mysql> update user set password=password('root') where user='root';
             mysql> flush privileges;
 
 1. execute sql
