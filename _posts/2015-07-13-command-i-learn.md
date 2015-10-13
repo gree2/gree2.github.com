@@ -112,7 +112,63 @@ tags: [sysctl, wget, grep]
             $ lspci -v
             $ lspci -vv
 
-1. key
+1. [ifconfig](http://www.tecmint.com/ifconfig-command-examples/)
+
+    1. display all network interfaces
+
+            $ ifconfig -a
+
+    1. specific interface
+
+            $ ifconfig eth0
+
+    1. enable/disable interface
+
+            $ ifconfig eth0 up
+            $ ifup eth0
+
+            $ ifconfig eth0 down
+            $ ifdown eth0
+
+    1. assign ip
+
+            $ ifconfig eth0 192.168.100.100
+
+    1. assign netmask
+
+            $ ifconfig eth0 netmask 255.255.255.0
+
+    1. assign broadcast
+
+            $ ifconfig eth0 broadcast 192.168.100.255
+
+    1. assign ip netmask broadcast
+
+            $ ifconfig eth0 192.168.100.100 netmask 255.255.255.0 broadcast 192.168.100.255
+
+    1. change mtu
+
+            $ ifconfig eth0 mtu 1000
+
+    1. enable/disable promiscuout mode
+
+            $ ifconfig eth0 promisc
+            $ ifconfig eth0 -promisc
+
+    1. add alias to interface
+
+            $ ifconfig eth0:0 192.168.100.100
+            $ ifconfig eth0:0
+
+    1. remove alias
+
+            $ ifconfig eth0:0 down
+
+    1. change mac address
+
+            $ ifconfig eth0 hw ether AA:BB:CC:DD:EE:FF
+
+1. line edit shortcut
 
     1. [how do i clear delete the current line in terminal](http://stackoverflow.com/questions/9679776/how-do-i-clear-delete-the-current-line-in-terminal)
 
