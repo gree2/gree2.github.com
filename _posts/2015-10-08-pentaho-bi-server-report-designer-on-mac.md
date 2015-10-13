@@ -91,8 +91,8 @@ tags: [bi, pentaho]
             # to
             jdbc.driver=com.mysql.jdbc.Driver
             jdbc.url=jdbc:mysql://localhost:3306/hibernate
-            jdbc.username=hibuser
-            jdbc.password=password
+            jdbc.username=root
+            jdbc.password=root
             hibernate.dialect=org.hibernate.dialect.MySQLDialect
 
     1. edit `applicationContext-spring-security-jdbc.xml`
@@ -161,6 +161,8 @@ tags: [bi, pentaho]
 
             $ cd biserver-ce/tomcat/webapps/pentaho/META-INF
             $ pico context.xml
+
+            # change
             <?xml version="1.0" encoding="UTF-8"?>
             <Context path="/pentaho" docbase="webapps/pentaho/">
                 <Resource name="jdbc/Hibernate" auth="Container" type="javax.sql.DataSource"
@@ -174,6 +176,53 @@ tags: [bi, pentaho]
                 driverClassName="com.mysql.jdbc.Driver" url="jdbc:mysql://localhost:3306/quartz"
                 validationQuery="select 1"/>
             </Context>
+
+            # to
+            <?xml version="1.0" encoding="UTF-8"?>
+            <Context path="/pentaho" docbase="webapps/pentaho/">
+                <Resource name="jdbc/Hibernate" auth="Container" type="javax.sql.DataSource"
+                factory="org.apache.commons.dbcp.BasicDataSourceFactory" maxActive="20" maxIdle="5"
+                maxWait="10000" username="root" password="root"
+                driverClassName="com.mysql.jdbc.Driver" url="jdbc:mysql://localhost:3306/hibernate"
+                validationQuery="select 1" />
+                <Resource name="jdbc/Quartz" auth="Container" type="javax.sql.DataSource"
+                factory="org.apache.commons.dbcp.BasicDataSourceFactory" maxActive="20" maxIdle="5"
+                maxWait="10000" username="root" password="root"
+                driverClassName="com.mysql.jdbc.Driver" url="jdbc:mysql://localhost:3306/quartz"
+                validationQuery="select 1"/>
+            </Context>
+
+    1. edit `web.xml`
+
+            $ cd biserver-ce/tomcat/webapps/pentaho/WEB_INF
+            $ pico web.xml
+
+            # change
+            <context-param>
+                <param-name>solution-path</param-name>
+                <param-value></param-value>
+            </context-param>
+
+            # to
+            <context-param>
+                <param-name>solution-path</param-name>
+                <param-value>/Users/hqlgree2/Downloads/pentaho/biserver-ce/pentaho-solutions</param-value>
+            </context-param>
+
+    1. edit `publisher_config.xml`
+
+            $ cd biserver-ce/pentaho-solutions/system
+            $ pico publisher_config.xml
+
+            # change
+            <publisher-config>  
+                <publisher-password></publisher-password>  
+            </publisher-config> 
+
+            # to
+            <publisher-config>  
+                <publisher-password>password</publisher-password>  
+            </publisher-config>
 
 ### fixed
 
@@ -191,3 +240,54 @@ tags: [bi, pentaho]
             2) Flushed the Privileges of QuartZ database , created new user and password for QuartZ database and included new credentials at context.xml under /biserver-ce/tomcat/webapps/pentaho/META-INF/ folder
             3) Re-start BI server
             4) Try accessing your PUC
+
+1. setup pentaho bi server in ubuntu
+
+    1. org.h2.jdbc.JdbcSQLException
+
+            org.h2.jdbc.JdbcSQLException: Exception opening port "H2 TCP Server (tcp://localhost:9092)" (port may be in use)
+
+    1. [fixed](http://pentahochina.com/forum.php?mod=viewthread&tid=2618)
+
+            $ pico start-pentaho.sh
+            -Dh2.bindAddress=localhost
+
+    1. [fixed](http://m.oschina.net/question/54100_39411)
+
+            $ sudo ifdown eth0
+            $ sudo service networking restart
+
+1. chart encoding error
+
+    1. [www.cnblogs.com](http://www.cnblogs.com/mybi/archive/2012/09/07/2676132.html)
+
+    1. [zhanghaoeye](http://zhanghaoeye.iteye.com/blog/708211)
+
+    1. [www.linuxidc.com](http://www.linuxidc.com/Linux/2009-02/18279.htm) fixed
+
+            # 1. jre fonts
+            $ cd $JAVA_HOME
+            $ cd jre/lib/fonts
+            $ sudo mkdir fallback
+            $ ls -l
+            total 2048
+            -rw-r--r-- 1 uucp 143   75144 Apr 11  2015 LucidaBrightDemiBold.ttf
+            -rw-r--r-- 1 uucp 143   75124 Apr 11  2015 LucidaBrightDemiItalic.ttf
+            -rw-r--r-- 1 uucp 143   80856 Apr 11  2015 LucidaBrightItalic.ttf
+            -rw-r--r-- 1 uucp 143  344908 Apr 11  2015 LucidaBrightRegular.ttf
+            -rw-r--r-- 1 uucp 143  317896 Apr 11  2015 LucidaSansDemiBold.ttf
+            -rw-r--r-- 1 uucp 143  698236 Apr 11  2015 LucidaSansRegular.ttf
+            -rw-r--r-- 1 uucp 143  234068 Apr 11  2015 LucidaTypewriterBold.ttf
+            -rw-r--r-- 1 uucp 143  242700 Apr 11  2015 LucidaTypewriterRegular.ttf
+            drwxr-xr-x 2 root root   4096 Oct 13 17:32 fallback
+            -rw-r--r-- 1 uucp 143    4041 Apr 11  2015 fonts.dir
+
+            $ sudo chown uucp.143 fallback
+            $ sudo cp /home/node/.fonts/msyh.ttf fallback/
+            $ sudo chown uucp.143 fallback/msyh.ttf
+
+            # 2. user fonts
+            $ cd
+            $ mkdir .fonts
+            $ cp msyh.ttf .fonts/
+            $ fc-cache -fv .fonts/

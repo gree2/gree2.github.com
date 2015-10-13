@@ -209,6 +209,22 @@ tags: [sysctl, wget, grep]
             # check host is listening on port 5666
             > netstat -aon | findstr 5666
 
+    1. get all tcp process pid port
+
+            # get `pid/program name` from port
+            $ netstat -antp
+            (Not all processes could be identified, non-owned process info
+             will not be shown, you would have to be root to see it all.)
+            Active Internet connections (servers and established)
+            Proto Recv-Q Send-Q Local Address           Foreign Address         State       PID/Program name
+            tcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTEN      -               
+            tcp        0      0 10.13.178.100:22        10.13.178.171:61212     ESTABLISHED -               
+            tcp6       0      0 :::9092                 :::*                    LISTEN      1288/java       
+            tcp6       0      0 127.0.0.1:8005          :::*                    LISTEN      1288/java       
+            tcp6       0      0 :::8009                 :::*                    LISTEN      1288/java       
+            tcp6       0      0 :::8080                 :::*                    LISTEN      1288/java       
+            tcp6       0      0 :::22                   :::*                    LISTEN      -
+
 1. openssl
 
     1. dgst
@@ -220,6 +236,14 @@ tags: [sysctl, wget, grep]
 
             $ echo -n "http://releases.ubuntu.com/14.04/ubuntu-14.04.1-server-i386.iso" | openssl dgst -sha256
             (stdin)= 90a2489db0fb9bf8e4062a05cdd528d372c3ff6e028edfde5666b7ae73a3d18a
+
+1. ps
+
+    1. filter java process
+
+            $ ps -ef | grep java
+            node      1288     1  2 14:52 pts/0    00:00:15 /usr/local/java/jdk1.7.0_79/jre/bin/java -Djava.util.logging.config.file=/home/node/biserver-ce/tomcat/conf/logging.properties -Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager -Xms1024m -Xmx2048m -XX:MaxPermSize=256m -Dsun.rmi.dgc.client.gcInterval=3600000 -Dsun.rmi.dgc.server.gcInterval=3600000 -Djava.endorsed.dirs=/home/node/biserver-ce/tomcat/endorsed -classpath /home/node/biserver-ce/tomcat/bin/bootstrap.jar -Dcatalina.base=/home/node/biserver-ce/tomcat -Dcatalina.home=/home/node/biserver-ce/tomcat -Djava.io.tmpdir=/home/node/biserver-ce/tomcat/temp org.apache.catalina.startup.Bootstrap start
+            node      1366  1102  0 15:00 pts/0    00:00:00 grep --color=auto java
 
 1. ssh
 
