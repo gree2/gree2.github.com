@@ -48,6 +48,27 @@ tags: [sysctl, wget, grep]
             $ grep -rnw _post -e "retry policy"
             _posts//2015-07-06-hadoop-cluster-5-node-setup.md:1068:            2015-07-08 08:20:48,046 INFO org.apache.hadoop.ipc.Client: Retrying connect to server: node5/192.168.120.155:9000. Already tried 3 time(s); retry policy is RetryUpToMaximumCountWithFixedSleep(maxRetries=10, sleepTime=1000 MILLISECONDS)
 
+    1. demo
+
+            # 1. find all `java` in all `sh` files
+            $ grep "java" *.sh
+
+            # 2. search all subdirectories recursively
+            $ grep -r "java" .
+            $ grep -R "java" .
+
+            # 3. only display filenames
+            $ grep -H -r "java" .
+
+            # 4. use `cut`
+            $ grep -H -R "java" . | cut -d: -f1
+
+            # 5. display only words
+            $ grep -w -R "java" *.sh
+
+            # 6. search two or more words
+            $ grep -w -R "java|then" *.sh
+
 1. [hardware info](http://superuser.com/questions/303981/what-is-the-linux-command-to-find-out-hardware-info) and [pixelbeat](http://www.pixelbeat.org/cmdline.html) and [cyberciti](http://www.cyberciti.biz/faq/linux-command-to-find-the-system-configuration-and-hardware-information/)
 
     1. kernel version and system architecture

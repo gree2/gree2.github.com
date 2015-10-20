@@ -87,3 +87,14 @@ tags: []
             </tomcat-users>
 
     1. visit [http://localhost:8080/manager/html](http://localhost:8080/manager/html)
+
+1. change port 8080
+
+    1. edit `libexec/conf/server.xml`
+
+            $ pico server.xml
+            # press `ctrl+w` input `8080` hit `enter`
+            <Connector port="8080" protocol="HTTP/1.1"
+                connectionTimeout="20000"
+                redirectPort="8443" />
+            # change `8080` to whatever you want
