@@ -18,6 +18,28 @@ tags: []
 
 ### usage
 
+1. start/stop tomcat
+
+    1. start
+
+            # on linux/mac
+            $ cd /usr/local/tomcat/libexec
+            $ sh startup.sh
+
+            # on windows
+            > startup.bat
+
+            # test
+            http://localhost:8080
+
+    1. stop
+
+            # on linux/mac
+            $ sh shutdown.sh
+
+            # on windows
+            > shutdown.bat
+
 1. catalina
 
     1. help

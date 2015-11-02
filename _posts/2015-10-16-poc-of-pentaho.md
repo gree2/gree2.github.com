@@ -195,6 +195,20 @@ tags: [poc, pentaho, prd]
 
 1. hyperlinks and sparklines
 
+    1. hyperlinks
+
+            # 1. two parts
+            link
+            target
+
+            # 2. types of hyperlinks in prd
+            self           -> pass value to parameters of the current report
+            url            -> access external resource
+            pentaho repo   -> link reports xactions from pentaho repo
+            manual linking -> config hyperlink manually and navigate using html anchors
+
+    1. sparklines
+
 1. env variables style sheets crosstabs
 
 1. embedded in web app
