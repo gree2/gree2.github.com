@@ -2,7 +2,7 @@
 layout: post
 title: "poc of pentaho"
 description: ""
-category: [bigdata]
+category: [bi]
 tags: [poc, pentaho, prd]
 ---
 {% include JB/setup %}

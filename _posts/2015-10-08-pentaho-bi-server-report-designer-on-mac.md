@@ -2,7 +2,7 @@
 layout: post
 title: "pentaho bi server report designer on mac"
 description: ""
-category: [bigdata]
+category: [bi]
 tags: [bi, pentaho]
 ---
 {% include JB/setup %}

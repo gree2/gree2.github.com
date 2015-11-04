@@ -2,7 +2,7 @@
 layout: post
 title: "kafka storm on ubuntu with python"
 description: ""
-category: [bigdata]
+category: [realtime]
 tags: [kafka, storm, ubuntu, python, kafka-python, pyleus, nimbus, supervisor, ui, zookeeper]
 ---
 {% include JB/setup %}

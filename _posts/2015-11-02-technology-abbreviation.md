@@ -10,6 +10,10 @@ tags: [abbr]
 
 ### terms
 
+1. AMQP
+
+	1. advanced message queuing protocol
+
 1. KPI
 
     1. key performance indicator

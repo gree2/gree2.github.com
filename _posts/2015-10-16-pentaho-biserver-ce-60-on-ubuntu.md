@@ -2,7 +2,7 @@
 layout: post
 title: "pentaho biserver ce 6.0 on ubuntu"
 description: ""
-category: [bigdata]
+category: [bi]
 tags: [pentaho, biserver, 6.0, ubuntu, puc]
 ---
 {% include JB/setup %}
