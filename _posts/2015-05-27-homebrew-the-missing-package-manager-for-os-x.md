@@ -26,7 +26,7 @@ tags: [homebrew, brew]
 
     1. it's all `git` and `ruby` underneath
 
-    1. homebrew `formulae` are simple `ruby scripts`
+    1. homebrew `formula` are simple `ruby scripts`
 
 1. [from tips n' tricks](https://github.com/Homebrew/homebrew/blob/master/share/doc/homebrew/Tips-N'-Tricks.md)
 
@@ -229,6 +229,20 @@ tags: [homebrew, brew]
                 mysql.server start
             ==> Summary
             🍺  /usr/local/Cellar/mysql/5.6.25: 9833 files, 339M
+
+1. uninstall old versions of a formula
+
+    1. remove them simple use
+
+            $ brew cleanup formula
+
+    1. clean up everything at once
+
+            $ brew cleanup
+
+    1. to see what would be cleaned up
+
+            $ brew cleanup -n
 
 ### hadoop ecosystem installation
 

@@ -48,6 +48,27 @@ tags: [sysctl, wget, grep]
             $ grep -rnw _post -e "retry policy"
             _posts//2015-07-06-hadoop-cluster-5-node-setup.md:1068:            2015-07-08 08:20:48,046 INFO org.apache.hadoop.ipc.Client: Retrying connect to server: node5/192.168.120.155:9000. Already tried 3 time(s); retry policy is RetryUpToMaximumCountWithFixedSleep(maxRetries=10, sleepTime=1000 MILLISECONDS)
 
+    1. demo
+
+            # 1. find all `java` in all `sh` files
+            $ grep "java" *.sh
+
+            # 2. search all subdirectories recursively
+            $ grep -r "java" .
+            $ grep -R "java" .
+
+            # 3. only display filenames
+            $ grep -H -r "java" .
+
+            # 4. use `cut`
+            $ grep -H -R "java" . | cut -d: -f1
+
+            # 5. display only words
+            $ grep -w -R "java" *.sh
+
+            # 6. search two or more words
+            $ grep -w -R "java|then" *.sh
+
 1. [hardware info](http://superuser.com/questions/303981/what-is-the-linux-command-to-find-out-hardware-info) and [pixelbeat](http://www.pixelbeat.org/cmdline.html) and [cyberciti](http://www.cyberciti.biz/faq/linux-command-to-find-the-system-configuration-and-hardware-information/)
 
     1. kernel version and system architecture
@@ -112,7 +133,63 @@ tags: [sysctl, wget, grep]
             $ lspci -v
             $ lspci -vv
 
-1. key
+1. [ifconfig](http://www.tecmint.com/ifconfig-command-examples/)
+
+    1. display all network interfaces
+
+            $ ifconfig -a
+
+    1. specific interface
+
+            $ ifconfig eth0
+
+    1. enable/disable interface
+
+            $ ifconfig eth0 up
+            $ ifup eth0
+
+            $ ifconfig eth0 down
+            $ ifdown eth0
+
+    1. assign ip
+
+            $ ifconfig eth0 192.168.100.100
+
+    1. assign netmask
+
+            $ ifconfig eth0 netmask 255.255.255.0
+
+    1. assign broadcast
+
+            $ ifconfig eth0 broadcast 192.168.100.255
+
+    1. assign ip netmask broadcast
+
+            $ ifconfig eth0 192.168.100.100 netmask 255.255.255.0 broadcast 192.168.100.255
+
+    1. change mtu
+
+            $ ifconfig eth0 mtu 1000
+
+    1. enable/disable promiscuout mode
+
+            $ ifconfig eth0 promisc
+            $ ifconfig eth0 -promisc
+
+    1. add alias to interface
+
+            $ ifconfig eth0:0 192.168.100.100
+            $ ifconfig eth0:0
+
+    1. remove alias
+
+            $ ifconfig eth0:0 down
+
+    1. change mac address
+
+            $ ifconfig eth0 hw ether AA:BB:CC:DD:EE:FF
+
+1. line edit shortcut
 
     1. [how do i clear delete the current line in terminal](http://stackoverflow.com/questions/9679776/how-do-i-clear-delete-the-current-line-in-terminal)
 
@@ -209,6 +286,22 @@ tags: [sysctl, wget, grep]
             # check host is listening on port 5666
             > netstat -aon | findstr 5666
 
+    1. get all tcp process pid port
+
+            # get `pid/program name` from port
+            $ netstat -antp
+            (Not all processes could be identified, non-owned process info
+             will not be shown, you would have to be root to see it all.)
+            Active Internet connections (servers and established)
+            Proto Recv-Q Send-Q Local Address           Foreign Address         State       PID/Program name
+            tcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTEN      -               
+            tcp        0      0 10.13.178.100:22        10.13.178.171:61212     ESTABLISHED -               
+            tcp6       0      0 :::9092                 :::*                    LISTEN      1288/java       
+            tcp6       0      0 127.0.0.1:8005          :::*                    LISTEN      1288/java       
+            tcp6       0      0 :::8009                 :::*                    LISTEN      1288/java       
+            tcp6       0      0 :::8080                 :::*                    LISTEN      1288/java       
+            tcp6       0      0 :::22                   :::*                    LISTEN      -
+
 1. openssl
 
     1. dgst
@@ -220,6 +313,14 @@ tags: [sysctl, wget, grep]
 
             $ echo -n "http://releases.ubuntu.com/14.04/ubuntu-14.04.1-server-i386.iso" | openssl dgst -sha256
             (stdin)= 90a2489db0fb9bf8e4062a05cdd528d372c3ff6e028edfde5666b7ae73a3d18a
+
+1. ps
+
+    1. filter java process
+
+            $ ps -ef | grep java
+            node      1288     1  2 14:52 pts/0    00:00:15 /usr/local/java/jdk1.7.0_79/jre/bin/java -Djava.util.logging.config.file=/home/node/biserver-ce/tomcat/conf/logging.properties -Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager -Xms1024m -Xmx2048m -XX:MaxPermSize=256m -Dsun.rmi.dgc.client.gcInterval=3600000 -Dsun.rmi.dgc.server.gcInterval=3600000 -Djava.endorsed.dirs=/home/node/biserver-ce/tomcat/endorsed -classpath /home/node/biserver-ce/tomcat/bin/bootstrap.jar -Dcatalina.base=/home/node/biserver-ce/tomcat -Dcatalina.home=/home/node/biserver-ce/tomcat -Djava.io.tmpdir=/home/node/biserver-ce/tomcat/temp org.apache.catalina.startup.Bootstrap start
+            node      1366  1102  0 15:00 pts/0    00:00:00 grep --color=auto java
 
 1. ssh
 
