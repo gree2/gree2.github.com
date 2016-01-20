@@ -8,7 +8,7 @@ tags: [kylin, mondrian, saiku, jdbc, mdx, cube]
 {% include JB/setup %}
 
 
-### stpes
+### steps
 
 1. download software
 
@@ -134,7 +134,7 @@ tags: [kylin, mondrian, saiku, jdbc, mdx, cube]
             kylin-jdbc-1.0-incubating.jar
             mondrian-4.4-lagunitas-SNAPSHOT-with-kylin-dialect.jar
 
-    1. delete the old jar fiels
+    1. delete these old jar files
 
             commons-httpclient-20020423.jar
             mondrian-4.3.0.1-SPARK.jar
@@ -145,9 +145,9 @@ tags: [kylin, mondrian, saiku, jdbc, mdx, cube]
             or
             start-saiku.bat
 
-1. create schema please check my post [2015-11-08-saiku-design-a-schema]({% post_url 2015-11-08-saiku-design-a-schema %})
+1. create schema, please check my post [2015-11-08-saiku-design-a-schema]({% post_url 2015-11-08-saiku-design-a-schema %})
 
-    1. use your favourite editor create a xml file
+    1. create a schema(xml file)
 
             <?xml version='1.0'?>
             <Schema metamodelVersion="4.0" name="FoodMartKylin">
@@ -270,6 +270,8 @@ tags: [kylin, mondrian, saiku, jdbc, mdx, cube]
 1. login into saiku [webui](http://localhost:8080/) use `admin/admin`
 
 1. click `new query` tab
+
+1. drag drag drag
 
 1. done
 
