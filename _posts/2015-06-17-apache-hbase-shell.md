@@ -69,3 +69,40 @@ tags: [habse, shell]
     1. count
 
             hbase> count 'test', CACHE => 1000
+
+### fixed
+
+1. can't create table
+
+    1. when create table
+
+            hbase(main):002:0> create 'test', 'cf'
+
+            ERROR: Table already exists: test!
+
+    1. try to disable table
+
+            hbase(main):003:0> disable 'test'
+
+            ERROR: Table test does not exist.
+
+    1. fixed
+
+            # 1. start zookeeper zkCli
+            $ bin/zkCli
+            Connecting to localhost:2181
+            Welcome to ZooKeeper!
+            JLine support is enabled
+
+            # 2. list /hbase/table
+            [zk: localhost:2181(CONNECTED) 1] ls /hbase/table
+            [hbase:meta, hbase:namespace, test]
+
+            # 3. rm this znode
+            [zk: localhost:2181(CONNECTED) 2] rmr /hbase/table
+            [zk: localhost:2181(CONNECTED) 3] ls /hbase/table 
+            Node does not exist: /hbase/table
+
+            # 4. restart hbase then list /hbase/table
+            [zk: localhost:2181(CONNECTED) 4] ls /hbase/table
+            []
