@@ -2,8 +2,8 @@
 layout: post
 title: "tomcat on mac"
 description: ""
-category: 
-tags: []
+category: [web]
+tags: [tomcat, username, password, port]
 ---
 {% include JB/setup %}
 
