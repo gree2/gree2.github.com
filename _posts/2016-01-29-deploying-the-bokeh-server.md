@@ -3,7 +3,7 @@ layout: post
 title: "deploying the bokeh server"
 description: ""
 category: [vis]
-tags: [bokeh, bokeh-server]
+tags: [bokeh, bokeh-server, conda, downgrade, streaming]
 ---
 {% include JB/setup %}
 
@@ -66,7 +66,9 @@ tags: [bokeh, bokeh-server]
 
 ### streaming data with the server
 
-1. demo
+1. steps
+
+    1. write code `demo.py`
 
             import time
             from random import shuffle
@@ -92,18 +94,62 @@ tags: [bokeh, bokeh-server]
                 cursession().store_objects(ds)
                 time.sleep(0.5)
 
-### run bokeh-server
+    1. start `bokeh-server`
 
-1. just run `bokeh-server`
+            $ bokeh-server
+
+            Bokeh Server Configuration
+            ==========================
+            python version : 2.7.11
+            bokeh version  : 0.10.0
+            listening      : 127.0.0.1:5006
+            backend        : memory
+            python options : debug:OFF, verbose:OFF, filter-logs:OFF, multi-user:OFF
+            js options     : debugjs:OFF
+
+    1. run demo.py
+
+            $ python demo.py
+            Using saved session configuration for http://localhost:5006/
+            To override, pass 'load_from_config=False' to Session
+
+    1. from `bokeh-server` side you will see
+
+            2016-01-30 18:13:27,521:INFO:tornado.access:200 GET /bokeh/userinfo/ (127.0.0.1) 1.52ms
+            2016-01-30 18:13:27,547:INFO:tornado.access:200 POST /bokeh/doc/ (127.0.0.1) 2.18ms
+            2016-01-30 18:13:27,550:INFO:tornado.access:200 GET /bokeh/getdocapikey/797be60d-03f7-4558-a60f-6b6b904d5960 (127.0.0.1) 1.12ms
+            2016-01-30 18:13:27,570:INFO:tornado.access:200 POST /bokeh/bb/797be60d-03f7-4558-a60f-6b6b904d5960/gc (127.0.0.1) 17.87ms
+            2016-01-30 18:13:27,574:INFO:tornado.access:200 GET /bokeh/bb/797be60d-03f7-4558-a60f-6b6b904d5960/ (127.0.0.1) 1.37ms
+            2016-01-30 18:13:27,630:INFO:tornado.access:200 POST /bokeh/bb/797be60d-03f7-4558-a60f-6b6b904d5960/bulkupsert (127.0.0.1) 26.75ms
+            2016-01-30 18:13:27,739:INFO:tornado.access:200 POST /bokeh/bb/797be60d-03f7-4558-a60f-6b6b904d5960/bulkupsert (127.0.0.1) 18.40ms
+            2016-01-30 18:13:27,991:INFO:tornado.access:200 GET /bokeh/doc/797be60d-03f7-4558-a60f-6b6b904d5960/c4c6deb9-2c17-4370-93bf-9e1a8a81e9f9 (127.0.0.1) 17.51ms
+            2016-01-30 18:13:28,263:INFO:tornado.access:200 POST /bokeh/bb/797be60d-03f7-4558-a60f-6b6b904d5960/bulkupsert (127.0.0.1) 15.45ms
+            2016-01-30 18:13:28,441:INFO:tornado.access:200 GET /bokeh/wsurl/ (127.0.0.1) 0.97ms
+            2016-01-30 18:13:28,489:INFO:tornado.access:200 GET /bokeh/objinfo/797be60d-03f7-4558-a60f-6b6b904d5960/c4c6deb9-2c17-4370-93bf-9e1a8a81e9f9 (127.0.0.1) 18.74ms
+            2016-01-30 18:13:28,784:INFO:tornado.access:200 POST /bokeh/bb/797be60d-03f7-4558-a60f-6b6b904d5960/bulkupsert (127.0.0.1) 14.50ms
+            2016-01-30 18:13:29,304:INFO:tornado.access:200 POST /bokeh/bb/797be60d-03f7-4558-a60f-6b6b904d5960/bulkupsert (127.0.0.1) 14.42ms
+            2016-01-30 18:13:29,826:INFO:tornado.access:200 POST /bokeh/bb/797be60d-03f7-4558-a60f-6b6b904d5960/bulkupsert (127.0.0.1) 14.21ms
+            ...
+
+### fixed
+
+1. but if your bokeh's version is higher than `0.10.0`
+
+    1. you can't run `bokeh-server`
 
             $ bokeh-server
 
             The 'bokeh-server' command from versions 0.10 and earlier no longer exists.
             Please see the documentation for the new 'bokeh' command here:
 
-              http://bokeh.pydata.org/en/latest/docs/user_guide/cli.html
+            http://bokeh.pydata.org/en/latest/docs/user_guide/cli.html
 
-1. run `bokeh`
+    1. [you can't](https://github.com/vitruvianscience/OpenDeep/issues/23) import `cursession` from `bokeh.plotting`
+
+            # so you must downgrade your bokeh
+            $ conda install bokeh=0.10.0
+
+1. you can run `bokeh` with bokeh's version higher than 0.10.0
 
     1. bokeh -h
 
