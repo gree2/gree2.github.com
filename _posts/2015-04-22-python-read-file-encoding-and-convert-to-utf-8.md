@@ -2,8 +2,8 @@
 layout: post
 title: "python read file encoding and convert to utf-8"
 description: ""
-category: 
-tags: []
+category: [python]
+tags: [encoding, convert, libmagic]
 ---
 {% include JB/setup %}
 

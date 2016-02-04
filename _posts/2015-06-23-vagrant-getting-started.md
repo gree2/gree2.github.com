@@ -2,8 +2,8 @@
 layout: post
 title: "vagrant getting started"
 description: ""
-category: 
-tags: []
+category: [auto]
+tags: [vagrant, virtualbox, up, ssh, destroy, networking, provisioning, teardown, rebuild]
 ---
 {% include JB/setup %}
 
@@ -100,7 +100,6 @@ tags: []
             ...
             vagrant@precise32:~$ ls /vagrant
             Vagrantfile
-
 
 1. provisioning
 

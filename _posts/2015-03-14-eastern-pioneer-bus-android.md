@@ -2,7 +2,7 @@
 layout: post
 title: "eastern pioneer bus android"
 description: ""
-category: 
-tags: []
+category: [android]
+tags: [app, android]
 ---
 {% include JB/setup %}
