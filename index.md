@@ -7,9 +7,11 @@ tagline: Coding with music.
 
 ## Info
 
-My QQ is 530534714.
+my qq is `530534714`.
 
-Pay a visit to my [github](http://github.com/gree2).
+my wechat is `hqlgree2`
+
+pay a visit to my [github](http://github.com/gree2).
 
 ## Posts
 
