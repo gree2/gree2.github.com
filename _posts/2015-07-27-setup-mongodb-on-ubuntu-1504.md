@@ -2,7 +2,7 @@
 layout: post
 title: "setup mongodb on ubuntu 15.04"
 description: ""
-category: [mongodb]
+category: [nosql]
 tags: [ubuntu, 15.04, upstart-sysv, systemd]
 ---
 {% include JB/setup %}

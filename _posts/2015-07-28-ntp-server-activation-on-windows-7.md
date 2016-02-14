@@ -2,7 +2,7 @@
 layout: post
 title: "ntp server activation on windows 7"
 description: ""
-category: [ntp]
+category: [windows]
 tags: [windows 7, ntp, ntpclient, ntpserver, w32tm, w32time]
 ---
 {% include JB/setup %}

@@ -2,8 +2,8 @@
 layout: post
 title: "navigation between two view controllers"
 description: ""
-category: [swift]
-tags: [navigation]
+category: [ios]
+tags: [navigation, swift]
 ---
 {% include JB/setup %}
 

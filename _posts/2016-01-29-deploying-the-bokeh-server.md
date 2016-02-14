@@ -2,7 +2,7 @@
 layout: post
 title: "deploying the bokeh server"
 description: ""
-category: [viz]
+category: [viz, python]
 tags: [bokeh, bokeh-server, conda, downgrade, streaming]
 ---
 {% include JB/setup %}

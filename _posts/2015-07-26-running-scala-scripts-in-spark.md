@@ -2,7 +2,7 @@
 layout: post
 title: "running scala scripts in spark"
 description: ""
-category: [scala, spark]
+category: [lang, bigdata]
 tags: [scala, spark, spark-shell]
 ---
 {% include JB/setup %}

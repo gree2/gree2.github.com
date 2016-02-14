@@ -2,7 +2,7 @@
 layout: post
 title: "apache kylin"
 description: ""
-category: [bigdata, olap]
+category: [bigdata, bi]
 tags: [kylin, hive, mapreduce, hdfs, hbase, calcite]
 ---
 {% include JB/setup %}

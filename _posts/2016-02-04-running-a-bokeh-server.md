@@ -1,8 +1,8 @@
 ---
 layout: post
-title: "running a bokeh server 0 dot 11 dot 0"
+title: "running a bokeh server"
 description: ""
-category: [viz]
+category: [viz, python]
 tags: [bokeh, server, serve, json, push, periodic, timeout, asynchronous, callback, nginx]
 ---
 {% include JB/setup %}

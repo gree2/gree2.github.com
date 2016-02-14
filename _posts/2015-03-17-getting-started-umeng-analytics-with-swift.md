@@ -2,8 +2,8 @@
 layout: post
 title: "getting started umeng analytics with swift"
 description: ""
-category: [umeng]
-tags: [analytics]
+category: [android]
+tags: [analytics, umeng]
 ---
 {% include JB/setup %}
 

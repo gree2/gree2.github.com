@@ -2,7 +2,7 @@
 layout: post
 title: "advanced analytics with spark"
 description: ""
-category: [spark]
+category: [bigdata]
 tags: [spark, spark-shell, scala]
 ---
 {% include JB/setup %}

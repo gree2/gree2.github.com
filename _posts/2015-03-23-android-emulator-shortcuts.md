@@ -2,7 +2,7 @@
 layout: post
 title: "android emulator shortcuts"
 description: ""
-category: [emulator]
+category: [android]
 tags: [android, emulator, shortcuts]
 ---
 {% include JB/setup %}

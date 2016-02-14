@@ -2,7 +2,7 @@
 layout: post
 title: "grand central dispatch tutorial for swift part 1"
 description: ""
-category: [swift]
+category: [ios]
 tags: [gcd, serial, concurrent, synchronous, asynchronous, critical, race, deadlock, thread safe, parallelism, queue]
 ---
 {% include JB/setup %}

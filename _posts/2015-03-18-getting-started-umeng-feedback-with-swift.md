@@ -2,8 +2,8 @@
 layout: post
 title: "getting started umeng feedback with swift"
 description: ""
-category: [umeng]
-tags: [feedback, swift]
+category: [android]
+tags: [feedback, swift, umeng]
 ---
 {% include JB/setup %}
 

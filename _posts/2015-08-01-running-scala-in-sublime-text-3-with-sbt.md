@@ -2,8 +2,8 @@
 layout: post
 title: "running scala in sublime text 3 with sbt"
 description: ""
-category: [scala]
-tags: [sbt, st3, SublimeSBT, SublimeREPL]
+category: [lang]
+tags: [scala, sbt, st3, SublimeSBT, SublimeREPL]
 ---
 {% include JB/setup %}
 

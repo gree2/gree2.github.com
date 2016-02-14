@@ -2,7 +2,7 @@
 layout: post
 title: "chef puppet cfengine bcfg2"
 description: ""
-category: [operation]
+category: [auto]
 tags: [chef, puppet, cfengine, bcfg2, fedora, debian osx]
 ---
 {% include JB/setup %}

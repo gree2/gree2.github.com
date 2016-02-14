@@ -2,8 +2,8 @@
 layout: post
 title: "getting started cocoapods"
 description: ""
-category: [cocoapods]
-tags: [Xcode]
+category: [ios]
+tags: [xcode, cocoapods]
 ---
 {% include JB/setup %}
 

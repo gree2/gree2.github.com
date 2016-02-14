@@ -2,8 +2,8 @@
 layout: post
 title: "play with cloudera quickstart vm 5.4.0"
 description: ""
-category: [cloudera]
-tags: [hue, hadoop, hbase, impala, spark, solr, oozie]
+category: [bigdata]
+tags: [cloudera, hue, hadoop, hbase, impala, spark, solr, oozie]
 ---
 {% include JB/setup %}
 

@@ -2,7 +2,7 @@
 layout: post
 title: "python play with bokeh"
 description: ""
-category: [viz]
+category: [viz, python]
 tags: [python, bokeh, install, sample data]
 ---
 {% include JB/setup %}

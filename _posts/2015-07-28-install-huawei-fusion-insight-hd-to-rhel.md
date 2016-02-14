@@ -2,8 +2,8 @@
 layout: post
 title: "install huawei fusion insight hd to rhel"
 description: ""
-category: [hadoop]
-tags: [fusion, insight, hd, rhel]
+category: [bigdata]
+tags: [huawei, fusion, insight, hd, rhel]
 ---
 {% include JB/setup %}
 

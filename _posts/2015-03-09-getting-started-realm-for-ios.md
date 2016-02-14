@@ -2,8 +2,8 @@
 layout: post
 title: "getting started realm for ios"
 description: ""
-category: [swift]
-tags: [realm]
+category: [ios]
+tags: [realm, swift, pod]
 ---
 {% include JB/setup %}
 

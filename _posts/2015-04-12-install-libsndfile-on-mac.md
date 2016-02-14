@@ -2,7 +2,7 @@
 layout: post
 title: "install libsndfile on mac"
 description: ""
-category: [install]
+category: [setup]
 tags: [libsndfile, mac, install]
 ---
 {% include JB/setup %}

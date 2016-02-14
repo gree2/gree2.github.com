@@ -2,7 +2,7 @@
 layout: post
 title: "impala native analytic database for apache hadoop"
 description: ""
-category: [impala]
+category: [bigdata]
 tags: [apache, hadoop, database, analytic]
 ---
 {% include JB/setup %}

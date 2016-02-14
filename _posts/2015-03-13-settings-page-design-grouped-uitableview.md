@@ -2,8 +2,8 @@
 layout: post
 title: "settings page design grouped UITableView"
 description: ""
-category: [swift]
-tags: [grouped, UITableView]
+category: [ios]
+tags: [grouped, swift, UITableView]
 ---
 {% include JB/setup %}
 

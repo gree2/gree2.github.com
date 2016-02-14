@@ -2,7 +2,7 @@
 layout: post
 title: "install sdkman"
 description: ""
-category: [install]
+category: [setup]
 tags: [curl, source, sdkman]
 ---
 {% include JB/setup %}
