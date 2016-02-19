@@ -40,6 +40,7 @@ tags: [type, file, which, paste, bc]
 			built from other commands
 
 			$ alias l='ls -1 --group-directories-first'
+
 ### usage
 
 1. builtin
