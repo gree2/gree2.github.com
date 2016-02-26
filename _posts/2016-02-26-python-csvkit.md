@@ -12,9 +12,7 @@ tags: [csv, csvkit, csvclean, csvcut, csvformat, csvgrep, csvjoin, csvjson, csvl
 
 1. csvkit is a suite of command-line tools
 
-	1. for converting to
-
-	1. and workding with csv
+			for converting to and workding with csv
 
 1. [github repo](https://github.com/wireservice/csvkit)
 
