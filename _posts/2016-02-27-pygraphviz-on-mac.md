@@ -44,4 +44,8 @@ tags: [pygraphviz, graphviz, mac]
             # load dot file
             >>> G=pgv.AGraph("file.dot")
 
+### reference
+
+1. [quick-install](http://pygraphviz.github.io/documentation/development/install.html#quick-install)
+
 1. [document](http://pygraphviz.github.io/documentation/pygraphviz-1.3rc1/)
