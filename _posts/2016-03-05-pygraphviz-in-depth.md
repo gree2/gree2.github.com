@@ -85,3 +85,15 @@ tags: [pygraphviz, graphviz, node, attrs]
             tripleoctagon
             underline
             utr
+
+### edge
+
+1. multinode to one
+
+            node1 -> node4;
+            node2 -> node4;
+            node3 -> node4;
+
+            /* equal to */
+            
+            {node1, node2, node3} -> node4;
