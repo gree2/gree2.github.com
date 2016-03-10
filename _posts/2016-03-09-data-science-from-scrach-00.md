@@ -46,6 +46,8 @@ tags: [python, viz, linear algebra, statistics, probability, hypothesis, inferen
 
 1. neural networks
 
+1. clustering
+
 1. nlp
 
 1. network analysis

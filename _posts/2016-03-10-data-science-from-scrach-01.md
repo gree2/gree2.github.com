@@ -1,0 +1,140 @@
+---
+layout: post
+title: "data science from scrach 01"
+description: ""
+category: [python, data science]
+tags: [python, data science]
+---
+{% include JB/setup %}
+
+
+### what is data science
+
+            there's a joke that says
+            a data scientist is someone
+            who knows more statistics
+            than a computer scientist
+            and more computer science
+            than a statistician
+
+### code
+
+1. friendship
+
+    1. a list of users
+
+            users = [
+                { "id": 0, "name": "Hero" },
+                { "id": 1, "name": "Dunn" },
+                { "id": 2, "name": "Sue" },
+                { "id": 3, "name": "Chi" },
+                { "id": 4, "name": "Thor" },
+                { "id": 5, "name": "Clive" },
+                { "id": 6, "name": "Hicks" },
+                { "id": 7, "name": "Devin" },
+                { "id": 8, "name": "Kate" },
+                { "id": 9, "name": "Klein" }
+            ]
+
+    1. relation
+
+            friendships = [(0, 1), (0, 2), (1, 2), (1, 3), (2, 3), (3, 4),
+                (4, 5), (5, 6), (5, 7), (6, 8), (7, 8), (8, 9)]
+
+            # (0, 1) indicates that data scientist with id 0 Hero
+            # and the data scientist with id 1 Dunn are friends
+
+    1. dot representation
+
+            graph friendship {
+                0 -- 1;
+                0 -- 2;
+                1 -- 2;
+                1 -- 3;
+                2 -- 3;
+                3 -- 4;
+                4 -- 5;
+                5 -- 6;
+                5 -- 7;
+                6 -- 8;
+                7 -- 8;
+                8 -- 9;
+            }
+
+1. add `friends` to `users`
+
+    1. init
+
+            for user in users:
+                user['friends'] = []
+
+            for i, j in friendships:
+                # add j as a friend of i
+                users[i]['friends'].append(users[j])
+                # ditto
+                users[j]['friends'].append(users[i])
+
+    1. how many
+
+            def number_of_friends(user):
+                """how many friends does _user_ have?"""
+                return len(user['friends'])
+
+            total_connections = sum(number_of_friends(user) for user in users)
+
+    1. average
+
+            from __feature__ import division
+            num_users = len(users)
+            avg_connections = total_connections / num_users
+
+    1. sort
+
+            # a list of (user_id, number_of_friends)
+            num_friends_by_id = [(user['id'], number_of_friends(user)) for user in users]
+
+            # sort by num_friends
+            sorted(num_friends_by_id,
+                   key=lambda (user_id, num_friends): num_friends,
+                   reverse=True
+            )
+
+1. friends of friend
+
+    1. bad implementation
+
+            def friends_of_friend_ids_bad(user):
+                # "foaf" is short for "friend of a firend"
+                return [foaf['id']
+                        for friend in user['friends']
+                        for foaf in friend['friends']
+                ]
+
+            friends_of_friend_ids_bad(users[0])
+            # [0, 2, 3, 0, 1, 3]
+
+    1. new implementation
+
+            from collections import Counter
+
+            def not_the_same(user, other_user):
+                """two users are not the same if they have different ids"""
+                return user['id'] != other_user['id']
+
+            def not_friends(user, other_user):
+                """other_user is not a friend if he's not in user['friends'];
+                i.e. if he's not_the_same as all the people in user['friends']"""
+                return all(not_the_same(firend, other_user)
+                           for friend in user['friends']
+                )
+
+            def friends_of_friend_ids(user):
+                return Counter(foaf['id']
+                               for friend in user['friends']
+                               for foaf in friend['friends']
+                               if not_the_same(user, foaf)
+                               and not_friends(user, foaf)
+                )
+
+            print friends_of_friend_ids(users[3])
+            # Counter({0: 2, 5: 1})
