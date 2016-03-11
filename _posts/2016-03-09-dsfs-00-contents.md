@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "data science from scrach 00"
+title: "dsfs 00 contents"
 description: ""
 category: [python, data science]
 tags: [python, viz, linear algebra, statistics, probability, hypothesis, inference, gradient descent, machine learning, k-nearest, naive bayes, simple linear regression, multiple regression, logistic regression, decision trees, neural networks, clustering, nlp, network analysis, recommender systems]
