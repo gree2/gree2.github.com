@@ -46,3 +46,20 @@ tags: [networking, nat, host-only]
             promiscuous mode: allow all
             mac address:      080027f49269
             check `cable connected`
+
+### config interfaces
+
+            $ sudo pico /etc/network/interfaces
+            ...
+
+            auto lo
+            iface lo inet loopback
+
+            auto eth0
+            iface eth0 inet static
+            address 192.168.56.100
+            netmask 255.255.255.0
+            gateway 192.168.1.253
+
+            auto eth1
+            iface eth1 inet dhcp
