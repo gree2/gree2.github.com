@@ -90,7 +90,7 @@ tags: [python, data science, vector, matrix]
                 """v_1 * v_1 + ... + v_n * v_n"""
                 return dot(v, v)
 
-1. compute its magnitude or lenght
+1. compute its magnitude or length
 
             import math
 
