@@ -14,27 +14,27 @@ tags: [python, data science, probability]
 
     1. e and f are independent
 
-            p(e,f) = p(e)p(f)
+            P(E,F) = P(E)P(F)
 
 1. conditional probability
 
     1. e and f are not independent
 
-            p(e|f) = p(e,f)/p(f)
+            P(E|F) = P(E,F)/P(F)
 
             # rewrite as this
-            p(e,f) = p(e|f)p(f)
+            P(E,F) = P(E|F)P(F)
 
             # when e and f are independent
-            p(e|f) = p(e)
+            P(E|F) = P(E)
 
     1. `b` both children are girls `g` the older child is a girl
 
-            p(b|g) = p(b,g)/p(g) = p(b)/p(g) = 1/2
+            P(B|G) = P(B,G)/P(G) = P(B)/P(G) = 1/2
 
     1. `b` both children are gilrs `l` at the least one of them is a girl
 
-            p(b|l) = p(b,l)/p(l) = p(b)/p(l) = 1/3
+            P(B|L) = P(B,L)/P(L) = P(B)/P(L) = 1/3
 
     1. check
 
@@ -60,13 +60,13 @@ tags: [python, data science, probability]
 
 1. bayes's theorem
 
-            p(e|f) = p(e,f)/p(f) = p(f|e)p(e)/p(f)
+            P(E|F) = P(E,F)/P(F) = P(F|E)P(E)/P(F)
 
             # given
-            p(f) = p(f,e) + p(f,!e)
+            P(F) = P(F,E) + P(F,¬E)
 
             # so
-            p(e|f) = p(f|e)p(e)/[p(f|e)p(e)+p(f|!e)p(!e)]
+            P(E|F) = P(F|E)P(E)/[P(F|E)P(E)+P(F|¬E)P(¬E)]
 
 ### continuous distribution
 

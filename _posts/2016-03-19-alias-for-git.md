@@ -8,7 +8,7 @@ tags: [command, git, alias, add, status, push, pull, origin, master]
 {% include JB/setup %}
 
 
-### 
+### methods
 
 1. use `.bash_profile`
 
@@ -30,7 +30,12 @@ tags: [command, git, alias, add, status, push, pull, origin, master]
             $ gst
             On branch master
             Your branch is up-to-date with 'origin/master'.
-            nothing to commit, working directory clean
+            Changes not staged for commit:
+              (use "git add <file>..." to update what will be committed)
+              (use "git checkout -- <file>..." to discard changes in working directory)
+
+                    modified:   _posts/2016-03-19-alias-for-git.md
+
 
 
 1. git's alias

@@ -2,8 +2,8 @@
 layout: post
 title: "dsfs 12 k nearest neighbors"
 description: ""
-category: [python, data science, k-nearest]
-tags: [python, data science, k-nearest]
+category: [python, data science]
+tags: [python, data science, knn]
 ---
 {% include JB/setup %}
 
