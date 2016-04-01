@@ -1,0 +1,98 @@
+---
+layout: post
+title: "dsfs 19 clustering"
+description: ""
+category: [python, data science]
+tags: [python, data science, clustering]
+---
+{% include JB/setup %}
+
+
+### clustering
+
+1. the model
+
+    1. one of the simplest clustering methods is k-means
+
+            # the number of clusters k is chosen in advance
+            # 1. start with a set of k-means, which are points in d-dimensional space
+            # 2. assign each point to the mean to which it is closest
+            # 3. if no point's assignment has changed, stop and keep the clusters
+            # 4. if some point's assignment has changed, recompute the means and return to step 2
+
+    1. code
+
+            # use `vector_mean` in ch04
+            class KMeans:
+                """performs k-means clustering"""
+
+                def __init__(self, k):
+                    self.k = k
+                    self.mean = None
+
+                def classify(self, input):
+                    """return the index of the cluster closest to the input"""
+                    return min(range(self.k),
+                               key=lambda i: squared_distance(input, self.means[i]))
+
+                def train(self, inputs):
+                    """choose k random points as the intial means"""
+                    self.means = random.sample(inputs, self.k)
+                    assignments = None
+                    while True:
+                        # find new assignments
+                        new_assignments = map(self.classify, inputs)
+
+                        # if no assignments have changed, we're done
+                        if assignments == new_assignments:
+                            return
+
+                        # otherwise keep the new assignments
+                        assignments = new_assignment
+
+                        # compute new means based on the new assignments
+                        for i in range(self.k):
+                            # find all the points assigned to cluster i
+                            i_points = [p for p, a in zip(inputs, assignments) if a == i]
+
+                            # make sure i_points is not empty avoid divide by 0
+                            if i_points:
+                                self.mean[i] = vector_mean(i_points)
+
+    1. e.g. meetups
+
+            # get the same result
+            random.seed(0)
+            clusterer = KMeans(3)
+            clusterer.train(inputs)
+            print clusterer.means
+
+            # two meetups
+            ...
+            clusterer = KMeans(2)
+            ...
+
+1. choosing k
+
+            def squared_clustering_errors(inputs, k):
+                """find the total squared error from k-means clustering the inputs"""
+                clusterer = KMeans(k)
+                clusterer.train(inputs)
+                means = clusterer.means
+                assignments = map(clusterer.classify, inputs)
+
+                return sum(squared_distance(input, means[cluster])
+                           for input, cluster in zip(inputs, assignments))
+
+            # plot from 1 up to len(inputs) clusters
+            ks = range(1, len(inputs) + 1)
+            errors = [squared_clustering_errors(inputs, k) for k in ks]
+
+            plt.plot(ks, errors)
+            plt.xticks(ks)
+            plt.xlabel('k')
+            plt.ylabel('total squared error')
+            plt.title('total error vs. # of clusters')
+            plt.show()
+
+    1. e.g. clustering colors
