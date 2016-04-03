@@ -25,7 +25,7 @@ tags: [android, openfire, smack]
 1. on **welcome to setup** page choose language **english(en)**
 2. on **server settings** page
     * domain: **your computer name**
-    * admin console prot: **9090**
+    * admin console port: **9090**
     * secure admin console port: **9091**
 3. on **database settings** page choose **embedded database**
 4. on **profile settings** page choose **default**
