@@ -22,14 +22,12 @@ tags: [send, html, mail]
             mail_smtp = "smtp.gmail.com" 
             mail_pass = "************" 
 
-            html = """
-            <font color=#437C17><h1>this is first line</h1></font>
+            html = """<font color=#437C17><h1>this is first line</h1></font>
             <font color=#7D0552><h2>this is first line</h2></font>
             <font color=#05157D><h3>this is first line</h3></font>
             <font color=#812DA5><h4>this is first line</h4></font>
             <font color=#2DA681><h5>this is first line</h5></font>
-            <font color=#A62D79><h6>this is first line</h6></font>
-            """
+            <font color=#A62D79><h6>this is first line</h6></font>"""
 
 
             def send_html(mail_recv, sub, text, html):
