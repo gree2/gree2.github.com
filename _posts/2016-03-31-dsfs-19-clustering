@@ -96,3 +96,43 @@ tags: [python, data science, clustering]
             plt.show()
 
     1. e.g. clustering colors
+
+            # create a five-color version of an image
+            # 1. choose five color
+            # 2. assigning one of those colors to each pixel
+
+
+            # k-means clustering
+            # partition the pixels into five clusters in rgb space
+            # recolor the pixels in each cluster to the mean color
+
+            # 1. read image into python
+            file_png = r'C:\images\image.png'
+            import matplotlib.image as mping
+            # behind the scenes `img` is a numpy array
+            img = mping.imread(file_png)
+
+            # 2. flatten list of all the pixels
+            # top_row = img[0]
+            # top_left_pixel = top_row[0]
+            # red, green, blue = top_left_pixel
+            pixels = [pixel for row in img for pixel in row]
+
+            # 3. feed them to our cluster
+            clusterer = KMean(5)
+            clusterer.train(pixels)
+
+            # 4. construct a new image with the same format
+            def recolor(pixel):
+                cluster = clusterer.classify(pixel)
+                return clusterer.means(cluster)
+
+            new_img = [[recolor(pixel) for pixel in row]
+                       for row in img]
+
+            # 5. display it
+            plt.imshow(new_img)
+            plt.axis('off')
+            plt.show()
+
+1. bottom-up hierarchical clustering
