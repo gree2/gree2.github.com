@@ -2,7 +2,7 @@
 layout: post
 title: "dsfs 11 machine learning"
 description: ""
-category: [python, data science, machine learning]
+category: [python, data science]
 tags: [python, data science, machine learning]
 ---
 {% include JB/setup %}

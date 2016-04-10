@@ -249,4 +249,26 @@ tags: [python, data science, dtabase, sql]
                           aggregates={'min_user_id': min_user_id,
                                       'num_users': len})
 
-            #
+            # first_letter metrics
+            def first_letter_of_name(row):
+                return row['name'][0] if row['name'] / len(rows)
+
+            def average_num_friends(rows):
+                return sum(row['num_friends'] for row in rows) / len(ros)
+
+            def enough_friends(rows):
+                return average_num_friends(rows) > 1
+
+            avg_friends_by_letter = users \
+                .select(additional_columns={'first_letter': first_letter_of_name}) \
+                .group_by(group_by_columns=['first_letter'], aggregates={'avg_num_friends': average_num_friends}, having=enough_friends)
+
+            # user_id_sum
+            def sum_user_ids(rows):
+                return sum(row['user_id'] for row in rows)
+
+            user_id_sum = users \
+                .where(lambda row: row['user_id'] > 1) \
+                .group_by(group_by_columns=[], aggregates={'user_id_sum': sum_user_ids})
+
+1. order by
