@@ -272,3 +272,95 @@ tags: [python, data science, dtabase, sql]
                 .group_by(group_by_columns=[], aggregates={'user_id_sum': sum_user_ids})
 
 1. order by
+
+    1. sql
+
+            select * from users order by name limit 2
+
+    1. define a method
+
+            def order_by(self, order):
+                new_table = self.select()
+                new_table.rows.sort(key=order)
+                return new_table
+
+    1. e.g.
+    
+            friendliest_letters = avg_friends_by_letter \
+                .order_by(lambda row: -row['avg_num_friends']) \
+                .limit(4)   
+
+1. join
+
+    1. sql
+
+            # one-to-many relationship
+            create table user_interests (
+                user_id int not null,
+                interest varchar(100) not null
+            );
+
+            # create the table
+            user_interests = Table(['user_id', 'interest'])
+            user_interests.insert([0, "SQL"])
+            user_interests.insert([0, "NoSQL"])
+            user_interests.insert([2, "SQL"])
+            user_interests.insert([2, "MySQL"])
+
+            # query inner join
+            select users.name from users
+            join user_interests
+            on users.user_id = user_interests.user_id
+            where user_interests.interest = 'SQL'
+
+            # query left join
+            select users.id, count(user_interests.interest) as num_interests
+            from user
+            left join user_interests
+            on users.user_id = user_interests.user_id
+
+    1. define a method
+
+            def join(self, other_table, left_join=False):
+                join_on_columns = [c for c in self.columns
+                                   if c in other_table.columns]
+
+                additional_columns = [c for c in other_table.columns
+                                      if c not in join_on_columns]
+
+                # all columns from left table
+                # + additional_columns from right table
+                join_table = Table(self.columns + additional_columns)
+
+                for row in self.rows:
+                    def is_join(other_row):
+                        return all(other_row[c] == row[c] for c in join_on_columns)
+
+                    other_rows = other_table.where(is_join).rows
+
+                    # if no rows match and it's a left join
+                    # output with Nones
+                    if left_join and not other_rows:
+                        join_table.insert([row[c] for c in self.columns] + [None for c in additional_columns])
+
+                return join_table
+
+    1. e.g.
+
+            sql_user = users \
+                .join(user_interests) \
+                .where(lambda row: row['interest' == 'SQL']) \
+                .select(keep_columns=['name'])
+
+            # get interest counts with
+            def count_interest(rows):
+                """counts how many rows have non-None interests"""
+                return len([row for row in rows
+                            if row['interest'] is not None])
+
+            user_interest_counts = users \
+                .join(user_interests, left_join=True) \
+                .group_by(group_by_columns=['user_id'],
+                          aggregates={'num_interests': count_interest})
+
+1. subqueries
