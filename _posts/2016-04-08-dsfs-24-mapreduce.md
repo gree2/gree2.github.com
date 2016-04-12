@@ -134,3 +134,80 @@ tags: [python, data science, mapreduce]
             count_distinct_reducer = values_reducer(lambda values: len(set(values)))
 
 1. e.g. analyzing status updates
+
+    1. data
+
+            {"id": 1,
+            "username" : "joelgrus",
+            "text" : "Is anyone interested in a data science book?",
+            "created_at" : datetime.datetime(2013, 12, 21, 11, 47, 0),
+            "liked_by" : ["data_guy", "data_gal", "mike"] }
+
+    1. figure out which day of the week
+
+            # people talk the most about data science
+            # group by the day of week => key
+            def data_science_day_mapper(status_update):
+                """yield (day_of_week, 1) if status_update
+                contains 'data science'"""
+                if "data science" in status_update['text'].lower():
+                    day_of_week = status_update['created_at'].weekday()
+                    yield (day_of_week, 1)
+
+            data_science_days = map_reduce(status_updates,
+                                           data_science_day_mapper,
+                                           sum_reducer)
+
+    1. find out each user the most common word
+
+            # 1. put the username in the key;
+            #    put the words and counts in the value
+            # 2. put the word in the key;
+            #    put the usernames and counts in the values
+            # 3. put the username and word in the key;
+            #    put the coutns in the values
+
+            # the first option is right choice
+            def words_per_user_mapper(status_update):
+                user = status_update['username']
+                for word in tokenize(status_update['text']):
+                    yield (user, (word, 1))
+
+            def most_popular_word_reducer(user, words_and_counts):
+                """given a sequence of (word, count) pairs,
+                return the word with the highest total count"""
+                word_count = Counter()
+                for word, count in words_and_counts:
+                    word_count[word] += count
+
+                word, count = word_count.most_common(1)[0]
+                yield (user, (word, count))
+
+            user_words = map_reduce(status_update,
+                                    word_per_user_mapper,
+                                    most_popular_word_reducer)
+
+    1. find out the number of distinct status-likers for each user
+
+            def liker_mapper(status_update):
+                user = status_update['username']
+                for liker in status_update['liked_by']:
+                    yield (user, liker)
+
+            distinct_likers_per_user = map_reduce(status_update,
+                                                  liker_mapper,
+                                                  count_distinct_reducer)
+
+1. e.g. matrix multiplication
+
+    1. m x n matrix A and n x k matrix B
+
+            # A x B => m x k matrix C
+            # element of C in row i and column j is given by
+            Cij = Ai1B1j + Ai2B2j + ... + AinBnj
+
+    1. `natural` way to represent m x n matrix => a list of lists
+
+            # large matrices are sometimes `sparse`
+            # list of lists can be a very wasteful representation
+            # a more compact representation => list of tuples (name, i, j, value)

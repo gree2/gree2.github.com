@@ -364,3 +364,47 @@ tags: [python, data science, dtabase, sql]
                           aggregates={'num_interests': count_interest})
 
 1. subqueries
+
+    1. sql
+
+            select min(user_id) as min_user_id from
+            (select user_id from user_interests where interest='SQL') sql_interests;
+
+    1. get this for free
+
+            likes_sql_user_ids = user_interests \
+                .where(lambda row: row['interest'] == 'SQL') \
+                .select(keep_columns=['user_id'])
+
+            likes_sql_user_ids.group_by(group_by_columns=[],
+                                        additional_columns={'min_user_id': min_user_id})
+
+1. indexes
+
+1. query optimization
+
+    1. sql
+
+            select user.name
+            from users
+            join user_interests
+            on users.user_id = user_interests.user_id
+            where user_interests.interest = 'SQL'
+
+    1. query 1
+
+            # filter before join
+            # is almost certainly more efficient
+            user_interests \
+                .where(lambda row: row['interest'] == 'SQL') \
+                .join(users) \
+                .select(['name'])
+
+    1. query 2
+
+            user_interests \
+                .join(users) \
+                .where(lambda row: row['interest'] == 'SQL') \
+                .select(['name'])
+
+1. nosql

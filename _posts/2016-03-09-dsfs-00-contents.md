@@ -54,7 +54,7 @@ tags: [python, viz, linear algebra, statistics, probability, hypothesis, inferen
 
 1. recommender systems
 
-1. databases and sql
+1. [databases and sql]({% post_url 2016-04-07-dsfs-23-databases-and-sql %})
 
 1. mr
 
