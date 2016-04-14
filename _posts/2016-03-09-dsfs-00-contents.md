@@ -3,7 +3,7 @@ layout: post
 title: "dsfs 00 contents"
 description: ""
 category: [python, data science]
-tags: [python, viz, linear algebra, statistics, probability, hypothesis, inference, gradient descent, machine learning, k-nearest, naive bayes, simple linear regression, multiple regression, logistic regression, decision trees, neural networks, clustering, nlp, network analysis, recommender systems]
+tags: [python, viz, linear algebra, statistics, probability, hypothesis, inference, gradient descent, machine learning, k-nearest, naive bayes, simple linear regression, multiple regression, logistic regression, decision trees, neural networks, clustering, nlp, network analysis, recommender systems, databases, sql, mapreduce]
 ---
 {% include JB/setup %}
 
@@ -52,10 +52,10 @@ tags: [python, viz, linear algebra, statistics, probability, hypothesis, inferen
 
 1. network analysis
 
-1. recommender systems
+1. [recommender systems]({% post_url 2016-04-06-dsfs-22-recommender-systems %})
 
 1. [databases and sql]({% post_url 2016-04-07-dsfs-23-databases-and-sql %})
 
-1. mr
+1. [mapreduce]({% post_url 2016-04-08-dsfs-24-mapreduce %})
 
 1. go forth
