@@ -103,3 +103,34 @@ tags: [python, data science, network analysis]
                 user["closeness_centrality"] = 1 / farness(user)
 
 1. eigenvector centrality
+
+            # in order to talk about eigenvector centrality
+            #    have to talk about eigenvectors
+            # in order to talk about eigenvectors
+            #    have to talk about matrix multiplication
+
+    1. matrix multiplication
+
+            # matrix product AB
+            Ai1B1j + Ai2B2j + ... + AikBkj
+
+            # just dot product of ith row of A
+            #    with jth column of B
+            def matrix_product_entry(A, B, i, j):
+                return dot(get_row(A, i), get_column(B, j))
+
+            def matrix_multiply(A, B):
+                n1, k1 = shape(A)
+                n2, k2 = shape(B)
+                if k1 != n2:
+                    raise ArithmeticError('incompatible shapes!')
+
+                return make_matrix(n1, k2, partial(matrix_product_entry, A, B))
+
+            v = [1, 2, 3]
+            v_as_matrix = [[1],
+                           [2],
+                           [3]]
+
+            def vector_as_matrix():
+
