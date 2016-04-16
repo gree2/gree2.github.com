@@ -133,4 +133,84 @@ tags: [python, data science, network analysis]
                            [3]]
 
             def vector_as_matrix():
+                """returns the vector v (represented as a list) as a n x 1 matrix"""
+                return [[v_i] for v_i in v]
 
+            def vector_from_matrix(v_as_matrix):
+                """returns the n x 1 matrix as a list of values"""
+                return [row[0] for row in v_as_matrix]
+
+            def matrix_operate(A, v):
+                v_as_matrix = vector_as_matrix(v)
+                product = matrix_multiply(A, v_as_matrix)
+                return vector_from_matrix(product)
+
+            def find_eigenvector(A, tolerance=0.00001):
+                guess = [random.random() for _ in A]
+
+                while True:
+                    result = matrix_operate(A, guess)
+                    length = magnitude(result)
+                    next_guess = scalar_multiply(1 / length, result)
+
+                    if distance(guess, next_guess) < tolerance:
+                        # eigenvector, eigenvalue
+                        return next_guess, length
+                    guess = next_guess
+
+            # not all matrices of real numbers have eigenvectors and eigenvalues
+            rotate = [[0, 1],
+                      [-1, 0]]
+            # rotate vector 90 degrees clockwise
+
+    1. centrality
+
+            def entry_fn(i, j):
+                return 1 if (i, j) in friendships or (j, i) in friendships else 0
+
+            n = len(users)
+            adjacency_matrix = make_matrix(n, n, entry_fn)
+            eigenvector_centralities, _ find_eigenvector(adjacency_matrix)
+
+1. directed graphs and pagerank
+
+            endorsements = [(0, 1), (1, 0), (0, 2), (2, 0), (1, 2),
+                            (2, 1), (1, 3), (2, 3), (3, 4), (5, 4),
+                            (5, 6), (7, 5), (6, 8), (8, 7), (8, 9)]
+
+            for user in users:
+                user['endorses'] = []
+                user['endorsed_by'] = []
+
+            for source_id, target_id in endorsements:
+                user[source_id]['endorses'].append(user[target_id])
+                user[target_id]['endorsed_by'].append(user[source_id])
+
+            endorsements_by_id = [(user['id'], len(user['endorsed_by']))
+                                  for user in users]
+
+            sorted(endorsements_by_id,
+                   key=lambda (user_id, num_endorsements): num_endorsements,
+                   reverse=True)
+
+    1. page rank
+
+            def page_rank(users, damping=0.85, num_iters=100):
+                # initially distirbute pagerank evenly
+                num_users = len(users)
+                pr = { user['id'] : 1 / num_users for user in users }
+
+                # this is the small fraction of pagerank
+                # that each node gets each iteration
+                base_pr = (1 - damping) / numbers
+
+                for _ in range(num_iters):
+                    next_pr = { user['id']: base_pr for user in users }
+                    for user in users:
+                        # distribute pagerank to outgoing links
+                        links_pr = pr[user['id']] * damping
+                        for endorsee in user['endorses']:
+                            next_pr[endorsee['id']] += links_pr / len(user['endorses'])
+                    pr = next_pr
+
+                return pr
