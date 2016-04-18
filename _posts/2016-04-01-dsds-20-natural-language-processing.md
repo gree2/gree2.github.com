@@ -236,3 +236,87 @@ tags: [python, data science, nlp, natural language processing]
                 return counts
 
 1. topic modeling
+
+    1. latent dirichlet analysis (lda)
+
+            # lda has some similarities to the naive bayes classifier
+            # it assumes a probabilistic model for documents
+
+    1. code
+
+            def sample_from(weights):
+                """returns i with probability weights[i] / sum(weights)"""
+                total = sum(weights)
+                rnd = total * random.random()
+                for i, w in enumerate(weights):
+                    rnd -= w
+                    if rnd <= 0: return i
+
+            documents = [
+                ["Hadoop", "Big Data", "HBase", "Java", "Spark", "Storm", "Cassandra"],
+                ["NoSQL", "MongoDB", "Cassandra", "HBase", "Postgres"],
+                ["Python", "scikit-learn", "scipy", "numpy", "statsmodels", "pandas"],
+                ["R", "Python", "statistics", "regression", "probability"],
+                ["machine learning", "regression", "decision trees", "libsvm"],
+                ["Python", "R", "Java", "C++", "Haskell", "programming languages"],
+                ["statistics", "probability", "mathematics", "theory"],
+                ["machine learning", "scikit-learn", "Mahout", "neural networks"],
+                ["neural networks", "deep learning", "Big Data", "artificial intelligence"],
+                ["Hadoop", "Java", "MapReduce", "Big Data"],
+                ["statistics", "R", "statsmodels"],
+                ["C++", "deep learning", "artificial intelligence", "probability"],
+                ["pandas", "R", "Python"],
+                ["databases", "HBase", "Postgres", "MySQL", "MongoDB"],
+                ["libsvm", "regression", "support vector machines"]
+            ]
+
+            # a list of counters, one for each document
+            document_topic_counts = [Counter() for _ in documents]
+            # a list of counters, one for each topic
+            topic_word_counts = [Counter() for _ in range(K)]
+            # a list of numbers, one for each topic
+            topic_counts = [0 for _ in range(K)]
+            # a list of numbers, one for each document
+            document_lengths = map(len, documents)
+
+            # the number of distinct words
+            distinct_words = set(word for document in documents for word in document)
+            W = len(distinct_words)
+            D = len(documents)
+
+            def p_topic_given_document(topic, d, alpha=0.1):
+                """the fraction of words in document d
+                that are assigned to topic (plus some smoothing)"""
+                return ((document_topic_counts[d][topic] + alpha) /
+                        (document_lengths[d] + K * alpha))
+
+            def p_word_given_topic(word, topic, beta=0.1):
+                """the fraction of words assigned to topic
+                that equal word (plus some smoothing)"""
+                return ((topic_word_counts[topic][word] + beta) /
+                        (topic_counts[topic] + W * beta))
+
+            def topic_weight(d, word, k):
+                """given a document and a word in that document,
+                return the weight for the kth topic"""
+                return p_word_given_topic(word, K) * p_topic_given_document(k, d)
+
+            def choose_new_topic(d, word):
+                return sample_from([topic_weight(d, word, k)
+                                    for k in range(K)])
+
+            # assigning every word to a random topic
+            # populating our counters
+            random.seed(0)
+            document_topics = [[random.randrange(K) for word in document]
+                               for document in documents]
+
+            for d in range(D):
+                for word, topic in zip(documents[d], document_topics[d]):
+                    document_topic_count[d][topic] += 1
+                    topic_word_counts[topic][word] += 1
+                    topic_counts[topic] += 1
+
+            for iter in range(1000):
+                for d in range(D):
+                    for i, (word, to)
