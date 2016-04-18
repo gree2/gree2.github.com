@@ -50,7 +50,7 @@ tags: [python, viz, linear algebra, statistics, probability, hypothesis, inferen
 
 1. nlp
 
-1. network analysis
+1. [network analysis]({% post_url 2016-04-04-dsfs-21-network-analysis %})
 
 1. [recommender systems]({% post_url 2016-04-06-dsfs-22-recommender-systems %})
 

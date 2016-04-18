@@ -214,3 +214,7 @@ tags: [python, data science, network analysis]
                     pr = next_pr
 
                 return pr
+
+### reference
+
+1. [partial]({% posturl 2016-04-17-python-functools-partial %})

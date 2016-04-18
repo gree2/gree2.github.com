@@ -95,4 +95,7 @@ tags: [python, data science, gradient descent]
             tolerance = 0.0000001
 
             while True:
-                
+
+### reference
+
+1. [partial]({% posturl 2016-04-17-python-functools-partial %})

@@ -181,3 +181,7 @@ tags: [python, data science, vector, matrix]
 
             friendships[0][2] == 1 # True
             friendships[0][8] == 1 # False
+
+### reference
+
+1. [partial]({% posturl 2016-04-17-python-functools-partial %})

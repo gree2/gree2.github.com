@@ -264,3 +264,7 @@ tags: [python, data science, mapreduce]
 
             500 instances of ('data', 1)
             => 1 instance of ('data', 500)
+
+### reference
+
+1. [partial]({% posturl 2016-04-17-python-functools-partial %})
