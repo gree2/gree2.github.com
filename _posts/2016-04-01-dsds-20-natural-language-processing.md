@@ -319,4 +319,47 @@ tags: [python, data science, nlp, natural language processing]
 
             for iter in range(1000):
                 for d in range(D):
-                    for i, (word, to)
+                    for i, (word, topic) in enumerate(zip(document[d], document_topics[d])):
+                        # remove this word/topic from the counts
+                        # so that doesn't influence the weights
+                        document_topic_counts[d][topic] -= 1
+                        topic_word_counts[topic][word] -= 1
+                        topic_counts[topic] -= 1
+                        document_lengths[d] -= 1
+
+                        # choose a new topic based on the weights
+                        new_topic = choose_new_topic(d, word)
+                        document_topics[d][i] = new_topic
+
+                        # and now add it back to the counts
+                        document_topic_counts[d][new_topic] -= 1
+                        topic_word_counts[new_topic][word] -= 1
+                        topic_counts[new_topic] -= 1
+                        document_lengths[d] -= 1
+
+            # five most heavily weighted words
+            for k, word_counts in enumerate(topic_word_counts):
+                for word, count in word_counts.most_common():
+                    if count > 0: print k, word, count
+
+            # based on these assign topic names
+            topic_names = ["Big Data and programming languages",
+                           "Python and statistics",
+                           "databases",
+                           "machine learning"]
+
+            # how the model assigns topic to each user's interests
+            for document, topic_counts in zip(documents, document_topic_counts):
+                print document
+                for topic, count in topic_counts.most_common():
+                    if count > 0:
+                        print topic_names[topic], count,
+                print
+
+            # which gives
+            ['Hadoop', 'Big Data', 'HBase', 'Java', 'Spark', 'Storm', 'Cassandra']
+            Big Data and programming languages 4 databases 3
+            ['NoSQL', 'MongoDB', 'Cassandra', 'HBase', 'Postgres']
+            databases 5
+            ['Python', 'scikit-learn', 'scipy', 'numpy', 'statsmodels', 'pandas']
+            Python and statistics 5 machine learning 1

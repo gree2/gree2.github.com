@@ -48,7 +48,7 @@ tags: [python, viz, linear algebra, statistics, probability, hypothesis, inferen
 
 1. clustering
 
-1. nlp
+1. [nlp]({% post_url 2016-04-01-dsds-20-natural-language-processing %})
 
 1. [network analysis]({% post_url 2016-04-04-dsfs-21-network-analysis %})
 
