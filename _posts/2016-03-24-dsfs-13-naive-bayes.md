@@ -164,4 +164,56 @@ tags: [python, data science, naive bayes]
             classified = [(subject, id_spam, classifier.classify(subject))
                           for subject, is_spam in test_data]
 
-            # assume that spam_probability > 0.5 
+            # assume that spam_probability > 0.5 corresponds to spam prediction
+            # and count the combinations of (actual is_spam, predicted is_spam)
+            counts = Counter((is_spam, spam_probability > 0.5)
+                             for _, is_spam, spam_probability in classifier)
+
+            # 101 true positives (spam classified => spam)
+            # 33 false positives (ham  classified => spam)
+            # 704 true negatives (ham  classified => ham)
+            # 38 false negatives (ham  classified => spam)
+            # precision => 101 / (101 + 33) = 75%
+            # recall    => 101 / (101 + 38) = 73%
+            # which are not bad numbers for such a simple model
+
+            # sort by spam_probability from smallest to largest
+            classified.sort(key=lambda row: row[2])
+
+            # the highest predicted spam probabilities among the non-spams
+            spammiest_hams = filter(lambda row: not row[1], classified)[-5:]
+
+            # the lowest predicted spam probabilities among the actual spams
+            hammiest_spams = filter(lambda row: row[1], classified)[:5]
+
+            # check spammiest words
+            def p_spam_given_word(word_prob):
+                """uses bayes's therom to compute
+                p(spam / message contains word)"""
+                # word_prob is one of the triplets
+                # produced by word_probabilities
+                word, prob_if_spam, prob_if_not_spam = word_prob
+                return prob_if_spam / (prob_if_spam / prob_if_not_spam)
+
+            words = sorted(classifier.word_probs,
+                           key=p_spam_given_word)
+
+            spammiest_words = words[-5:]
+            hammiest_words = words[:5]
+
+    1. ways to improve this model
+
+            # 1. look at message content, not just subject line, and take care of message headers
+            
+            # 2. optional min_count threshhold and ignore tokens don't appear at least that many times
+            
+            # 3. tokenizer has no notion of similar words (e.g. cheap cheapest), optional stemmer function
+            #    e.g.
+            def drop_final_s(word):
+                return re.sub("s$", "", word)
+
+            # 4. add extra features like `message contains a number`
+
+### references
+
+1. [porter stemmer](http://tartarus.org/martin/PorterStemmer/)
