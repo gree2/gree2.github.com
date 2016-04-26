@@ -28,7 +28,7 @@ tags: [python, data science, clustering]
 
                 def __init__(self, k):
                     self.k = k
-                    self.mean = None
+                    self.means = None
 
                 def classify(self, input):
                     """return the index of the cluster closest to the input"""
@@ -48,7 +48,7 @@ tags: [python, data science, clustering]
                             return
 
                         # otherwise keep the new assignments
-                        assignments = new_assignment
+                        assignments = new_assignments
 
                         # compute new means based on the new assignments
                         for i in range(self.k):
@@ -57,7 +57,7 @@ tags: [python, data science, clustering]
 
                             # make sure i_points is not empty avoid divide by 0
                             if i_points:
-                                self.mean[i] = vector_mean(i_points)
+                                self.means[i] = vector_mean(i_points)
 
     1. e.g. meetups
 
@@ -101,7 +101,6 @@ tags: [python, data science, clustering]
             # 1. choose five color
             # 2. assigning one of those colors to each pixel
 
-
             # k-means clustering
             # partition the pixels into five clusters in rgb space
             # recolor the pixels in each cluster to the mean color
@@ -119,13 +118,13 @@ tags: [python, data science, clustering]
             pixels = [pixel for row in img for pixel in row]
 
             # 3. feed them to our cluster
-            clusterer = KMean(5)
+            clusterer = KMeans(5)
             clusterer.train(pixels)
 
             # 4. construct a new image with the same format
             def recolor(pixel):
                 cluster = clusterer.classify(pixel)
-                return clusterer.means(cluster)
+                return clusterer.means[cluster]
 
             new_img = [[recolor(pixel) for pixel in row]
                        for row in img]
