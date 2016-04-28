@@ -188,4 +188,123 @@ tags: [python, data science, data]
 
 ### manipulating data
 
-1. 
+1. important skills of data scientist
+
+    1. manipulating data
+
+            data = [
+                {'closing_price': 102.06,
+                'date': datetime.datetime(2014, 8, 29, 0, 0),
+                'symbol': 'AAPL'},
+                # ...
+            ]
+
+    1. highest price for appl
+
+            # 1. restrict to appl rows
+            # 2. grab closing_price from each row
+            # 3. take max of those prices
+
+            # list comprehension
+            max_appl_price = max(row['closing_price']
+                                 for row in data
+                                 if row['symbol'] == 'AAPl')
+
+    1. highest-ever closing price for each stock
+
+            # 1. group together all the rows with the same symbol
+            # 2. within each group do the same as before
+
+            # group rows by symbol
+            by_symbol = defaultdict(list)
+            for row in data:
+                by_symbol[row['symbol']].append(row)
+
+            # use dict comprehension to find the max for each symbol
+            max_price_by_symbol = { symbol: max(row['closing_price']
+                                                for row in grouped_rows)
+                                    for symbol, grouped_rows in by_symbol.iteritmes() }
+
+    1. pluck field out of a collection
+
+            def picker(field_name):
+                """returns a function that picks a field out of a dict"""
+                return lambda row: row[field_name]
+
+            def pluck(field_name, rows):
+                """turn a list of dicts into the list of field_name values"""
+                return map(picker(field_name), rows)
+
+    1. group rows and transform value for each group
+
+            def group_by(grouper, rows, value_transform):
+                # key is the output of the grouper value is list of rows
+                grouped = defaultdict(list)
+                for row in rows:
+                    grouped[grouper(row)].append(row)
+
+                if value_transform is None:
+                    return grouped
+                else:
+                    return { key: value_transform(rows)
+                             for key, rows in grouped.iteritmes() }
+
+            # demo rewrite
+            max_price_by_symbol = group_by(picker('symbol'),
+                                           data,
+                                           lambda rows: max(pluck('closing_price', rows)))
+
+    1. largest and smallest one-day percent changes
+
+            # percent change is
+            # price_today / price_yesterday - 1
+
+            # 1. order the prices by date
+            # 2. use zip to get pairs (previous, current)
+            # 3. turn the pairs into new `percent change` rows
+
+    1. within-each-group works
+
+            def percent_price_change(yesterday, today):
+                return today['closing_price'] / yesterday['closing_price'] - 1
+
+            def day_over_day_changes(grouped_rows):
+                # sort the rows by date
+                ordered = sorted(grouped_rows, key=picker('date'))
+
+                # zip with an offset to get pairs of consecutive days
+                return [{ 'symbol': today[symbol],
+                          'date': today['date'],
+                          'change': percent_price_change(yesterday, today)}
+                        for yesterday, today in zip(ordered, ordered[1:])]
+
+            # use this in value_transform in a group_by
+            # key => symbol, value => list of change dicts
+            changes_by_symbol = group_by(picker('symbol'), data, day_over_day_changes)
+
+            # collect all change dict into one big list
+            all_changes = [change
+                           for changes in changes_by_symbol.values()
+                           for change in changes]
+
+            # easy to find the largest and the smallest
+            max(all_changes, key=picker('change'))
+            min(all_changes, key=picker('change'))
+
+    1. best invest => which month
+
+            # to combine percent changes
+            #    add 1 to each, multiply them, and substract 1
+            #    e.g. if combine +10% and -20%
+            #         (1 + 10%) * (1 - 20%) - 1 = 1.1 * .8 - 1 = -12%
+            def combine_pct_changes(pct_change1, pct_change2):
+                return (1 + pct_change1) * (1 + pct_change2) - 1
+
+            def overall_change(changes):
+                return reduce(combine_pct_change, pluck('change', changes))
+
+            overall_change_by_month = group_by(lambda row: row['date'].month,
+                                               all_changes,
+                                               overall_change)
+
+### rescaling
