@@ -308,3 +308,133 @@ tags: [python, data science, data]
                                                overall_change)
 
 ### rescaling
+
+1. many techs are sensitive to the `scale` of data
+
+    1. demo
+
+            Person Height (inches) Height (centimeters) Weight
+            A      63 inches       160 cm               150 pounds
+            B      67 inches       170.2 cm             160 pounds
+            C      70 inches       177.8 cm             171 pounds
+
+            # euclidean distance
+            # treate (height, weight) pairs as points
+            # in 2d space
+
+            # height => inches
+            a_to_b = distance([63, 150], [67, 160]) # 10.77
+            a_to_c = distance([63, 150], [70, 171]) # 22.14
+            b_to_c = distance([67, 160], [70, 171]) # 11.40
+
+            # height => centimeters
+            a_to_b = distance([160, 150], [170.2, 160])   # 14.28
+            a_to_c = distance([160, 150], [177.8, 171])   # 27.53
+            b_to_c = distance([170.2, 160], [177.8, 171]) # 13.37
+
+    1. rescale data
+
+            # each dimensions has mean 0 and standard deviation 1
+
+    1. compute mean and standard_diviation
+
+            def scale(data_matrix):
+                """returns the means and standard diviations of each column"""
+                num_rows, num_cols = shape(data_matrix)
+                means = [mean(get_column(data_matrix, j))
+                         for j in range(num_cols)]
+                stdevs = [standard_diviation(get_column(data_matrix, j))
+                          for j in range(num_cols)]
+                return means, stdevs
+
+    1. create new data matrix
+
+            def rescale(data_matrix):
+                """rescales the input data so that each column
+                has mean 0 and standard diviation 1
+                leaves alone columns with no deviation"""
+                means, stdevs = scale(data_matrix)
+
+                def rescaled(i, j):
+                    if stdevs[j] > 0:
+                        return (data_matrix[i][j] - means[j] / stdevs[j])
+                    else:
+                        return data_matrix[i][j]
+
+                num_rows, num_cols = shape(data_matrix)
+                return make_matrix(num_rows, num_cols, rescaled)
+
+### dimensionality reduction
+
+1. principal component analysis
+
+    1. translate the data => each dimension has mean 0
+
+            def de_mean_matrix(A):
+                """returns the result of substracting from every value in A
+                the mean value of its column. the resulting matrix has mean 0 in every column"""
+                nr, nc = shape(A)
+                column_means, _ = scale(A)
+                return make_matrix(nr, nc, lambda i, j: A[i][j] - column_means[j])
+
+    1. given a de-meaned matrix
+
+            # we can ask which is the direction
+            # that captures the greatest variance in the data?
+            def direction(w):
+                mag = magnitude(w)
+                return [w_i / mag for w_i in w]
+
+    1. compute variance of our data set
+
+            # given nonzero vector w
+            # compute variance of our data set
+            # in the direction determined by w
+
+            def directional_variance_i(x_i, w):
+                """the variance of the row x_i in the direction determined by w"""
+                return dot(x_i, direction(w)) ** 2
+
+            def directional_variance(X, w):
+                """the variance of the data in the direction determined by w"""
+                return sum(directional_variance_i(x_i, w)
+                           for x_i in X)
+
+    1. find the direction that maximizes this variance
+
+            # using gradient descent
+            def directional_variance_gradient_i(x_i, w):
+                """the contribution of row x_i to the gradient
+                of the direction-w variance"""
+                projection_length = dot(x_i, direction(w))
+                return [2 * projection_length * x_ij for x_ij in x_i]
+
+            def directional_variance_gradient(X, w):
+                return vector_sum(directional_variance_gradient_i(x_i, w)
+                                  for x_i in X)
+
+    1. the first principal component
+
+            # is just the direction that maximizes the directional_variance function
+            def first_principal_component(X):
+                guess = [1 for _ in X[0]]
+                unscaled_maximizer = maximize_batch(
+                    partial(directional_variance, X),
+                    partial(directional_variance_gradient, X),
+                    guess)
+                return direction(unscaled_maximizer)
+
+            # or rather use stochastic gradient descent
+
+            # here there is no `y`
+            # so just pass in a vector of Nones
+            # and functions that ignore that input
+            def first_principal_component_sgd(X):
+                guess = [1 for _ in X[0]]
+                unscaled_maximizer = maximize_stochastic(
+                    lambda x, _, w: directional_variance_i(x, w),
+                    lambda x, _, w: directional_variance_gradient_i(x, w),
+                    X,
+                    [None for _ in X],
+                    guess)
+                return direction(unscaled_maximizer)
