@@ -129,14 +129,14 @@ tags: [python, data science, data]
                 return [parser(value) if parser is not None else value
                         for value, parser in zip(input_row, parsers)]
 
-            def parse_row_with(reader, parsers):
+            def parse_rows_with(reader, parsers):
                 """wrap a reader to apply the parsers to each of its rows"""
                 for row in reader:
                     yield parse_row(row, parsers)
 
     1. get None rather than crash
 
-            def try_or_noe(f):
+            def try_or_none(f):
                 """wraps f to return None if f raises an exception
                 assume f takes only one input"""
                 def f_or_none(x):
@@ -183,8 +183,8 @@ tags: [python, data science, data]
                     return value
 
             def parse_dict(input_dict, parser_dict):
-                return { field_name: try_parse_field(field_name, value, parser_dict)
-                         for field_name, value in input_dict.iteritmes() }
+                return {field_name: try_parse_field(field_name, value, parser_dict)
+                        for field_name, value in input_dict.iteritmes()}
 
 ### manipulating data
 
@@ -221,9 +221,9 @@ tags: [python, data science, data]
                 by_symbol[row['symbol']].append(row)
 
             # use dict comprehension to find the max for each symbol
-            max_price_by_symbol = { symbol: max(row['closing_price']
-                                                for row in grouped_rows)
-                                    for symbol, grouped_rows in by_symbol.iteritmes() }
+            max_price_by_symbol = {symbol: max(row['closing_price']
+                                               for row in grouped_rows)
+                                   for symbol, grouped_rows in by_symbol.iteritmes()}
 
     1. pluck field out of a collection
 
@@ -246,8 +246,8 @@ tags: [python, data science, data]
                 if value_transform is None:
                     return grouped
                 else:
-                    return { key: value_transform(rows)
-                             for key, rows in grouped.iteritmes() }
+                    return {key: value_transform(rows)
+                            for key, rows in grouped.iteritmes()}
 
             # demo rewrite
             max_price_by_symbol = group_by(picker('symbol'),
