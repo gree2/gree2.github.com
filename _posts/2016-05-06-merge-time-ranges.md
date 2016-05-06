@@ -52,11 +52,14 @@ tags: [merge, time, range]
 
     1. pythonic
 
-            1. eliminate the set() construction, since the algorithm should prune out duplicates during in the main loop.
+            1. eliminate the set() construction, since the algorithm should prune out duplicates during in the main loop
             
-            2. if you just need to iterate over the results, use yield to generate the values.
+            2. if you just need to iterate over the results, use yield to generate the values
             
-            3. reduce construction of intermediate objects, for example: move the tuple() call to the point where the final values are produced, saving you from having to construct and throw away extra tuples, and reuse a list saved for storing the current time range for comparison.
+            3. reduce construction of intermediate objects
+                e.g. move the tuple() call to the point where the final values are produced
+                saving you from having to construct and throw away extra tuples
+                and reuse a list saved for storing the current time range for comparison
 
             def merge(times):
                 saved = list(times[0])

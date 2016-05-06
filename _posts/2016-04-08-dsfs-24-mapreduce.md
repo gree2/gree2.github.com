@@ -267,4 +267,4 @@ tags: [python, data science, mapreduce]
 
 ### reference
 
-1. [partial]({% posturl 2016-04-17-python-functools-partial %})
+1. [partial]({% post_url 2016-04-17-python-functools-partial %})
