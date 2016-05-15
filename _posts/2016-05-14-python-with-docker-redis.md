@@ -18,7 +18,8 @@ tags: [python, docker, redis]
 
     1. start a redis instance
 
-            $ docker run --name gredis -d redis
+            # $ docker run --name gredis -d redis
+            $ docker run -p 6379:6379 --name gredis -d redis
 
 1. redis instance info
 
@@ -35,13 +36,17 @@ tags: [python, docker, redis]
 
 1. python code
 
+    1. [zset.poc.py on my github](https://github.com/gree2/hobby/blob/master/python/p.redis/zset.poc.py)
+
             #! coding: utf-8
 
             import redis
             import time
             from datetime import datetime, timedelta
 
-            conn = redis.Redis(host='172.17.0.3', port=6379, db=1)
+            DAYS = 10
+            # $ docker run -p 6379:6379 --name gredis -d redis
+            conn = redis.Redis(host='localhost', port=6379, db=1)
 
 
             def redis_info():
@@ -58,61 +63,53 @@ tags: [python, docker, redis]
                 """date_format"""
                 return date.strftime("%Y%m%d")
 
-            def zset_day_ts():
-                """zset_day_ts"""
-                now = datetime.now()
-                days = [now - timedelta(days=day) for day in range(40)]
+
+            def zset_poc():
+                """zset_poc"""
+                # now = datetime.now() - timedelta(days=DAYS)
+                now = datetime.strptime('20160514112233', '%Y%m%d%H%M%S') - timedelta(days=DAYS)
+                days = [now - timedelta(days=-day) for day in range(DAYS)]
                 times = [time.mktime(day.timetuple()) for day in days]
                 datas = [(date_format(key), value) for key, value in zip(days, times)]
-                print datas
-                # [('20160514', 1463218683.0),
-                #  ('20160513', 1463132283.0),
-                #  ('20160512', 1463045883.0),
-                #  ('20160511', 1462959483.0),
-                #  ('20160510', 1462873083.0),
-                #  ('20160509', 1462786683.0),
-                #  ('20160508', 1462700283.0),
-                #  ('20160507', 1462613883.0),
-                #  ('20160506', 1462527483.0),
-                #  ('20160505', 1462441083.0),
-                #  ('20160504', 1462354683.0),
-                #  ('20160503', 1462268283.0),
-                #  ('20160502', 1462181883.0),
-                #  ('20160501', 1462095483.0),
-                #  ('20160430', 1462009083.0),
-                #  ('20160429', 1461922683.0),
-                #  ('20160428', 1461836283.0),
-                #  ('20160427', 1461749883.0),
-                #  ('20160426', 1461663483.0),
-                #  ('20160425', 1461577083.0),
-                #  ('20160424', 1461490683.0),
-                #  ('20160423', 1461404283.0),
-                #  ('20160422', 1461317883.0),
-                #  ('20160421', 1461231483.0),
-                #  ('20160420', 1461145083.0),
-                #  ('20160419', 1461058683.0),
-                #  ('20160418', 1460972283.0),
-                #  ('20160417', 1460885883.0),
-                #  ('20160416', 1460799483.0),
-                #  ('20160415', 1460713083.0),
-                #  ('20160414', 1460626683.0),
-                #  ('20160413', 1460540283.0),
-                #  ('20160412', 1460453883.0),
-                #  ('20160411', 1460367483.0),
-                #  ('20160410', 1460281083.0), <= 5
-                #  ('20160409', 1460194683.0),
-                #  ('20160408', 1460108283.0),
-                #  ('20160407', 1460021883.0),
-                #  ('20160406', 1459935483.0),
-                #  ('20160405', 1459849083.0)] <= 0
-                for (key, value) in datas:
-                    conn.zadd('day_ts', key, value)
 
-            # zset_day_ts()
-            print conn.zrange('day_ts', 0, 5)
-            # ['20160405', '20160406', '20160407', '20160408', '20160409']
-            print conn.zrangebyscore('day_ts', 1459849083.0, 1460281083.0)
-            # ['20160405', '20160406', '20160407', '20160408', '20160409']
+                zset_key = 'day_ts'
+                # remove old test if any
+                cnt = conn.zcard(zset_key)
+                if cnt > 0:
+                    print 'remove', cnt, 'in zset'
+                    conn.zremrangebyrank(zset_key, 0, cnt)
+                # field 5 to 9 or -5 to -1
+                (key_start, ts_start) = datas[-5]
+                (key_stop, ts_stop) = datas[-1]
+
+                # 0 20160504 1462370790.0
+                # 1 20160505 1462457190.0
+                # 2 20160506 1462543590.0
+                # 3 20160507 1462629990.0
+                # 4 20160508 1462716390.0
+                # 5 20160509 1462802790.0 <=
+                # 6 20160510 1462889190.0
+                # 7 20160511 1462975590.0
+                # 8 20160512 1463061990.0
+                # 9 20160513 1463148390.0 <=
+                for i, (key, value) in enumerate(datas):
+                    print i, key, value,
+                    if key == key_start:
+                        print '<=',
+                    if key == key_stop:
+                        print '<=',
+                    print
+                    conn.zadd(zset_key, key, value)
+                # ('20160513', 1463148092.0) ('20160509', 1462802492.0)
+                print datas[-5], datas[-1]
+                # ['20160509', '20160510', '20160511', '20160512', '20160513']
+                print conn.zrange(zset_key, 5, 9)
+                print conn.zrange(zset_key, -5, -1)
+                print conn.zrangebyscore(zset_key, ts_start, ts_stop)
+
+            if __name__ == '__main__':
+                zset_poc()
+
 
 1. cleanup
 
