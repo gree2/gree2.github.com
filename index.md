@@ -7,7 +7,7 @@ tagline: Coding with music.
 
 ## Info
 
-my qq is `530534714`.
+<del>my qq is `530534714`.</del>
 
 my wechat is `hqlgree2`
 
@@ -17,6 +17,6 @@ pay a visit to my [github](http://github.com/gree2).
 
 <ul class="posts">
   {% for post in site.posts %}
-    <li><span>{{ post.date | date_to_string }}</span> ==&gt; <a href="{{ BASE_PATH }}{{ post.url }}">{{ post.title }}</a></li>
+    <li><span>{{ post.date | date: "%Y-%m-%d" }}</span> ==&gt; <a href="{{ BASE_PATH }}{{ post.url }}">{{ post.title }}</a></li>
   {% endfor %}
 </ul>
