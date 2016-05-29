@@ -271,3 +271,26 @@ tags: [install, partition, ubuntu]
 
             after a reboot
             your /home resides on the new drive having plenty of space
+
+### software
+
+1. input
+
+    1. sogou
+
+    1. [download](http://pinyin.sogou.com/linux/?r=pinyin)
+
+    1. double click to install
+
+1. wechat
+
+    1. [electronic-wechat](https://github.com/geeeeeeeeek/electronic-wechat)
+
+    1. [download](http://o763lpzct.bkt.clouddn.com/linux-x64.tar.gz)
+
+    1. install
+
+            $ tar zxvf linux-x64.tar.gz
+            $ mv electronic* wechat
+            $ cd wechat
+            $ ./electronic-wechat
