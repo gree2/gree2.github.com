@@ -11,6 +11,8 @@ tagline: Coding with music.
 
 my wechat is `hqlgree2`
 
+my email is `hqlgree2` at `gmail.com`
+
 pay a visit to my [github](http://github.com/gree2).
 
 ## Posts
