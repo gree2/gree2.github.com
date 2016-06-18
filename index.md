@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Hello World!
-tagline: Coding with music.
+tagline: Coding on shoulders of Giants with music.
 ---
 {% include JB/setup %}
 

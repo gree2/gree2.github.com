@@ -48,3 +48,8 @@ tags: [elk, elasticsearch, logstash, kibana]
 
 			# browser
 			http://localhost:5601
+
+
+### docker-kibana
+
+1. [git repo](https://github.com/gree2/hello-docker/tree/master/docker-elk/docker-kibana)

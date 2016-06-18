@@ -56,10 +56,46 @@ tags: [elk, elasticsearch, logstash, kibana]
 
     1. run
             $ curl -X GET http://localhost:9200/
+            $ curl 'http://localhost:9200/?pretty'
+
+            # shutdown elasticsearch
+            $ curl -XPOST 'http://localhost:9200/_shutdown'
+
+1. config
+
+    1. network address
+
+            network:
+                host: 127.0.0.1
+
+    1. path
+
+            path:
+                logs: /var/log/elasticsearch
+                data: /var/data/elasticsearch
+
+    1. cluster name
+
+            cluster:
+                name: <name of cluster>
+
+    1. node name
+
+            node:
+                name: <name of node>
+
+1. plugins
+
+    1. install plugin
+
+            $ bin/plugin -install lmenezes/elasticsearch-kopf
+
+            # webui
+            # http://localhost:9200/_plugin/kopf/
 
 ### docker-elasticsearch
 
-1. 
+1. [git repo](https://github.com/gree2/hello-docker/tree/master/docker-elk/docker-elasticsearch)
 
 1. fixed
 

@@ -46,6 +46,28 @@ tags: [elk, elasticsearch, logstash, kibana]
 
             $ bin/logstash agent -f logstash.conf
 
+1. config
+
+    1. config file json format
+
+            $ cat demo.conf
+            # this is a comment
+            input {
+                ...
+            }
+
+            filter {
+                ...
+            }
+
+            output {
+                ...
+            }
+
+### docker-logstash
+
+1. [git repo](https://github.com/gree2/hello-docker/tree/master/docker-elk/docker-logstash)
+
 ### processing pipeline
 
 1. [input plugins](https://www.elastic.co/guide/en/logstash/2.3/input-plugins.html)
@@ -107,4 +129,13 @@ tags: [elk, elasticsearch, logstash, kibana]
 
             $ bin/logstash -e 'input { stdin { } } output{ stdout { codec => rubydebug } }'
             hello
-            
+
+1. elasticsearch output
+
+    1. command
+
+            $ bin/logstash -e 'input { stdin { } } output{ elasticsearch { host = localhost } }'
+
+    1. check indexes
+
+            http://localhost:9200/_search
