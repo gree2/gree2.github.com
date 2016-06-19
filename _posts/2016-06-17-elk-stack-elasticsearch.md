@@ -97,7 +97,7 @@ tags: [elk, elasticsearch, logstash, kibana]
 
 1. [git repo](https://github.com/gree2/hello-docker/tree/master/docker-elk/docker-elasticsearch)
 
-1. fixed
+1. don't run elasticsearch as root.
 
     1. exception
 
@@ -116,3 +116,30 @@ tags: [elk, elasticsearch, logstash, kibana]
             RUN whoami
 
             # you should see `root` then `test`
+
+1. nosuchfileexception /usr/share/elasticsearch/config
+
+    1. exception
+
+            Exception in thread "main" ElasticsearchException[Failed to load logging configuration]; nested: NoSuchFileException[/usr/share/elasticsearch/config];
+            Likely root cause: java.nio.file.NoSuchFileException: /usr/share/elasticsearch/config
+                at sun.nio.fs.UnixException.translateToIOException(UnixException.java:86)
+                at sun.nio.fs.UnixException.rethrowAsIOException(UnixException.java:102)
+                at sun.nio.fs.UnixException.rethrowAsIOException(UnixException.java:107)
+                at sun.nio.fs.UnixFileAttributeViews$Basic.readAttributes(UnixFileAttributeViews.java:55)
+                at sun.nio.fs.UnixFileSystemProvider.readAttributes(UnixFileSystemProvider.java:144)
+                at sun.nio.fs.LinuxFileSystemProvider.readAttributes(LinuxFileSystemProvider.java:97)
+                at java.nio.file.Files.readAttributes(Files.java:1686)
+                at java.nio.file.FileTreeWalker.walk(FileTreeWalker.java:109)
+                at java.nio.file.FileTreeWalker.walk(FileTreeWalker.java:69)
+                at java.nio.file.Files.walkFileTree(Files.java:2602)
+                at org.elasticsearch.common.logging.log4j.LogConfigurator.resolveConfig(LogConfigurator.java:142)
+                at org.elasticsearch.common.logging.log4j.LogConfigurator.configure(LogConfigurator.java:103)
+                at org.elasticsearch.bootstrap.Bootstrap.init(Bootstrap.java:243)
+                at org.elasticsearch.bootstrap.Elasticsearch.main(Elasticsearch.java:35)
+            Refer to the log for complete error details.
+
+    1. [run es_bin as es_usr](https://discuss.elastic.co/t/issues-installing-starting-es-2-1-0-when-installed-from-a-repository/36320)
+
+            #         es_usr        es_bin        es_conf
+            $ sudo -u elasticsearch elasticsearch -Des.path.conf=/etc/elasticsearch
