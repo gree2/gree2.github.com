@@ -93,6 +93,48 @@ tags: [elk, elasticsearch, logstash, kibana]
             # webui
             # http://localhost:9200/_plugin/kopf/
 
+1. curl
+
+    1.
+
+            $ curl 'http://192.168.99.100:9200/?pretty'
+
+    1. shutdown
+
+            $ curl -XPOST 'http://192.168.99.100:9200/_shutdown'
+
+    1.  search
+
+            $ curl –XGET 'http://192.168.99.100:9200/logstash-2014.08.04/_search?pretty'
+
+    1. indices
+
+            $ curl –XGET 'http:192.168.99.100:9200/_cat/indices?v'
+
+    1. node
+    
+            $ curl –XGET 'http://192.168.99.100:9200/_cat/nodes?v'
+
+    1. health
+
+            $ curl -XGET 'http://192.168.99.100:9200/_cluster/health?pretty=true'
+            {
+                "cluster_name" : "elasticsearch",
+                "status" : "yellow",
+                "timed_out" : false,
+                "number_of_nodes" : 1,
+                "number_of_data_nodes" : 1,
+                "active_primary_shards" : 11,
+                "active_shards" : 11,
+                "relocating_shards" : 0,
+                "initializing_shards" : 0,
+                "unassigned_shards" : 11
+            }
+
+            $ curl -XGET 'http://192.168.99.100:9200/_cluster/health?level=cluster&pretty=true'
+            $ curl -XGET 'http://192.168.99.100:9200/_cluster/health?level=shards&pretty=true'
+            $ curl -XGET 'http://192.168.99.100:9200/_cluster/health?level=indices&pretty=true'
+
 ### docker-elasticsearch
 
 1. [git repo](https://github.com/gree2/hello-docker/tree/master/docker-elk/docker-elasticsearch)
