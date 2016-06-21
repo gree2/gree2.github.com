@@ -134,8 +134,23 @@ tags: [elk, elasticsearch, logstash, kibana]
 
     1. command
 
-            $ bin/logstash -e 'input { stdin { } } output{ elasticsearch { host = localhost } }'
+            # if connect to another container
+            # change `elasticsearch { host = localhost }`
+            #     to `elasticsearch { hosts => ["192.168.99.100:9200"] }`
+            $ bin/logstash -e 'input { stdin { } } output{ elasticsearch {  } }'
 
     1. check indexes
 
-            http://localhost:9200/_search
+            $ curl http://localhost:9200/_search?pretty
+            {
+                "name" : "Ellie Phimster",
+                "cluster_name" : "elasticsearch",
+                "version" : {
+                    "number" : "2.3.3",
+                    "build_hash" : "218bdf10790eef486ff2c41a3df5cfa32dadcfde",
+                    "build_timestamp" : "2016-05-17T15:40:04Z",
+                    "build_snapshot" : false,
+                    "lucene_version" : "5.5.0"
+                },
+                "tagline" : "You Know, for Search"
+            }

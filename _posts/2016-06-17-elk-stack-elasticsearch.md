@@ -65,8 +65,7 @@ tags: [elk, elasticsearch, logstash, kibana]
 
     1. network address
 
-            network:
-                host: 127.0.0.1
+            network.host: 127.0.0.1
 
     1. path
 
@@ -95,15 +94,27 @@ tags: [elk, elasticsearch, logstash, kibana]
 
 1. curl
 
-    1.
+    1. info
 
             $ curl 'http://192.168.99.100:9200/?pretty'
+            {
+                "name" : "Ellie Phimster",
+                "cluster_name" : "elasticsearch",
+                "version" : {
+                    "number" : "2.3.3",
+                    "build_hash" : "218bdf10790eef486ff2c41a3df5cfa32dadcfde",
+                    "build_timestamp" : "2016-05-17T15:40:04Z",
+                    "build_snapshot" : false,
+                    "lucene_version" : "5.5.0"
+                },
+                "tagline" : "You Know, for Search"
+            }
 
     1. shutdown
 
             $ curl -XPOST 'http://192.168.99.100:9200/_shutdown'
 
-    1.  search
+    1. search
 
             $ curl –XGET 'http://192.168.99.100:9200/logstash-2014.08.04/_search?pretty'
 
@@ -124,11 +135,16 @@ tags: [elk, elasticsearch, logstash, kibana]
                 "timed_out" : false,
                 "number_of_nodes" : 1,
                 "number_of_data_nodes" : 1,
-                "active_primary_shards" : 11,
-                "active_shards" : 11,
+                "active_primary_shards" : 5,
+                "active_shards" : 5,
                 "relocating_shards" : 0,
                 "initializing_shards" : 0,
-                "unassigned_shards" : 11
+                "unassigned_shards" : 5,
+                "delayed_unassigned_shards" : 0,
+                "number_of_pending_tasks" : 0,
+                "number_of_in_flight_fetch" : 0,
+                "task_max_waiting_in_queue_millis" : 0,
+                "active_shards_percent_as_number" : 50.0
             }
 
             $ curl -XGET 'http://192.168.99.100:9200/_cluster/health?level=cluster&pretty=true'
