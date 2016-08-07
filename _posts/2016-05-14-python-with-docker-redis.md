@@ -31,7 +31,7 @@ tags: [python, docker, redis]
 
     1. ip
 
-            $ docker inspect --format='{{.NetworkSettings.IPAddress}}' gredis
+            $ docker inspect --format='\{\{.NetworkSettings.IPAddress\}\}' gredis
             172.17.0.3
 
 1. python code
