@@ -44,11 +44,11 @@ tags: [pip, updating, package, grep, cut, xargs, subprocess, call]
 
 1. code
 
-        import pip
-        from subprocess import call
+            import pip
+            from subprocess import call
 
-        for dist in pip.get_installed_distributions():
-            call("pip install --upgrade " + dist.project_name, shell=True)
+            for dist in pip.get_installed_distributions():
+                call("pip install --upgrade " + dist.project_name, shell=True)
 
 ### reference
 
