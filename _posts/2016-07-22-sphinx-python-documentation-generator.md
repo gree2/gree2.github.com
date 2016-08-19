@@ -30,7 +30,7 @@ tags: [sphinx, python, documentation, sphinx_rtd_theme, toctree]
 
 1. running the build
 
-    1. use `sphinx-build
+    1. use `sphinx-build`
 
             $ sphinx-build -b html sourcedir builddir
 
