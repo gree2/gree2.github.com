@@ -3,7 +3,7 @@ layout: post
 title: "sphinx python documentation generator"
 description: ""
 category: [python]
-tags: [sphinx, python, documentation]
+tags: [sphinx, python, documentation, sphinx_rtd_theme, toctree]
 ---
 {% include JB/setup %}
 
@@ -22,16 +22,7 @@ tags: [sphinx, python, documentation]
 
     1. toctree directive initially is empty
 
-            ..  toctree::
-                :maxdepth: 2
-
     1. add `intro` and `tutorial`
-
-            ..  toctree:
-                :maxdepth: 2
-
-                intro
-                tutorial
 
     1. create `intro.rst` and `tutorial.rst` in `source` folder
 
