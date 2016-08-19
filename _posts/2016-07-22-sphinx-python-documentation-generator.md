@@ -8,7 +8,7 @@ tags: [sphinx, python, documentation, sphinx_rtd_theme, toctree]
 {% include JB/setup %}
 
 
-### [first steps with sphinx](http://www.sphinx-doc.org/en/stable/tutorial.html)
+### first steps with sphinx
 
 1. install sphinx
 
@@ -38,7 +38,7 @@ tags: [sphinx, python, documentation, sphinx_rtd_theme, toctree]
 
             $ make html
 
-### [read the docs sphinx theme](https://github.com/snide/sphinx_rtd_theme)
+### read the docs sphinx theme
 
 1. installation via package
 
@@ -57,6 +57,8 @@ tags: [sphinx, python, documentation, sphinx_rtd_theme, toctree]
 ### reference
 
 1. [www.sphinx-doc.org](http://www.sphinx-doc.org/en/stable/#)
+
+1. [first steps with sphinx](http://www.sphinx-doc.org/en/stable/tutorial.html)
 
 1. [sphinx_rtd_theme](https://github.com/snide/sphinx_rtd_theme)
 
