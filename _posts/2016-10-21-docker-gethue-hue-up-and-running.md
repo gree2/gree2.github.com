@@ -73,4 +73,53 @@ tags: [gethue, hue, cloudera,]
 
     1. default librdbms settings in hue.ini
 
-    
+            # export TERM=xterm; nano desktop/conf/pseudo.distributed.ini
+
+            ...
+            [librdbms]
+                [[databases]]
+                    [[[mysql]]]
+                        nice_name="MySQL DB"
+                        name=creepy
+                        engine=mysql
+                        host=gmysql
+                        port=3306
+                        user=root
+                        password=creepy
+                        options={"init_command":"SET NAMES 'utf8'"}
+
+### fixed
+
+1. Error opening terminal: unknown.
+
+    1. docker image for hue can't use vi for edit
+
+            # apt install nano
+            ...
+
+            # nano hue.ini
+
+    1. [running-nano-in-docker-container](http://stackoverflow.com/questions/27826241/running-nano-in-docker-container)
+
+            # export TERM=xterm
+            # nano hue.ini
+
+1. Server error occured
+
+    1. error info
+
+            Server error occured: (2002, "Can't connect to local MySQL server through socket '/var/run/mysqld/mysqld.sock' (2)")
+
+            Server error occured: (2003, "Can't connect to MySQL server on '172.17.9.3' (113)")
+
+    1. use docker --lin
+
+            # docker run -d -p 8888:8888 --name ghue --link=gmysql:gmysql gethue/hue
+
+    1. Server error occured: 'utf8' codec can't decode byte 0x93 in position 0: invalid start byte
+
+    1. Server error occured: Could not coerce ["{ 'init_command': 'SET character_set_connection=utf8", "collation_connection=utf8_unicode_ci' }"] to json dictionary.
+
+    1. [fixed](http://gethue.com/custom-sql-query-editors/)
+
+            options={"init_command":"SET NAMES 'utf8'"}
