@@ -3,7 +3,7 @@ layout: post
 title: "docker gethue hue up and running"
 description: ""
 category: [docker, bigdata]
-tags: [gethue, hue, cloudera,]
+tags: [gethue, hue, cloudera, xterm, nano, ubuntu]
 ---
 {% include JB/setup %}
 
@@ -112,7 +112,7 @@ tags: [gethue, hue, cloudera,]
 
             Server error occured: (2003, "Can't connect to MySQL server on '172.17.9.3' (113)")
 
-    1. use docker --lin
+    1. use docker --link
 
             # docker run -d -p 8888:8888 --name ghue --link=gmysql:gmysql gethue/hue
 
