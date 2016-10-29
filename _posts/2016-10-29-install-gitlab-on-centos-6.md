@@ -12,7 +12,7 @@ tags: [gitlab, centos, wget, repo, yum, curl, openssh-clients, openssh-server, p
 
 1. use aliyun repo
 
-    1 backup
+    1. backup
 
             $ cd /etc/yum.repos.d/
             $ sudo mv CentOS-Base.repo CentOS-Base.repo.backup
