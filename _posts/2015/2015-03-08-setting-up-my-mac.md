@@ -9,8 +9,9 @@ tags: [ruby, jekyll]
 
 ### setup ruby
 
-    gem sources --remove https://rubygems.org/
-    gem sources -a https://ruby.taobao.org/
+    # gem sources --remove https://rubygems.org/
+    # gem sources -a https://ruby.taobao.org/
+    gem sources --add https://gems.ruby-china.org/ --remove https://rubygems.org/
     gem sources -l
     gem install bundler
 
