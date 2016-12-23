@@ -69,27 +69,27 @@ tags: [centos, install, yum, docker-engine, docker-io epel]
     
             $ sudo docker run --rm hello-world
 
-### install docker-io (old version)
+1. install docker-io (old version)
 
-1. install the epel repo
+    1. install the epel repo
 
-        $ rpm -iUvh http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm
+            $ rpm -iUvh http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm
 
-1. update our packages:
+    1. update our packages:
 
-        $ yum update -y
+            $ yum update -y
 
-1. docker-io package:
+    1. docker-io package:
 
-        $ yum -y install docker-io
+            $ yum -y install docker-io
 
-1. start the docker daemon
+    1. start the docker daemon
 
-        $ service docker start
+            $ service docker start
 
-1. config start with the server boots
+    1. config start with the server boots
 
-        $ chkconfig docker on
+            $ chkconfig docker on
 
 ### fixed
 
@@ -146,3 +146,11 @@ tags: [centos, install, yum, docker-engine, docker-io epel]
                 policycoreutils-python-2.0.83-19.39.el6.x86_64 from os
                 setools-libs-3.3.7-4.el6.x86_64 from os
                 setools-libs-python-3.3.7-4.el6.x86_64 from os
+
+1. final fixed
+
+    1. [docs for installation on linux centos](https://docs.docker.com/engine/installation/linux/centos/)'s prerequisites Docker requires a `64-bit OS` and version `3.10 or higher` of the `Linux kernel`
+
+    1. check my post [2016-12-23-upgrade-centos-6.5-kernel-from-2.6-to-3.10]({% post_url 2016-12-23-upgrade-centos-65-kernel-from-26-to-310 %})
+
+            # you should upgrade os kernel first
