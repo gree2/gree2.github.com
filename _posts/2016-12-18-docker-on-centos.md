@@ -56,6 +56,18 @@ tags: [centos, install, yum, docker-engine, docker-io epel]
     1. run the docker installation script
 
             $ curl -fsSL https://get.docker.com/ | sh
+            + sudo -E sh -c 'sleep 3; yum -y -q install docker-engine'
+            warning: rpmts_HdrFromFdno: Header V4 RSA/SHA1 Signature, key ID 2c52609d: NOKEY
+            Importing GPG key 0x2C52609D:
+             Userid: "Docker Release Tool (releasedocker) <docker@docker.com>"
+             From  : https://yum.dockerproject.org/gpg
+
+            If you would like to use Docker as a non-root user, you should now consider
+            adding your user to the "docker" group with something like:
+
+              sudo usermod -aG docker dc
+
+            Remember that you will have to log out and back in for this to take effect! 
 
     1. enable the service
 
