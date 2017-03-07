@@ -70,7 +70,8 @@ tags: [centos, upgrade, 6, 7, createrepo, gpgcheck]
 
             3. check first line of .discinfo
             # head -n1 centos7/.discinfo
-            media_id  <= this is the output
+            1480943823.812754
+            # media_id  <= this is the output
 
             4. create `/etc/yum.repos.d/centos7.repo
             # nano /etc/yum.repos.d/centos7.repo
@@ -141,3 +142,41 @@ tags: [centos, upgrade, 6, 7, createrepo, gpgcheck]
     1. [CentOSUpgradeTool](https://wiki.centos.org/TipsAndTricks/CentOSUpgradeTool)
 
             DO NOT USE this tool. Warning: use of this tool is currently BROKEN as several system-critical packages are of a higher version number in CentOS 6.7 than they are in CentOS 7 so those do not get upgraded correctly. This renders yum and several other system tools non-functional.
+
+1. yum upgrade error
+
+    1. info
+
+            You could try using --skip-broken to work around the problem
+            # yum upgrade --skip-broken
+
+    1. error again
+
+            Multilib version problems found. This often means that the root
+                  cause is something else and multilib version checking is just
+                  pointing out that there is a problem. Eg.:
+
+                    1. You have an upgrade for libgcc which is missing some
+                       dependency that another package requires. Yum is trying to
+                       solve this by installing an older version of libgcc of the
+                       different architecture. If you exclude the bad architecture
+                       yum will tell you what the root cause is (which package
+                       requires what). You can try redoing the upgrade with
+                       --exclude libgcc.otherarch ... this should give you an error
+                       message showing the root cause of the problem.
+
+                    2. You have multiple architectures of libgcc installed, but
+                       yum can only see an upgrade for one of those arcitectures.
+                       If you don't want/need both architectures anymore then you
+                       can remove the one with the missing update and everything
+                       will work.
+
+                    3. You have duplicate versions of libgcc installed already.
+                       You can use "yum check" to get yum show these errors.
+
+                  ...you can also use --setopt=protected_multilib=false to remove
+                  this checking, however this is almost never the correct thing to
+                  do as something else is very likely to go wrong (often causing
+                  much more problems).
+
+                  Protected multilib versions: libgcc-4.8.5-11.el7.x86_64 != libgcc-4.4.7-17.el6.x86_64
