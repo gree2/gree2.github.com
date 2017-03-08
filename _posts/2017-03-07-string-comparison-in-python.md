@@ -46,11 +46,42 @@ tags: [Levenshtein, Hamming, Damerau–Levenshtein, Jaro–Winkler, distance, di
             difflib.SequenceMatcher => Ratcliff/Obershelp algorithm
             Levenshtein             => Levenshtein algorithm
 
-### [FuzzyWuzzy: Fuzzy String Matching in Python](http://chairnerd.seatgeek.com/fuzzywuzzy-fuzzy-string-matching-in-python/)
+1. [FuzzyWuzzy: Fuzzy String Matching in Python](http://chairnerd.seatgeek.com/fuzzywuzzy-fuzzy-string-matching-in-python/)
 
-1. String Similarity
+    1. string similarity
 
-1. Partial String Similarity
+            from difflib import SequenceMatcher
+            m = SequenceMatcher(None, 'new york mets', 'new york meats')
+            m.ratio() => 0.9626...
+
+            fuzz.ratio('new york mets', 'new york meats') => 96
+
+    1. partial string similarity
+
+            fuzz.ratio('yankees', 'new york yankees')       => 60
+            fuzz.ratio('new york mets', 'new york yankees') => 75
+
+            fuzz.ratio('yankees', 'new york yankees')       => 100
+            fuzz.ratio('new york mets', 'new york yankees') => 69
+
+    1. out of order
+
+            fuzz.ratio('new york mets vs atlanta braves', 'atlanta braves vs new york mets')          => 45
+            fuzz.partial_ratio('new york mets vs atlanta braves', 'atlanta braves vs new york mets') => 45
+
+            # token sort
+            'new york mets vs atlanta braves' --> 'atlanta braves mets new vs york'
+            fuzz.token_sort_ratio('new york mets vs atlanta braves', 'atlanta braves vs new york mets') => 100
+
+            # token set
+            s1 = 'mariners vs angels'
+            s2 = 'los angeles angels of anaheim at seattle mariners'
+            # after sort
+            t1 = 'angels mariners vs'
+            t2 = 'anaheim angeles angels los mariners of seattle vs'
+            fuzz.token_set_ratio('mariners vs angels', 'los angels of anaheim at seattle mariners') => 90
+
+            fuzz.token_set_ratio('sirhan, sirhan', 'sirhan') => 100
 
 ### references
 
@@ -67,3 +98,9 @@ tags: [Levenshtein, Hamming, Damerau–Levenshtein, Jaro–Winkler, distance, di
 1. source code
 
     1. [Levenshtein.c](http://code.google.com/p/pylevenshtein/source/browse/trunk/Levenshtein.c)
+
+    1. [fuzzywuzzy](https://github.com/seatgeek/fuzzywuzzy)
+
+1. doc
+
+    1. [difflib](https://docs.python.org/2/library/difflib.html)
