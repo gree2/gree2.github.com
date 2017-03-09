@@ -3,7 +3,7 @@ layout: post
 title: "tesseract ocr parser within tika"
 description: ""
 category: [ocr]
-tags: [tesseract, ocr, tika]
+tags: [tesseract, ocr, tika, tika-app, tika-server, tika-python]
 ---
 {% include JB/setup %}
 
@@ -56,7 +56,7 @@ tags: [tesseract, ocr, tika]
 
             $ docker run --rm -d -p 9998:9998 logicalspark/docker-tikaserver
 
-1. command-line usage
+1. [command-line usage](https://github.com/tesseract-ocr/tesseract/wiki/Command-Line-Usage)
 
     1. set `TESSDATA_PREFIX`
 
@@ -71,3 +71,39 @@ tags: [tesseract, ocr, tika]
             ...
             orc output of test.png file
             ...
+
+1. running the tika server
+
+    1. java -jar
+
+            $ java -jar tika-server-1.14.jar
+            ...
+
+    1. change host name and port number
+
+            $ java -jar tika-server-1.14.jar --host=intranet.local --port=9999
+            Mar 09, 2017 9:35:55 AM org.apache.tika.server.TikaServerCli main
+            INFO: Starting Apache Tika 1.14 server
+            Mar 09, 2017 9:35:56 AM org.apache.cxf.endpoint.ServerImpl initDestination
+            INFO: Setting the server's publish address to be http://localhost:9999/
+            Mar 09, 2017 9:35:56 AM org.slf4j.impl.JCLLoggerAdapter info
+            INFO: jetty-8.y.z-SNAPSHOT
+            Mar 09, 2017 9:35:56 AM org.slf4j.impl.JCLLoggerAdapter info
+            INFO: Started SelectChannelConnector@localhost:9999
+            Mar 09, 2017 9:35:56 AM org.apache.tika.server.TikaServerCli main
+            INFO: Started
+
+    1. visit [http://localhost:9999/](http://localhost:9999/)
+
+            Welcome to the Apache Tika 1.14 Server
+
+            For endpoints, please see https://wiki.apache.org/tika/TikaJAXRS and http://tika.apache.org/1.14/miredot/index.html
+
+            PUT /detect/stream
+            Class: org.apache.tika.server.resource.DetectorResource
+            Method: detect
+            Produces: text/plain
+            GET /detectors
+            Class: org.apache.tika.server.resource.TikaDetectors
+            Method: getDectorsHTML
+            Produces: text/html
