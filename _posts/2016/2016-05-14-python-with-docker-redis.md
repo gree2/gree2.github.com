@@ -18,7 +18,6 @@ tags: [python, docker, redis]
 
     1. start a redis instance
 
-            # $ docker run --name gredis -d redis
             $ docker run -p 6379:6379 --name gredis -d redis
 
 1. redis instance info
@@ -26,13 +25,52 @@ tags: [python, docker, redis]
     1. check
 
             $ docker ps -a
-            CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS               NAMES
-            2cb741aea9e2        redis               "docker-entrypoint.sh"   28 minutes ago      Up 28 minutes       6379/tcp            gredis
+            CONTAINER ID IMAGE COMMAND                CREATED        STATUS       PORTS                  NAMES
+            2cb741aea9e2 redis "docker-entrypoint.sh" 28 minutes ago Up 8 minutes 0.0.0.0:6379->6379/tcp gredis
 
     1. ip
 
-            $ docker inspect --format='\{\{.NetworkSettings.IPAddress\}\}' gredis
-            172.17.0.3
+            $ docker inspect --format='{{{{.NetworkSettings.IPAddress}}}}' gredis
+            172.17.0.2
+
+1. docker [redis-cli](https://redis.io/topics/rediscli)
+
+    1. run another container
+
+            $ docker run --rm -it  redis redis-cli -h 172.17.0.2
+            172.17.0.2:6379> info
+            # Server
+            redis_version:3.2.4
+            redis_git_sha1:00000000
+            redis_git_dirty:0
+            redis_build_id:53859a8c1aa90905
+            redis_mode:standalone
+            os:Linux 4.9.13-moby x86_64
+            arch_bits:64
+            multiplexing_api:epoll
+            gcc_version:4.9.2
+            process_id:1
+            run_id:2aea96a321bf5082d66f458bb8202ac098583c88
+            tcp_port:6379
+            uptime_in_seconds:429
+            uptime_in_days:0
+            hz:10
+            lru_clock:14996259
+            executable:/data/redis-server
+            ...
+
+    1. command get set demo
+
+            172.17.0.2:6379> set helloworld 2
+            OK
+            172.17.0.2:6379> get helloworld
+            "2"
+            172.17.0.2:6379> set helloworld "hello world"
+            OK
+            172.17.0.2:6379> get helloworld
+            "hello world"
+
+    1. [all commands](https://redis.io/commands)
 
 1. python code
 

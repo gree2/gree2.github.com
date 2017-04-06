@@ -68,6 +68,18 @@ tags: [elasticsearch, plugin, ingest-attachment, install, remove]
 
             $ bin/elasticsearch-plugin remove ingest-attachments
 
+### [elasticsearch-mapper-attachments-2.0.0](https://download.elasticsearch.org/elasticsearch/elasticsearch-mapper-attachments/elasticsearch-mapper-attachments-2.0.0.zip)
+
+1. install special version
+
+            $ bin/plugin install elasticsearch/elasticsearch-mapper-attachments/3.0.2
+
+### demo
+
+1. [jupyter notebook](http://beenje.github.io/blog/posts/parsing-and-indexing-pdf-in-python/) passed
+
+1. [curl demo](https://hustbill.wordpress.com/2015/09/23/index-a-ms-office-documents-to-elasticsearch/) not pass
+
 ### references
 
 1. [mapper-attachments](https://www.elastic.co/guide/en/elasticsearch/plugins/current/mapper-attachments.html)
