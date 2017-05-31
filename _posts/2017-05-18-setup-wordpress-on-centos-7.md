@@ -101,6 +101,7 @@ tags: [wordpress, centos]
 
             $ sudo nano /etc/httpd/conf/httpd.conf
             Listen ip:8090
+            Listen ip:8092
 
             $ sudo systemctl status httpd.service -l
             ● httpd.service - The Apache HTTP Server
@@ -195,6 +196,40 @@ tags: [wordpress, centos]
             $ firewall-cmd --reload
             success
             $ firewall-cmd --list-all
+
+1. setup wordpress
+
+    1. [download](https://wordpress.org/download/)
+
+    1. install
+
+            $ unzip wordpress-4.7.5.zip
+            $ rsync -avP wordpress /var/www/html/
+            $ mkdir /var/www/html/wp-content/uploads
+            $ sudo chown -R apache:apache /var/www/html/*
+
+    1. config
+
+            $ cd /var/www/html
+            $ cp wp-config-sample.php wp-config.php
+            $ nano wp-config.php
+            define('DB_NAME', 'wordpress');
+            define('DB_USER', 'wordpress');
+            define('DB_PASSWORD', 'wordpress');
+
+1. update wordpress
+
+    1. backup
+
+            $ cd /var/www/html
+            $ mkdir worpress474
+            $ mv *.php *.md *.txt wp-* wordpress474
+
+    1. install and config
+
+    1. restore themes
+
+            $ cp -r wordpress474/wp-content/themes/roots-nextdatagov wp-content/themes/
 
 ### references
 
