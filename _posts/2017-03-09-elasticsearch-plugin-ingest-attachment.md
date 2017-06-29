@@ -26,7 +26,7 @@ tags: [elasticsearch, plugin, ingest-attachment, install, remove]
 
             # on host machine
             $ cd Download; python -m SimpleHTTPServer
-    
+
             # on host machine
             $ docker exec -it ges bash
             root@da5965afc265:/usr/share/elasticsearch# bin/elasticsearch-plugin install http://192.168.100.2:8000/ingest-attachment-5.1.2.zip
@@ -72,6 +72,9 @@ tags: [elasticsearch, plugin, ingest-attachment, install, remove]
 
 1. install special version
 
+            # transwarp installation path
+            $ cd /usr/lib/elasticsearch/elasticsearch-2.0.0-transwarp
+            # https://download.elastic.co/elasticsearch/elasticsearch-mapper-attachments/elasticsearch-mapper-attachments-3.0.2.zip
             $ bin/plugin install elasticsearch/elasticsearch-mapper-attachments/3.0.2
 
 ### demo
@@ -85,3 +88,8 @@ tags: [elasticsearch, plugin, ingest-attachment, install, remove]
 1. [mapper-attachments](https://www.elastic.co/guide/en/elasticsearch/plugins/current/mapper-attachments.html)
 
             The mapper-attachments plugin has been replaced by the ingest-attachment plugin
+
+1. [https://github.com/elastic/elasticsearch-mapper-attachments#installation](https://github.com/elastic/elasticsearch-mapper-attachments#installation)
+
+            Elasticsearch   Attachments Plugin  Docs
+            2.0.0           3.0.2               3.0.2
