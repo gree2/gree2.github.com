@@ -83,6 +83,12 @@ tags: [elasticsearch, plugin, ingest-attachment, install, remove]
 
 1. [curl demo](https://hustbill.wordpress.com/2015/09/23/index-a-ms-office-documents-to-elasticsearch/) not pass
 
+1. [github elasticsearch-ingest-attachment-plugin-example](https://github.com/rahulsinghai/elasticsearch-ingest-attachment-plugin-example)
+
+    1. [indexFile.sh](https://github.com/rahulsinghai/elasticsearch-ingest-attachment-plugin-example/blob/master/bin/indexFile.sh)
+
+1. [ingesting-and-exploring-scientific-papers-using-elastic-cloud](https://www.elastic.co/blog/ingesting-and-exploring-scientific-papers-using-elastic-cloud)
+
 ### references
 
 1. [mapper-attachments](https://www.elastic.co/guide/en/elasticsearch/plugins/current/mapper-attachments.html)
@@ -93,3 +99,5 @@ tags: [elasticsearch, plugin, ingest-attachment, install, remove]
 
             Elasticsearch   Attachments Plugin  Docs
             2.0.0           3.0.2               3.0.2
+
+1. [https://www.docker.elastic.co/](https://www.docker.elastic.co/)
