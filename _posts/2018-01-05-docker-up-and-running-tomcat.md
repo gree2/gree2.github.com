@@ -2,8 +2,8 @@
 layout: post
 title: "docker up and running tomcat"
 description: ""
-category:
-tags: []
+category: [docker]
+tags: [docker, tomcat]
 ---
 {% include JB/setup %}
 

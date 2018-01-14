@@ -71,13 +71,25 @@ tags: [docker, mysql]
 
 1. demo
 
-        $ docker run --name mysql_10  \
-        -p 0.0.0.0:30610:3306         \
-        -v $(pwd)/data:/var/lib/mysql \
-        -e MYSQL_ROOT_PASSWORD=123456 \
-        -d mysql:5.6.38               \
-        --character-set-server=utf8   \
-        --collation-server=utf8_unicode_ci
+    1. custom data folder and port
+
+            $ docker run --name mysql_10  \
+            -p 0.0.0.0:30610:3306         \
+            -v $(pwd)/data:/var/lib/mysql \
+            -e MYSQL_ROOT_PASSWORD=123456 \
+            -d mysql:5.6.38               \
+            --character-set-server=utf8   \
+            --collation-server=utf8_unicode_ci
+
+    1. copy out config folder
+
+            $ docker run --name forestry  \
+            -p 0.0.0.0:33061:3306         \
+            -v $(pwd)/data:/var/lib/mysql \
+            -e MYSQL_ROOT_PASSWORD=123456 \
+            -d mysql:5.5.t8               \
+            --character-set-server=gbk    \
+            --collation-server=utf8_unicode_ci
 
 ### references
 

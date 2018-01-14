@@ -7,7 +7,8 @@ tags: [docker, nginx]
 ---
 {% include JB/setup %}
 
-### docker image
+
+### docs
 
 1. hosting static content
 
@@ -40,8 +41,8 @@ tags: [docker, nginx]
 			$ docker cp tmp-nginx:/etc/nginx/nginx.conf /host/path/nginx.conf
 			$ docker rm -f tmp-nginx
 
-### reference
+### references
 
 1. [nginx.org](http://nginx.org/)
 
-1. [docker nginx](https://store.docker.com/images/nginx)
+1. [https://store.docker.com/images/nginx](https://store.docker.com/images/nginx)
