@@ -2,7 +2,7 @@
 layout: post
 title: "setup wordpress on ubuntu"
 description: ""
-category: [setup]
+category: [devops]
 tags: [wordpress, lamp, apache, mysql, php]
 ---
 {% include JB/setup %}
@@ -64,7 +64,7 @@ tags: [wordpress, lamp, apache, mysql, php]
 1. create database and user
 
     1. create database
-    
+
             $ mysql -u root -p
             mysql> create database wordpress;
 
@@ -85,7 +85,7 @@ tags: [wordpress, lamp, apache, mysql, php]
             $ cd
             $ wget http://wordpress.org/latest.tar.gz
             $ tar zxvf latest.tar.gz
-            
+
     1. config wordpress
 
             $ cd wordpress

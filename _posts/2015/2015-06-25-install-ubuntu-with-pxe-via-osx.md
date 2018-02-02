@@ -2,7 +2,7 @@
 layout: post
 title: "install ubuntu with pxe via osx"
 description: ""
-category: [setup]
+category: [devops]
 tags: [ubuntu, install, pxe]
 ---
 {% include JB/setup %}
@@ -253,7 +253,7 @@ tags: [ubuntu, install, pxe]
             client1         1       00:1f:16:08:61:96   192.168.1.105   pxelinux.0
 
     1. start the server
-    
+
             $ sudo /bin/launchctl load -w /System/Library/LaunchDaemons/bootps.plist
 
     1. stop the server once done

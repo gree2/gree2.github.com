@@ -2,7 +2,7 @@
 layout: post
 title: "ckan on windows"
 description: ""
-category: [setup]
+category: [devops]
 tags: [ckan, windows, postgresql]
 ---
 {% include JB/setup %}

@@ -2,7 +2,7 @@
 layout: post
 title: "installing ckan from package"
 description: ""
-category: [setup]
+category: [devops]
 tags: [ckan, ubuntu, postgresql, solr]
 ---
 {% include JB/setup %}

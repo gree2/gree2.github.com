@@ -2,7 +2,7 @@
 layout: post
 title: "install libsndfile on mac"
 description: ""
-category: [setup]
+category: [devops]
 tags: [libsndfile, mac, install]
 ---
 {% include JB/setup %}
@@ -104,32 +104,32 @@ tags: [libsndfile, mac, install]
             However, this is both not recommended and completely unsupported so do so at
             your own risk.
 
-    1. `$ brew install libsndfile`       
+    1. `$ brew install libsndfile`
 
             $ brew install libsndfile
             Warning: libsndfile-1.0.25 already installed, it's just not linked
-    
+
     1. `$ brew uninstall libsndfile`
 
             $ brew uninstall libsndfile
             Uninstalling /usr/local/Cellar/libsndfile/1.0.25...
-    
+
     1. `$ sudo chown -R hqlgree2 /usr/local` [reference](http://stackoverflow.com/questions/11237048/homebrew-symlink-error)
 
             $ sudo chown -R hqlgree2 /usr/local
-    
+
     1. `$ brew install libsndfile`
 
             $ brew install libsndfile
             Error: You must `brew link flac libogg libvorbis' before libsndfile can be installed
-    
+
     1. `$ brew link flac libogg libvorbis`
 
             $ brew link flac libogg libvorbis
             Linking /usr/local/Cellar/flac/1.3.1... 17 symlinks created
             Linking /usr/local/Cellar/libogg/1.3.2... 7 symlinks created
             Linking /usr/local/Cellar/libvorbis/1.3.5... 15 symlinks created
-    
+
     1. `$ brew install libsndfile`
 
             $ brew install libsndfile

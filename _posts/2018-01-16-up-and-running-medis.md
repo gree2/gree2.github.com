@@ -2,7 +2,7 @@
 layout: post
 title: "up and running medis"
 description: ""
-category: [setup]
+category: [devops]
 tags: [redis, medis, npm, electron]
 ---
 {% include JB/setup %}

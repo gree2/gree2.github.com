@@ -2,7 +2,7 @@
 layout: post
 title: "wordpress on windows with wamp"
 description: ""
-category: [setup]
+category: [devops]
 tags: [wordpress, windows, wamp]
 ---
 {% include JB/setup %}

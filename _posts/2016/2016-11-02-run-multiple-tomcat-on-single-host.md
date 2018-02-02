@@ -2,7 +2,7 @@
 layout: post
 title: "run multiple tomcat on single host"
 description: ""
-category: [setup]
+category: [devops]
 tags: [tomcat, http, port, jvm, shutdown]
 ---
 {% include JB/setup %}

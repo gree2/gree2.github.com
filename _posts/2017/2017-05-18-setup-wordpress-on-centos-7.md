@@ -2,7 +2,7 @@
 layout: post
 title: "setup wordpress on centos 7"
 description: ""
-category: [setup]
+category: [devops]
 tags: [wordpress, centos]
 ---
 {% include JB/setup %}

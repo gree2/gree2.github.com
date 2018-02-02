@@ -2,7 +2,7 @@
 layout: post
 title: "upgrade centos 6.5 kernel from 2.6 to 3.10"
 description: ""
-category: [setup]
+category: [devops]
 tags: [centos, 6.5, kernel, 2.6, 3.10, epel, elrepo]
 ---
 {% include JB/setup %}
@@ -21,11 +21,11 @@ tags: [centos, 6.5, kernel, 2.6, 3.10, epel, elrepo]
                 package epel-release-6-8.noarch is already installed
 
     1. import public key
-            
+
             [gree2@test ~]$ sudo rpm --import https://www.elrepo.org/RPM-GPG-KEY-elrepo.org
 
     1. install elrepo
-            
+
             [gree2@test ~]$ sudo rpm -Uvh http://www.elrepo.org/elrepo-release-6-6.el6.elrepo.noarch.rpm
             Retrieving http://www.elrepo.org/elrepo-release-6-6.el6.elrepo.noarch.rpm
             Preparing...                ########################################### [100%]
@@ -129,16 +129,16 @@ tags: [centos, 6.5, kernel, 2.6, 3.10, epel, elrepo]
                 initrd /boot/initramfs-2.6.32-431.el6.x86_64.img
 
     1. check kernel version before reboot
-            
+
             [gree2@test ~]$ uname -r
             2.6.32-642.6.1.el6.x86_64
 
     1. reboot
-            
+
             [gree2@test ~]$ sudo reboot
 
     1. check kernel version after reboot
-            
+
             [gree2@test ~]$ uname -r
             3.10.104-1.el6.elrepo.x86_64
 

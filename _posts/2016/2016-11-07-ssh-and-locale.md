@@ -2,7 +2,7 @@
 layout: post
 title: "ssh and locale"
 description: ""
-category: [setup]
+category: [devops]
 tags: [ssh, locale, mac, centos]
 ---
 {% include JB/setup %}

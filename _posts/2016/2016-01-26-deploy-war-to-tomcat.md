@@ -2,7 +2,7 @@
 layout: post
 title: "deploy war to tomcat"
 description: ""
-category: [web]
+category: [devops]
 tags: [tomcat]
 ---
 {% include JB/setup %}

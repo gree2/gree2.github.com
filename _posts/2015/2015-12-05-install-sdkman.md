@@ -2,7 +2,7 @@
 layout: post
 title: "install sdkman"
 description: ""
-category: [setup]
+category: [devops]
 tags: [curl, source, sdkman]
 ---
 {% include JB/setup %}
@@ -30,43 +30,43 @@ tags: [curl, source, sdkman]
 
             $ curl -s get.sdkman.io | bash
 
-            Thanks for using...                                                          
-                                                                                         
-                                                                                         
-                 SSSSSSSSSSSSSSS DDDDDDDDDDDDD       KKKKKKKKK    KKKKKKK                  
-               SS:::::::::::::::SD::::::::::::DDD    K:::::::K    K:::::K                  
-              S:::::SSSSSS::::::SD:::::::::::::::DD  K:::::::K    K:::::K                  
-              S:::::S     SSSSSSSDDD:::::DDDDD:::::D K:::::::K   K::::::K                  
-              S:::::S              D:::::D    D:::::DKK::::::K  K:::::KKK                  
-              S:::::S              D:::::D     D:::::D K:::::K K:::::K                     
-               S::::SSSS           D:::::D     D:::::D K::::::K:::::K                      
-                SS::::::SSSSS      D:::::D     D:::::D K:::::::::::K                       
-                  SSS::::::::SS    D:::::D     D:::::D K:::::::::::K                       
-                     SSSSSS::::S   D:::::D     D:::::D K::::::K:::::K                      
-                          S:::::S  D:::::D     D:::::D K:::::K K:::::K                     
-                          S:::::S  D:::::D    D:::::DKK::::::K  K:::::KKK                  
-              SSSSSSS     S:::::SDDD:::::DDDDD:::::D K:::::::K   K::::::K                  
-              S::::::SSSSSS:::::SD:::::::::::::::DD  K:::::::K    K:::::K                  
-              S:::::::::::::::SS D::::::::::::DDD    K:::::::K    K:::::K                  
-               SSSSSSSSSSSSSSS   DDDDDDDDDDDDD       KKKKKKKKK    KKKKKKK                  
-                                                                                           
-                                                                                           
-                                  mmmmmmm    mmmmmmm     aaaaaaaaaaaaa  nnnn  nnnnnnnn     
-                                mm:::::::m  m:::::::mm   a::::::::::::a n:::nn::::::::nn   
-                               m::::::::::mm::::::::::m  aaaaaaaaa:::::an::::::::::::::nn  
-                               m::::::::::::::::::::::m           a::::ann:::::::::::::::n 
-                               m:::::mmm::::::mmm:::::m    aaaaaaa:::::a  n:::::nnnn:::::n 
-                               m::::m   m::::m   m::::m  aa::::::::::::a  n::::n    n::::n 
-                               m::::m   m::::m   m::::m a::::aaaa::::::a  n::::n    n::::n 
-                               m::::m   m::::m   m::::ma::::a    a:::::a  n::::n    n::::n 
-                               m::::m   m::::m   m::::ma::::a    a:::::a  n::::n    n::::n 
-                               m::::m   m::::m   m::::ma:::::aaaa::::::a  n::::n    n::::n 
-                               m::::m   m::::m   m::::m a::::::::::aa:::a n::::n    n::::n 
-                               mmmmmm   mmmmmm   mmmmmm  aaaaaaaaaa  aaaa nnnnnn    nnnnnn 
-                                                                                             
-                                                                                             
+            Thanks for using...
+
+
+                 SSSSSSSSSSSSSSS DDDDDDDDDDDDD       KKKKKKKKK    KKKKKKK
+               SS:::::::::::::::SD::::::::::::DDD    K:::::::K    K:::::K
+              S:::::SSSSSS::::::SD:::::::::::::::DD  K:::::::K    K:::::K
+              S:::::S     SSSSSSSDDD:::::DDDDD:::::D K:::::::K   K::::::K
+              S:::::S              D:::::D    D:::::DKK::::::K  K:::::KKK
+              S:::::S              D:::::D     D:::::D K:::::K K:::::K
+               S::::SSSS           D:::::D     D:::::D K::::::K:::::K
+                SS::::::SSSSS      D:::::D     D:::::D K:::::::::::K
+                  SSS::::::::SS    D:::::D     D:::::D K:::::::::::K
+                     SSSSSS::::S   D:::::D     D:::::D K::::::K:::::K
+                          S:::::S  D:::::D     D:::::D K:::::K K:::::K
+                          S:::::S  D:::::D    D:::::DKK::::::K  K:::::KKK
+              SSSSSSS     S:::::SDDD:::::DDDDD:::::D K:::::::K   K::::::K
+              S::::::SSSSSS:::::SD:::::::::::::::DD  K:::::::K    K:::::K
+              S:::::::::::::::SS D::::::::::::DDD    K:::::::K    K:::::K
+               SSSSSSSSSSSSSSS   DDDDDDDDDDDDD       KKKKKKKKK    KKKKKKK
+
+
+                                  mmmmmmm    mmmmmmm     aaaaaaaaaaaaa  nnnn  nnnnnnnn
+                                mm:::::::m  m:::::::mm   a::::::::::::a n:::nn::::::::nn
+                               m::::::::::mm::::::::::m  aaaaaaaaa:::::an::::::::::::::nn
+                               m::::::::::::::::::::::m           a::::ann:::::::::::::::n
+                               m:::::mmm::::::mmm:::::m    aaaaaaa:::::a  n:::::nnnn:::::n
+                               m::::m   m::::m   m::::m  aa::::::::::::a  n::::n    n::::n
+                               m::::m   m::::m   m::::m a::::aaaa::::::a  n::::n    n::::n
+                               m::::m   m::::m   m::::ma::::a    a:::::a  n::::n    n::::n
+                               m::::m   m::::m   m::::ma::::a    a:::::a  n::::n    n::::n
+                               m::::m   m::::m   m::::ma:::::aaaa::::::a  n::::n    n::::n
+                               m::::m   m::::m   m::::m a::::::::::aa:::a n::::n    n::::n
+                               mmmmmm   mmmmmm   mmmmmm  aaaaaaaaaa  aaaa nnnnnn    nnnnnn
+
+
                                                              Now attempting installation...
-                                                                                           
+
             Looking for a previous installation of SDKMAN...
             Looking for unzip...
             Looking for curl...

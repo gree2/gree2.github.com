@@ -2,7 +2,7 @@
 layout: post
 title: "remote control tomcat use manager app"
 description: ""
-category: [setup]
+category: [devops]
 tags: [tomcat, manager, app, manager-gui]
 ---
 {% include JB/setup %}
@@ -28,7 +28,7 @@ tags: [tomcat, manager, app, manager-gui]
 
     1. [add these code](http://stackoverflow.com/questions/36703856/access-tomcat-manager-app-from-different-host)
 
-            <Context privileged="true" antiResourceLocking="false" 
+            <Context privileged="true" antiResourceLocking="false"
                      docBase="${catalina.home}/webapps/manager">
                 <Valve className="org.apache.catalina.valves.RemoteAddrValve" allow="^.*$" />
             </Context>

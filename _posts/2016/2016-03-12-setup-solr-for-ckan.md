@@ -2,7 +2,7 @@
 layout: post
 title: "setup solr for ckan"
 description: ""
-category: [setup]
+category: [devops]
 tags: [solr, ckan, jetty]
 ---
 {% include JB/setup %}

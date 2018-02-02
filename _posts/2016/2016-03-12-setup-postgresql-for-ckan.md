@@ -2,7 +2,7 @@
 layout: post
 title: "setup postgresql for ckan"
 description: ""
-category: [setup]
+category: [devops]
 tags: [postgresql, ckan]
 ---
 {% include JB/setup %}
