@@ -19,7 +19,7 @@ tags: [query]
                 select database_id, type, size * 8.0 / 1024 / 1024 size
                 from sys.master_files
             )
-            select 
+            select
                 name,
                 (select sum(size) from fs where type = 0 and fs.database_id = db.database_id) DataFileSizeMB,
                 (select sum(size) from fs where type = 1 and fs.database_id = db.database_id) LogFileSizeMB
@@ -29,7 +29,7 @@ tags: [query]
 
     * [stackoverflow](http://stackoverflow.com/questions/4849652/find-all-tables-containing-column-with-specified-name)
 
-            select  
+            select
                     s.[name]            'Schema',
                     t.[name]            'Table',
                     c.[name]            'Column',
@@ -98,7 +98,7 @@ tags: [query]
 
             --For SQL2008
             left join sys.extended_properties g
-            on a.id=g.major_id AND a.colid = g.major_id 
+            on a.id=g.major_id AND a.colid = g.major_id
             order by object_name(a.id), a.colorder
 
     * results (= is not in the query result)
@@ -109,7 +109,7 @@ MSreplication=options=|=1=|=optname=|=0=|=0=|=nvarchar=|=256=|=128=|=0=|=0=|=|=
 -=|=3=|=major=version=|=0=|=0=|=int=|=4=|=10=|=0=|=0=|=|=
 -=|=4=|=minor=version=|=0=|=0=|=int=|=4=|=10=|=0=|=0=|=|=
 -=|=5=|=revision=|=0=|=0=|=int=|=4=|=10=|=0=|=0=|=|=
--=|=6=|=install=failures=|=0=|=0=|=int=|=4=|=10=|=0=|=0=|=|=  
+-=|=6=|=install=failures=|=0=|=0=|=int=|=4=|=10=|=0=|=0=|=|=
 
 1. batch export database tables to csv files
 
@@ -163,6 +163,16 @@ MSreplication=options=|=1=|=optname=|=0=|=0=|=nvarchar=|=256=|=128=|=0=|=0=|=|=
 
             file mime encoding is: iso-8859-1
 
+    1. with header [sql-server-export-to-excel-using-bcp-sqlcmd-csv](https://www.excel-sql-server.com/sql-server-export-to-excel-using-bcp-sqlcmd-csv.htm)
+
+            select 'EXEC xp_cmdshell ''sqlcmd -S .\instancename -d '
+            + DB_NAME() + ' -E -s, -W -Q "set nocount on; set ansi_warnings off; SELECT * FROM '
+            + '.dbo.'+ QUOTENAME(name) + '" | findstr /V /C:"-" /B > e:\'+ name+'.csv'''
+            FROM sys.objects
+            WHERE TYPE='u' AND is_ms_shipped=0
+            order by name
+
+
     1. with header and utf-8 encoding
 
             select 'EXEC ' + QUOTENAME(DB_NAME()) + '..xp_cmdshell ''sqlcmd -E -s"|" -W -f 65001 -w 4000 -Q "set nocount on; set ansi_warnings off; SELECT * FROM '
@@ -199,27 +209,27 @@ MSreplication=options=|=1=|=optname=|=0=|=0=|=nvarchar=|=256=|=128=|=0=|=0=|=|=
 
     * sql
 
-            DECLARE @sd_name VARCHAR(50)   -- database name  
-            DECLARE @path_bak VARCHAR(256)     -- path for backup files  
-            DECLARE @fileName VARCHAR(256) -- filename for backup  
+            DECLARE @sd_name VARCHAR(50)   -- database name
+            DECLARE @path_bak VARCHAR(256)     -- path for backup files
+            DECLARE @fileName VARCHAR(256) -- filename for backup
 
             -- specify database backup directory
             SET @path_bak = 'D:\\database\\150507\\'
 
             -- specify filename format
-            -- SELECT @fileDate = CONVERT(VARCHAR(20), GETDATE(), 112) 
+            -- SELECT @fileDate = CONVERT(VARCHAR(20), GETDATE(), 112)
 
-            DECLARE db_cursor CURSOR FOR  
-            SELECT name FROM master.dbo.sysdatabases 
+            DECLARE db_cursor CURSOR FOR
+            SELECT name FROM master.dbo.sysdatabases
             WHERE name NOT IN ('master', 'model', 'msdb', 'tempdb', 'ReportServer', 'ReportServerTempDB')
 
-            OPEN db_cursor   
+            OPEN db_cursor
             FETCH NEXT FROM db_cursor INTO @sd_name
 
-            WHILE @@FETCH_STATUS = 0   
-            BEGIN   
+            WHILE @@FETCH_STATUS = 0
+            BEGIN
                 SET @fileName = @path_bak + '\\' + @sd_name + '.bak'
-                --BACKUP DATABASE @sd_name TO DISK = @fileName  
+                --BACKUP DATABASE @sd_name TO DISK = @fileName
 
                 print '--' + @sd_name
                 print 'BACKUP DATABASE [' + @sd_name + ']'
@@ -229,9 +239,9 @@ MSreplication=options=|=1=|=optname=|=0=|=0=|=nvarchar=|=256=|=128=|=0=|=0=|=|=
                 print 'SKIP, NOREWIND, NOUNLOAD,  STATS = 10'
                 print 'GO'
                 print ''
-             
+
                 FETCH NEXT FROM db_cursor INTO @sd_name
-            END   
+            END
 
             CLOSE db_cursor
             DEALLOCATE db_cursor
@@ -245,7 +255,7 @@ MSreplication=options=|=1=|=optname=|=0=|=0=|=nvarchar=|=256=|=128=|=0=|=0=|=|=
             NAME = N'mydb1',
             SKIP, NOREWIND, NOUNLOAD,  STATS = 10
             GO
-             
+
             -- mydb2
             BACKUP DATABASE [mydb2]
             TO  DISK = N'D:\\database\\20150507\\mydb2.bak'
@@ -289,20 +299,20 @@ MSreplication=options=|=1=|=optname=|=0=|=0=|=nvarchar=|=256=|=128=|=0=|=0=|=|=
 
             DECLARE @RestoreDB VARCHAR (8000)
             DECLARE @Move varchar (8000)
-            DECLARE @MoveWithoutComma varchar (8000) 
-            DECLARE @Go varchar (8000) 
+            DECLARE @MoveWithoutComma varchar (8000)
+            DECLARE @Go varchar (8000)
             DECLARE @firsttime varchar (5) -- = 'True'
             DECLARE @sd_name varchar(255)
             DECLARE @smf_name varchar(255)
             DECLARE @smf_physical_name varchar (255)
-            DECLARE @hold_sd_name varchar (255) 
-            DECLARE @path_bak VARCHAR(256)     -- path for backup files  
+            DECLARE @hold_sd_name varchar (255)
+            DECLARE @path_bak VARCHAR(256)     -- path for backup files
 
             select @firsttime = 'True'
             -- specify database backup directory
             SET @path_bak = 'D:\\database\\150507\\'
 
-            DECLARE Database_cursor CURSOR FOR 
+            DECLARE Database_cursor CURSOR FOR
             SELECT sd.name,smf.name, smf.physical_name
             FROM sys.master_files AS smf inner join sys.databases AS sd
             on smf.database_id = sd.database_id
@@ -314,7 +324,7 @@ MSreplication=options=|=1=|=optname=|=0=|=0=|=nvarchar=|=256=|=128=|=0=|=0=|=|=
             FETCH NEXT FROM Database_cursor INTO @sd_name, @smf_name, @smf_physical_name
 
             Select @hold_sd_name = @sd_name
-            WHILE @@FETCH_STATUS = 0 
+            WHILE @@FETCH_STATUS = 0
             Begin
                 if @firsttime = 'True'
                     Begin
@@ -325,7 +335,7 @@ MSreplication=options=|=1=|=optname=|=0=|=0=|=nvarchar=|=256=|=128=|=0=|=0=|=|=
                         + @sd_name + '.bak''' + char(13) + char(10) + 'WITH MOVE ''' + @smf_name + ''' TO '''
                         + @smf_physical_name + ''', replace ,' + 'stats = 10' + char(13) + char(10)
                         print @RestoreDB
-                 
+
                         select @Go = 'GO' + char(13) + char(10)
 
                         FETCH NEXT FROM Database_cursor INTO @sd_name, @smf_name, @smf_physical_name
