@@ -41,6 +41,12 @@ tags: [centos, 6.5, nginx, proxy, config]
             # reverse proxy
             $ nano /etc/nginx/nginx.conf
 
+    1. start
+
+            $ /etc/init.d/nginx start
+            ...
+            $ ifconfig eth0 | grep inet | awk '{ print $2 }'
+
 ### reference
 
 1. [https://github.com/rharmonson/richtech/wiki/Installing-Nginx-on-CentOS-6.5-Minimal-x86_64](https://github.com/rharmonson/richtech/wiki/Installing-Nginx-on-CentOS-6.5-Minimal-x86_64)
