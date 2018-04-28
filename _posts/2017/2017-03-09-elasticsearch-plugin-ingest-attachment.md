@@ -22,6 +22,10 @@ tags: [elasticsearch, plugin, ingest-attachment, install, remove]
 
             $ bin/elasticsearch-plugin install ingest-attachments
 
+            $ cd plugins
+            $ ls
+
+
     1. offline install [download ingest-attachment-5.1.2.zip](https://artifacts.elastic.co/downloads/elasticsearch-plugins/ingest-attachment/ingest-attachment-5.1.2.zip)
 
             # on host machine
@@ -76,6 +80,49 @@ tags: [elasticsearch, plugin, ingest-attachment, install, remove]
             $ cd /usr/lib/elasticsearch/elasticsearch-2.0.0-transwarp
             # https://download.elastic.co/elasticsearch/elasticsearch-mapper-attachments/elasticsearch-mapper-attachments-3.0.2.zip
             $ bin/plugin install elasticsearch/elasticsearch-mapper-attachments/3.0.2
+
+            $ cd plugins
+            $ ls
+            analysis-ik
+            analysis-mmseg
+            bigdesk
+            elasticsearch-mapper-attachments
+            head
+            kopf
+
+### install on macos
+
+1. steps
+
+    1. install elasticsearch
+
+            $ brew install elasticsearch
+
+    1. install plugin
+
+            $ cd /usr/local/Cellar/elasticsearch/6.2.4/
+            $ bin/elasticsearch-plugin install ingest-attachment
+            -> Downloading ingest-attachment from elastic
+            [=================================================] 100%
+            @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+            @     WARNING: plugin requires additional permissions     @
+            @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+            * java.lang.RuntimePermission accessDeclaredMembers
+            * java.lang.RuntimePermission getClassLoader
+            * java.lang.reflect.ReflectPermission suppressAccessChecks
+            * java.security.SecurityPermission createAccessControlContext
+            * java.security.SecurityPermission insertProvider
+            * java.security.SecurityPermission putProviderProperty.BC
+            See http://docs.oracle.com/javase/8/docs/technotes/guides/security/permissions.html
+            for descriptions of what these permissions allow and the associated risks.
+
+            Continue with installation? [y/N]y
+            -> Installed ingest-attachment
+
+    1. verify
+
+            $ ls libexec/plugins
+            ingest-attachment
 
 ### demo
 

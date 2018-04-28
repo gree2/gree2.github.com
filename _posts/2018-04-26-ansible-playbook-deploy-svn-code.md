@@ -86,6 +86,8 @@ tags: [ansible, playbook, svn]
             -----------------------------------------------------------------------
             保存未加密的密码(yes/no)?yes
 
+1.
+
 ### fixed
 
 1. without parameters
@@ -106,3 +108,25 @@ tags: [ansible, playbook, svn]
             # store-plaintext-passwords = no
             store-plaintext-passwords = yes
             ...
+
+1. ssl handshake failed key usage violation in certificate has been detected
+
+    1. error
+
+            svn: 方法 OPTIONS 失败于 “https://my-svn-ip/svn/code”: SSL handshake failed: SSL 错误：Key usage violation in certificate has been detected. (https://my-svn-ip)
+
+    1. [fixed](https://www.visualsvn.com/support/topic/00056/) [centos-6-and-svn-w-neon](https://stackoverflow.com/questions/11189254/centos-6-and-svn-w-neon)
+
+            generate a cerificate without specifying 'Key Usage' extension
+
+            add registry value to the windows registry
+            32-bit system
+            [HKEY_LOCAL_MACHINE\SOFTWARE\VisualSVN\VisualSVN Server]
+            "CreateGnuTLSCompatibleCertificate"=dword:00000001
+            64-bit system:
+            [HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\VisualSVN\VisualSVN Server]
+            "CreateGnuTLSCompatibleCertificate"=dword:00000001
+
+            Start VisualSVN Server Manager.
+            Go to Action | Properties | Certificate.
+            Click Change certificate... and follow the wizard instructions to `generate a new self-signed certificate`
