@@ -26,3 +26,17 @@ tags: [pdsh, shell]
             $ pdsh -w "node[1-4]" -l root service ntpd stop
             $ pdsh -w "node[1-4]" -l root ntpdate 192.168.100.101
             $ pdsh -w "node[1-4]" -l root service ntpd start
+
+1. use hosts file
+
+    1. hosts file
+
+            $ nano hosts.txt
+            node1
+            node2
+            node3
+            node4
+
+    1. usage
+
+            $ pdsh -R ssh -w ^hosts.txt -l root date
