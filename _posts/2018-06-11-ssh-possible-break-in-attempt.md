@@ -55,7 +55,7 @@ tags: [ssh, sshd_config, usedns]
         6月 11 21:46:11 dc sshd[10463]: Server listening on :: port 22.
         6月 11 21:46:11 dc systemd[1]: Started OpenSSH server daemon.
         6月 11 21:46:19 dc sshd[10479]: reverse mapping checking getaddrinfo for bogon [10.1.1.3] failed - POSSIBLE BREAK-IN ATTEMPT!
-                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^
+                                                                                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 1. remote box: login again
 
