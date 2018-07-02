@@ -3,7 +3,7 @@ layout: post
 title: "command screen"
 description: ""
 category: [command]
-tags: [screen, ]
+tags: [screen, kill, session, detach, attach, share]
 ---
 {% include JB/setup %}
 
