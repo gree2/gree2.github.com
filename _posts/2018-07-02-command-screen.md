@@ -68,7 +68,7 @@ tags: [screen, kill, session, detach, attach, share]
                 11576.pts-0.node4   (Detached)
             2 Sockets in /var/run/screen/S-root.
 
-            $ screen -r gree2
+            $ screen -x gree2
             $ # do sth
             $ ls
             ...
