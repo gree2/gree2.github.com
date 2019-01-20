@@ -72,11 +72,11 @@ tags: [sqoop, hive]
             python
             zookeeper
 
-    1. [hadoop]({% post_url 2015-04-17-apache-hadoop-on-mac-osx-yosemite %})
-    1. [hbase]({% post_url 2015-05-26-apache-hbase-getting-started %})
-    1. [hive]({% post_url 2015-05-25-apache-hive-getting-started %})
-    1. [python]({% post_url 2015-04-03-anaconda-on-mac %})
-    1. [zookeeper]({% post_url 2015-05-26-apache-zookeeper-getting-started %})
+    1. [hadoop]({% post_url 2015/2015-04-17-apache-hadoop-on-mac-osx-yosemite %})
+    1. [hbase]({% post_url 2015/2015-05-26-apache-hbase-getting-started %})
+    1. [hive]({% post_url 2015/2015-05-25-apache-hive-getting-started %})
+    1. [python]({% post_url 2015/2015-04-03-anaconda-on-mac %})
+    1. [zookeeper]({% post_url 2015/2015-05-26-apache-zookeeper-getting-started %})
 
 ### setup
 
@@ -104,12 +104,12 @@ tags: [sqoop, hive]
             $ pico .bash_profile
             export JAVA_HOME=`/usr/libexec/java_home -v 1.8`
 
-1. [set HCAT_HOME]({% post_url 2015-05-25-apache-hive-on-mac-osx-yosemite %})
+1. [set HCAT_HOME]({% post_url 2015/2015-05-25-apache-hive-on-mac-osx-yosemite %})
 
             $ pico .bash_profile
             export HCAT_HOME=/usr/local/Cellar/hive/1.1.0/libexec/hcatalog
 
-1. [installing the jdbc drivers](http://www.cloudera.com/content/cloudera/en/documentation/cdh4/latest/CDH4-Installation-Guide/cdh4ig_topic_13_7.html) and check my post [2015-05-25-apache-hive-on-mac-osx-yosemite]({% post_url 2015-05-25-apache-hive-on-mac-osx-yosemite %}) and [connectors and drivers](https://blogs.apache.org/sqoop/entry/connectors_and_drivers_in_the) and [documentation](http://sqoop.apache.org/docs/1.4.0-incubating/SqoopUserGuide.html#id1763114)
+1. [installing the jdbc drivers](http://www.cloudera.com/content/cloudera/en/documentation/cdh4/latest/CDH4-Installation-Guide/cdh4ig_topic_13_7.html) and check my post [2015-05-25-apache-hive-on-mac-osx-yosemite]({% post_url 2015/2015-05-25-apache-hive-on-mac-osx-yosemite %}) and [connectors and drivers](https://blogs.apache.org/sqoop/entry/connectors_and_drivers_in_the) and [documentation](http://sqoop.apache.org/docs/1.4.0-incubating/SqoopUserGuide.html#id1763114)
 
             $ curl -L 'http://www.mysql.com/get/Downloads/Connector-J/mysql-connector-java-5.1.35.tar.gz/from/http://mysql.he.net/' | tar xz
             $ cd mysql-connector-java-5.1.35

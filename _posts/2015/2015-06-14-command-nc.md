@@ -24,20 +24,20 @@ tags: [netcat, nc, network]
 
 1. nc
 
-            -46bCDdhklnrStUuvZz 
-            -I length 
-            -i interval 
-            -O length 
+            -46bCDdhklnrStUuvZz
+            -I length
+            -i interval
+            -O length
 
-            -P proxy_username 
-            -p source_port 
-            -q seconds 
-            -s source 
+            -P proxy_username
+            -p source_port
+            -q seconds
+            -s source
 
-            -T toskeyword 
-            -V rtable 
-            -w timeout 
-            -X proxy_protocol 
+            -T toskeyword
+            -V rtable
+            -w timeout
+            -X proxy_protocol
 
             -x proxy_address:port
             destination port
@@ -101,7 +101,7 @@ tags: [netcat, nc, network]
 
 1. directory transfer
 
-    1. use tar 
+    1. use tar
 
             # 1. server
             $ tar -cvf - dir_name | nc -l 1567
@@ -156,7 +156,7 @@ tags: [netcat, nc, network]
             $ nc localhost 1567
 
     1. doesn't support -c or -e option (openbsd netcat)
-       
+
             $ mkfifo /tmp/tmp_fifo
             $ cat /tmp/tmp_fifo | /bin/sh -i 2>&1 | nc -l 1567 > /tmp/tmp_fifo
 
@@ -232,4 +232,4 @@ tags: [netcat, nc, network]
 
             $ nc -x10.2.3.4:8080 -Xconnect -Pruser host.example.com 42
 
-1. [2015 05 24 apache flume getting started]({% post_url 2015-05-24-apache-flume-getting-started %})
+1. [2015 05 24 apache flume getting started]({% post_url 2015/2015-05-24-apache-flume-getting-started %})

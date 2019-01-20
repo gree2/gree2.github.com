@@ -21,7 +21,7 @@ tags: [nodejs, n]
 
 1. install homebrew
 
-    1. [install homebrew]({% post_url 2015-05-27-homebrew-the-missing-package-manager-for-os-x %})
+    1. [install homebrew]({% post_url 2015/2015-05-27-homebrew-the-missing-package-manager-for-os-x %})
 
             $ ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 

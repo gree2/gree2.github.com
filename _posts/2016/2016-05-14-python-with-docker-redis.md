@@ -30,7 +30,7 @@ tags: [python, docker, redis]
 
     1. ip
 
-            $ docker inspect --format='{{{{.NetworkSettings.IPAddress}}}}' gredis
+            $ docker inspect --format='\{\{\.NetworkSettings\.IPAddress\}\}' gredis
             172.17.0.2
 
 1. docker [redis-cli](https://redis.io/topics/rediscli)

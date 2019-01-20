@@ -32,7 +32,7 @@ tags: [movielens, neo4j, container, docker, cypher]
 
             $ python -m SimpleHTTPServer
 
-1. [start neo4j container]({% post_url 2016-12-31-docker-neo4j-graph-database %})
+1. [start neo4j container]({% post_url 2016/2016-12-31-docker-neo4j-graph-database %})
 
             $ docker run --rm \
             --publish=7474:7474 \
@@ -77,7 +77,7 @@ tags: [movielens, neo4j, container, docker, cypher]
             MATCH (m:Movie { id: TOINTEGER(line.`movieId`) })
             MERGE (u:User { id: TOINTEGER(line.`userId`) })
             CREATE (u)-[r:TAG {tag: line.`tag`}]->(m);
-            
+
             // if you import from neo4j browser
             // Added 61 labels, created 61 nodes, set 1357 properties, created 1296 relationships, statement completed in 1789 ms.
 
@@ -96,7 +96,7 @@ tags: [movielens, neo4j, container, docker, cypher]
             // if you import from neo4j browser
             // Set 19072 properties, created 19072 relationships, statement completed in 11461 ms.
 
-1. [run cypher query against this dataset]({% post_url 2016-12-31-run-cypher-query-from-sublime-text-3-against-neo4j %})
+1. [run cypher query against this dataset]({% post_url 2016/2016-12-31-run-cypher-query-from-sublime-text-3-against-neo4j %})
 
     1. find user 23
 

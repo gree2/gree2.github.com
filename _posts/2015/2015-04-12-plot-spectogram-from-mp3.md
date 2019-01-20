@@ -12,7 +12,7 @@ tags: [plot, mp3, ]
 
 1. [install libsndfile]()
 
-1. [install scikits.audiolab]({% post_url 2015-04-03-anaconda-on-mac %})
+1. [install scikits.audiolab]({% post_url 2015/2015-04-03-anaconda-on-mac %})
 
 1. [install libav](http://stackoverflow.com/questions/21495863/unable-to-install-avconv-libav)
 
@@ -121,7 +121,7 @@ tags: [plot, mp3, ]
                ...: mp3filename = 'quit.playing.games.mp3'
                ...: wname = mktemp('.wav')
                ...: check_call(['/usr/local/bin/avconv', '-i', mp3filename, wname])
-               ...: 
+               ...:
 
             Out[4]: 0
 

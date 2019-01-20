@@ -30,9 +30,9 @@ tags: [wave, plot, channel, sampwidth, framerate, nframes, comptype, compname]
                 wave_data = wave_data.T
                 time = np.arange(0, nframes) * (1.0 / framerate)
 
-                pl.subplot(211) 
+                pl.subplot(211)
                 pl.plot(time, wave_data[0])
-                pl.subplot(212) 
+                pl.subplot(212)
                 pl.plot(time, wave_data[1], c="g")
                 pl.xlabel("time (seconds)")
                 pl.show()
@@ -95,7 +95,7 @@ tags: [wave, plot, channel, sampwidth, framerate, nframes, comptype, compname]
 
     * optional kwarg `forword=Ture` will cause the canvas size to be automatically updated
 
-1. [matplotlib.figure.Figure.savefig(*args, **kwargs)](http://matplotlib.org/api/figure_api.html#matplotlib.figure.Figure.savefig)
+1. [matplotlib.figure.Figure.savefig(\*args, \*\*kwargs)](http://matplotlib.org/api/figure_api.html#matplotlib.figure.Figure.savefig)
 
     * save the current figure
 
@@ -169,13 +169,13 @@ tags: [wave, plot, channel, sampwidth, framerate, nframes, comptype, compname]
 
 1. [get wav file duration](http://stackoverflow.com/questions/7833807/get-wav-file-length-or-duration)
 
-    * [python package songdetails]({% post_url 2015-04-04-python-package-songdetails %})
+    * [python package songdetails]({% post_url 2015/2015-04-04-python-package-songdetails %})
 
                 In [16]: >>> import songdetails
                     ...: >>> song = songdetails.scan("quit.playing.games.mp3")
                     ...: >>> song.duration
                     ...: >>> print song.duration
-                    ...: 
+                    ...:
                 0:03:58
 
                 In [17]: 3 * 60 + 58

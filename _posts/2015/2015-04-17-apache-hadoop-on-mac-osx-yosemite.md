@@ -29,7 +29,7 @@ tags: [hadoop, max, osx, yosemite]
 
 ### configuring hadoop
 
-1. create a `soft-link` check my post [command ln difference between soft link and hard link]({% post_url 2015-05-31-command-ln-difference-between-soft-link-and-hard-link %})
+1. create a `soft-link` check my post [command ln difference between soft link and hard link]({% post_url 2015/2015-05-31-command-ln-difference-between-soft-link-and-hard-link %})
 
             $ cd /usr/local
             $ ln -s Cellar/hadoop/2.6.0 hadoop
@@ -50,13 +50,13 @@ tags: [hadoop, max, osx, yosemite]
 
             <configuration>
                 <property>
-                    <name>hadoop.tmp.dir</name>  
+                    <name>hadoop.tmp.dir</name>
                     <value>/usr/local/hadoop/hdfs/tmp</value>
                     <description>A base for other temporary directories.</description>
                 </property>
                 <property>
                     <name>fs.default.name</name>
-                    <value>hdfs://localhost:9000</value> 
+                    <value>hdfs://localhost:9000</value>
                 </property>
             </configuration>
 
@@ -197,4 +197,4 @@ tags: [hadoop, max, osx, yosemite]
             > ...
             $ hdfs dfs -ls
             > ...
-            > found 1 items 
+            > found 1 items

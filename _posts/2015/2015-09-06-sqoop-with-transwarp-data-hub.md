@@ -20,10 +20,10 @@ tags: [sqoop, transwarp, tdh]
 
 1. [download sqoop-1.4.6](http://www.apache.org/dyn/closer.lua/sqoop/1.4.6)
 
-1. download [mysql]({% post_url 2015-05-26-apache-sqoop-getting-started %}) and [mssql]({% post_url 2015-05-27-apache-sqoop-import-export-demo %}) connector
+1. download [mysql]({% post_url 2015/2015-05-26-apache-sqoop-getting-started %}) and [mssql]({% post_url 2015/2015-05-27-apache-sqoop-import-export-demo %}) connector
 
 
-    1. [installing the jdbc drivers](http://www.cloudera.com/content/cloudera/en/documentation/cdh4/latest/CDH4-Installation-Guide/cdh4ig_topic_13_7.html) and check my post [2015-05-25-apache-hive-on-mac-osx-yosemite]({% post_url 2015-05-25-apache-hive-on-mac-osx-yosemite %}) and [connectors and drivers](https://blogs.apache.org/sqoop/entry/connectors_and_drivers_in_the) and [documentation](http://sqoop.apache.org/docs/1.4.0-incubating/SqoopUserGuide.html#id1763114)
+    1. [installing the jdbc drivers](http://www.cloudera.com/content/cloudera/en/documentation/cdh4/latest/CDH4-Installation-Guide/cdh4ig_topic_13_7.html) and check my post [2015-05-25-apache-hive-on-mac-osx-yosemite]({% post_url 2015/2015-05-25-apache-hive-on-mac-osx-yosemite %}) and [connectors and drivers](https://blogs.apache.org/sqoop/entry/connectors_and_drivers_in_the) and [documentation](http://sqoop.apache.org/docs/1.4.0-incubating/SqoopUserGuide.html#id1763114)
 
             $ curl -L 'http://www.mysql.com/get/Downloads/Connector-J/mysql-connector-java-5.1.35.tar.gz/from/http://mysql.he.net/' | tar xz
 

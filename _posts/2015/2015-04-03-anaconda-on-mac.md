@@ -24,14 +24,14 @@ tags: [anaconda, python mac]
 
     1. on ubuntu 15.04 desktop
 
-            $ bash Anaconda-2.3.0-Linux-x86_64.sh 
+            $ bash Anaconda-2.3.0-Linux-x86_64.sh
 
             Welcome to Anaconda 2.3.0 (by Continuum Analytics, Inc.)
 
             In order to continue the installation process, please review the license
             agreement.
             Please, press ENTER to continue
-            >>> 
+            >>>
             ===================================
             Anaconda END USER LICENSE AGREEMENT
             ===================================
@@ -110,7 +110,7 @@ tags: [anaconda, python mac]
               - Press CTRL-C to abort the installation
               - Or specify a different location below
 
-            [/home/node2/anaconda] >>> 
+            [/home/node2/anaconda] >>>
             PREFIX=/home/node2/anaconda
             installing: python-2.7.10-0 ...
             installing: conda-3.14.1-py27_0 ...
@@ -287,7 +287,7 @@ tags: [anaconda, python mac]
 
 ### install scikits-audiolab from source
 
-1. you must install [libsndfile]({% post_url 2015-04-12-install-libsndfile-on-mac %}) first
+1. you must install [libsndfile]({% post_url 2015/2015-04-12-install-libsndfile-on-mac %}) first
 
 1. download from [pypi](https://pypi.python.org/pypi/scikits.audiolab/)
 
@@ -348,11 +348,11 @@ tags: [anaconda, python mac]
             Using binstar api site https://api.binstar.org
             Run 'binstar show <USER/PACKAGE>' to get more details:
             Packages:
-                 Name                      |  Version | Package Types   | Platforms      
+                 Name                      |  Version | Package Types   | Platforms
                  ------------------------- |   ------ | --------------- | ---------------
                  auto/cjklib               |    0.3.2 | conda           | linux-64, linux-32
                                                       : http://cjklib.org
-                 travis/cjklib             |    0.3.2 | conda           | linux-64       
+                 travis/cjklib             |    0.3.2 | conda           | linux-64
                                                       : http://cjklib.org
             Found 2 packages
 

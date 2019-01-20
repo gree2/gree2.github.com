@@ -22,7 +22,7 @@ tags: [chinese, character, pinyin, cjklib, hanzi2pinyin]
 
 ### package `cjklib`
 
-1. check my [post anaconda on mac]({% post_url 2015-04-03-anaconda-on-mac %})
+1. check my [post anaconda on mac]({% post_url 2015/2015-04-03-anaconda-on-mac %})
 
 1. we can not use cjklib on osx-64 now
 

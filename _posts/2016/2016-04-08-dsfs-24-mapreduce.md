@@ -50,7 +50,7 @@ tags: [python, data science, mapreduce]
 
             def word_count(documents):
                 """count the words in the input documents using mapreduce"""
-                
+
                 # place to store grouped values
                 collector = defaultdict(list)
 
@@ -267,4 +267,4 @@ tags: [python, data science, mapreduce]
 
 ### reference
 
-1. [partial]({% post_url 2016-04-17-python-functools-partial %})
+1. [partial]({% post_url 2016/2016-04-17-python-functools-partial %})

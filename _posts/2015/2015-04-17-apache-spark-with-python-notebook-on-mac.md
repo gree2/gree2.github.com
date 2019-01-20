@@ -14,7 +14,7 @@ tags: [spark, python, notebook, mac]
 
 * to use spark we need to configure the hadoop eco system of yarn and hdfs
 
-* this can be done following [reference installing hadoop on yosemite](http://amodernstory.com/2014/09/23/installing-hadoop-on-mac-osx-yosemite/) and my [post apache hadoop on mac osx yosemite]({% post_url 2015-04-17-apache-hadoop-on-mac-osx-yosemite %})
+* this can be done following [reference installing hadoop on yosemite](http://amodernstory.com/2014/09/23/installing-hadoop-on-mac-osx-yosemite/) and my [post apache hadoop on mac osx yosemite]({% post_url 2015/2015-04-17-apache-hadoop-on-mac-osx-yosemite %})
 
 ### install homebrew
 
@@ -22,7 +22,7 @@ tags: [spark, python, notebook, mac]
 
             ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 
-* read my [post setting up my mac]({% post_url 2015-03-08-setting-up-my-mac %}) for more info
+* read my [post setting up my mac]({% post_url 2015/2015-03-08-setting-up-my-mac %}) for more info
 
 ### to install spark
 
@@ -50,7 +50,7 @@ tags: [spark, python, notebook, mac]
 
 * we'll install apaconda for python
 
-    * check my [post anaconda on mac]({% post_url 2015-04-03-anaconda-on-mac %})
+    * check my [post anaconda on mac]({% post_url 2015/2015-04-03-anaconda-on-mac %})
 
 ### minimizing the verbosity of spark
 

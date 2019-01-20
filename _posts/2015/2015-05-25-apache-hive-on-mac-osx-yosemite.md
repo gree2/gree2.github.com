@@ -10,9 +10,9 @@ tags: [hive, osx, mysql]
 
 ### prerequisites
 
-1. [hadoop must be installed]({% post_url 2015-04-17-apache-hadoop-on-mac-osx-yosemite %})
+1. [hadoop must be installed]({% post_url 2015/2015-04-17-apache-hadoop-on-mac-osx-yosemite %})
 
-1. [brew must be installed]({% post_url 2015-03-08-setting-up-my-mac %})
+1. [brew must be installed]({% post_url 2015/2015-03-08-setting-up-my-mac %})
 
 ### steps
 
@@ -70,12 +70,12 @@ tags: [hive, osx, mysql]
 
             $ mysql
             ERROR 2002 (HY000): Can't connect to local MySQL server through socket '/tmp/mysql.sock' (2)
-           
+
     * start mysql
 
             $ mysql.server start
             Starting MySQL
-            . SUCCESS! 
+            . SUCCESS!
 
             $ mysql
             Welcome to the MySQL monitor.  Commands end with ; or \g.

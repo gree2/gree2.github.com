@@ -70,7 +70,7 @@ tags: [hbase, hadoop]
             ==> Summary
             🍺  /usr/local/Cellar/hbase/1.0.1: 10810 files, 372M, built in 77.8 minutes
 
-    * config hadoop check my post [2015-04-17-apache-hadoop-on-mac-osx-yosemite]({% post_url 2015-04-17-apache-hadoop-on-mac-osx-yosemite %})
+    * config hadoop check my post [2015-04-17-apache-hadoop-on-mac-osx-yosemite]({% post_url 2015/2015-04-17-apache-hadoop-on-mac-osx-yosemite %})
 
 ### [config](http://freddy.cellcore.org/post/52568231952/hadoop-hbase-on-osx-10-8-mountain-lion)
 
@@ -123,7 +123,7 @@ tags: [hbase, hadoop]
 
             hbase(main):001:0> list 'test'
             TABLE
-            test                                                                                        
+            test
             1 row(s) in 0.0090 seconds
 
             => ["test"]
@@ -142,17 +142,17 @@ tags: [hbase, hadoop]
     1. scan table for all data at once
 
             hbase(main):001:0> scan 'test'
-            ROW                      COLUMN+CELL                                                        
-             row1                    column=cf:a, timestamp=1434334223890, value=value1                 
-             row2                    column=cf:b, timestamp=1434334238864, value=value2                 
-             row3                    column=cf:c, timestamp=1434334250205, value=value3                 
+            ROW                      COLUMN+CELL
+             row1                    column=cf:a, timestamp=1434334223890, value=value1
+             row2                    column=cf:b, timestamp=1434334238864, value=value2
+             row3                    column=cf:c, timestamp=1434334250205, value=value3
             3 row(s) in 0.0250 seconds
 
     1. get a single row of data
 
             hbase(main):001:0> get 'test', 'row1'
-            COLUMN                   CELL                                                               
-             cf:a                    timestamp=1434334223890, value=value1                              
+            COLUMN                   CELL
+             cf:a                    timestamp=1434334223890, value=value1
             1 row(s) in 0.0190 seconds
 
     1. disable a table

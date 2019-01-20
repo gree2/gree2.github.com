@@ -67,7 +67,7 @@ tags: [centos, install, yum, docker-engine, docker-io epel]
 
               sudo usermod -aG docker dc
 
-            Remember that you will have to log out and back in for this to take effect! 
+            Remember that you will have to log out and back in for this to take effect!
 
     1. enable the service
 
@@ -78,7 +78,7 @@ tags: [centos, install, yum, docker-engine, docker-io epel]
             $ sudo systemctl start docker
 
     1. verify
-    
+
             $ sudo docker run --rm hello-world
 
 1. install docker-io (old version)
@@ -163,6 +163,6 @@ tags: [centos, install, yum, docker-engine, docker-io epel]
 
     1. [docs for installation on linux centos](https://docs.docker.com/engine/installation/linux/centos/)'s prerequisites Docker requires a `64-bit OS` and version `3.10 or higher` of the `Linux kernel`
 
-    1. check my post [2016-12-23-upgrade-centos-6.5-kernel-from-2.6-to-3.10]({% post_url 2016-12-23-upgrade-centos-65-kernel-from-26-to-310 %})
+    1. check my post [2016-12-23-upgrade-centos-6.5-kernel-from-2.6-to-3.10]({% post_url 2016/2016-12-23-upgrade-centos-65-kernel-from-26-to-310 %})
 
             # you should upgrade os kernel first

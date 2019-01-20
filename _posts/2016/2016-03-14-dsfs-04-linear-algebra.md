@@ -184,4 +184,4 @@ tags: [python, data science, vector, matrix]
 
 ### reference
 
-1. [partial]({% post_url 2016-04-17-python-functools-partial %})
+1. [partial]({% post_url 2016/2016-04-17-python-functools-partial %})

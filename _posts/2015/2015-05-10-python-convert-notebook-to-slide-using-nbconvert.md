@@ -50,7 +50,7 @@ tags: [notebook, slide, nbconvert, serve]
 
 ### step 2 install reveal.js
 
-check my post [2015-05-09-getting-revealjs-running-on-your-computer]({% post_url 2015-05-09-getting-revealjs-running-on-your-computer %})
+check my post [2015-05-09-getting-revealjs-running-on-your-computer]({% post_url 2015/2015-05-09-getting-revealjs-running-on-your-computer %})
 
 ### step 3 convert notebook to slide
 

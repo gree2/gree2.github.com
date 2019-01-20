@@ -29,8 +29,8 @@ tags: [kafka, storm, ubuntu, python, kafka-python, pyleus, nimbus, supervisor, u
     1. topology
 
             ===============================================
-               ↓       ↑       ↓       ↑       ↓       ↑   
-               ↓       ↑       ↓       ↑       ↓       ↑   
+               ↓       ↑       ↓       ↑       ↓       ↑
+               ↓       ↑       ↓       ↑       ↓       ↑
             +-------------+ +-------------+ +-------------+
             |    node1    | |    node2    | |    node3    |
             +-------------+ +-------------+ +-------------+
@@ -44,11 +44,11 @@ tags: [kafka, storm, ubuntu, python, kafka-python, pyleus, nimbus, supervisor, u
             +-------------+ +-------------+ +-------------+
             |  producer1  | |  producer2  | |  producer3  |
             +-------------+ +-------------+ +-------------+
-                   ↓               ↓               ↓       
+                   ↓               ↓               ↓
             +---------------------------------------------+
             |                kafka cluster                |
             +---------------------------------------------+
-                   ↓               ↓               ↓       
+                   ↓               ↓               ↓
             +-------------+ +-------------+ +-------------+
             |  consumer1  | |  consumer2  | |  consumer3  |
             +-------------+ +-------------+ +-------------+
@@ -58,11 +58,11 @@ tags: [kafka, storm, ubuntu, python, kafka-python, pyleus, nimbus, supervisor, u
                         +-+-+-+-+-+-+-+-+-+
             partition-0 |0|1|2|3|4|5|6|7|x| ←----- write
                         +-+-+-+-+-+-+-+-+-+
-                                           
+
                         +-+-+-+-+-+-+-+-+-+
             partition-1 |0|1|2|3|4|5|x|     ←----- write
                         +-+-+-+-+-+-+-+-+-+
-                                           
+
                         +-+-+-+-+-+-+-+-+-+
             partition-2 |0|1|2|3|4|5|6|x|   ←----- write
                         +-+-+-+-+-+-+-+-+-+
@@ -76,19 +76,19 @@ tags: [kafka, storm, ubuntu, python, kafka-python, pyleus, nimbus, supervisor, u
                                              |   +------------+
                                              | ↔ | supervisor |
                                              |   +------------+
-                                             |                 
+                                             |
                          |   +-----------+   |   +------------+
                          | ↔ | zookeeper | ↔ | ↔ | supervisor |
                          |   +-----------+   |   +------------+
-                         |                   |                 
+                         |                   |
             +--------+   |   +-----------+   |   +------------+
             | nimbus | ↔ | ↔ | zookeeper | ↔ | ↔ | supervisor |
             +--------+   |   +-----------+   |   +------------+
-                         |                   |                 
+                         |                   |
                          |   +-----------+   |   +------------+
                          | ↔ | zookeeper | ↔ | ↔ | supervisor |
                          |   +-----------+   |   +------------+
-                                             |                 
+                                             |
                                              |   +------------+
                                              | ↔ | supervisor |
                                              |   +------------+
@@ -160,7 +160,7 @@ tags: [kafka, storm, ubuntu, python, kafka-python, pyleus, nimbus, supervisor, u
 
             $ sudo apt-get install openssh-server
 
-    1. [oracle jdk]({% post_url 2015-09-24-install-oracle-jdk-on-ubuntu %})
+    1. [oracle jdk]({% post_url 2015/2015-09-24-install-oracle-jdk-on-ubuntu %})
 
     1. unzip
 
@@ -170,7 +170,7 @@ tags: [kafka, storm, ubuntu, python, kafka-python, pyleus, nimbus, supervisor, u
 
 ### 2. zookeeper
 
-1. check my post [2015 05 26 apache zookeeper getting started]({% post_url 2015-05-26-apache-zookeeper-getting-started %})
+1. check my post [2015 05 26 apache zookeeper getting started]({% post_url 2015/2015-05-26-apache-zookeeper-getting-started %})
 
 ### 3. kafka
 
@@ -210,13 +210,13 @@ tags: [kafka, storm, ubuntu, python, kafka-python, pyleus, nimbus, supervisor, u
     1. `host.name=10.13.186.251`
 
             $ netstat -an | grep 9092
-            tcp6       0      0 10.13.186.251:9092      :::*                    LISTEN     
+            tcp6       0      0 10.13.186.251:9092      :::*                    LISTEN
             tcp6       0      0 10.13.186.251:9092      10.13.186.252:34001     ESTABLISHED
 
     1. `#host.name=10.13.186.251`
 
             $ netstat -an | grep 9092
-            tcp6       0      0 :::9092                 :::*                    LISTEN     
+            tcp6       0      0 :::9092                 :::*                    LISTEN
             tcp6       0      0 192.168.1.151:9092      192.168.1.153:40047     ESTABLISHED
 
 1. [usage]((http://www.michael-noll.com/blog/2013/03/13/running-a-multi-broker-apache-kafka-cluster-on-a-single-node/))
@@ -497,27 +497,27 @@ tags: [kafka, storm, ubuntu, python, kafka-python, pyleus, nimbus, supervisor, u
             +------------------+
             | producer.demo.py |
             +------------------+
-                      ↓         
+                      ↓
             +------------------+
             | kafka cluster    |
             +------------------+
-                      ↓         
+                      ↓
             +------------------+
             | kafka-spout      |
             +------------------+
-                      ↓         
+                      ↓
             +------------------+
             | split-words.py   |
             +------------------+
-                      ↓         
+                      ↓
             +------------------+
             | count-words.py   |
             +------------------+
-                      ↓         
+                      ↓
             +------------------+
             | log-results.py   |
             +------------------+
-                      ↓         
+                      ↓
             +------------------+
             | redis            |
             +------------------+
@@ -528,23 +528,23 @@ tags: [kafka, storm, ubuntu, python, kafka-python, pyleus, nimbus, supervisor, u
             +------------------+
             | start zookeeper  |
             +------------------+
-                      ↓         
+                      ↓
             +------------------+
             | start kafka      |
             +------------------+
-                      ↓         
+                      ↓
             +------------------+
             | start storm      |
             +------------------+
-                      ↓         
+                      ↓
             +------------------+
             | pyleus local     |
             +------------------+
-                      ↓         
+                      ↓
             +------------------+
             | run producer * x |
             +------------------+
-                      ↓         
+                      ↓
             +------------------+
             | check dir /tmp   |
             | check redis      |
@@ -552,21 +552,21 @@ tags: [kafka, storm, ubuntu, python, kafka-python, pyleus, nimbus, supervisor, u
 
     1. process
 
-            +----------------+   
+            +----------------+
             | sentence spout |   {"sentence": "i am learning kafka storm redis"}
-            +----------------+   
-                    ↓            
-            +----------------+   
+            +----------------+
+                    ↓
+            +----------------+
             | split bolt     |   {"word" : "i"} {"word" : "am"} {"word" : "learning"}
-            +----------------+   
-                    ↓            
-            +----------------+   
+            +----------------+
+                    ↓
+            +----------------+
             | count bolt     |   {"word" : "i", "count" : 1} {"word" : "am", "count" : 1}
-            +----------------+   
-                    ↓            
-            +----------------+   
+            +----------------+
+                    ↓
+            +----------------+
             | log bolt       |   write to log and to redis
-            +----------------+   
+            +----------------+
 
 ### fixed
 

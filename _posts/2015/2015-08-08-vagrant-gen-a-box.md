@@ -41,11 +41,11 @@ tags: [vagrant, vm, ubuntu, ssh]
 
 1. software
 
-    1. [nodejs](https://nodejs.org/) check my post [2015 05 09 getting revealjs running on your computer]({% post_url 2015-05-09-getting-revealjs-running-on-your-computer %})
+    1. [nodejs](https://nodejs.org/) check my post [2015 05 09 getting revealjs running on your computer]({% post_url 2015/2015-05-09-getting-revealjs-running-on-your-computer %})
 
-    1. [ruby](https://www.ruby-lang.org/en/) check my post [2015 03 08 setting up my mac]({% post_url 2015-03-08-setting-up-my-mac %})
+    1. [ruby](https://www.ruby-lang.org/en/) check my post [2015 03 08 setting up my mac]({% post_url 2015/2015-03-08-setting-up-my-mac %})
 
-    1. [jekyll](http://jekyllrb.com/) check my post [2015 03 04 recreate my github page]({% post_url 2015-03-04-recreate-my-github-page %})
+    1. [jekyll](http://jekyllrb.com/) check my post [2015 03 04 recreate my github page]({% post_url 2015/2015-03-04-recreate-my-github-page %})
 
     1. [lynx](http://lynx.isc.org/) text-based web browser [wikipedia](https://en.wikipedia.org/wiki/Lynx_(web_browser))
 

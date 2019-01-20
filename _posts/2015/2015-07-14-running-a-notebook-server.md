@@ -10,7 +10,7 @@ tags: [ipython, notebook, nvserver, profile, openssl]
 
 ### [setup](http://ipython.org/ipython-doc/1/interactive/public_server.html)
 
-1. [create a profile]({% post_url 2015-04-17-apache-spark-with-python-notebook-on-mac %})
+1. [create a profile]({% post_url 2015/2015-04-17-apache-spark-with-python-notebook-on-mac %})
 
 1. notebook security
 

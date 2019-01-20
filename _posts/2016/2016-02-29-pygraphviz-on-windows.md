@@ -19,4 +19,4 @@ tags: [graphviz, pygraphviz, windows, wheel, pip]
             $ cd path/to/your/wheel
             $ pip install pygraphviz-1.3.1-cp27-none-win_amd64.whl
 
-1. quick [example](http://pygraphviz.github.io/examples.html) from my post [2016-02-27-pygraphviz-on-mac]({% post_url 2016-02-27-pygraphviz-on-mac %})
+1. quick [example](http://pygraphviz.github.io/examples.html) from my post [2016-02-27-pygraphviz-on-mac]({% post_url 2016/2016-02-27-pygraphviz-on-mac %})

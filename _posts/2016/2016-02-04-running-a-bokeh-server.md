@@ -12,15 +12,15 @@ tags: [bokeh, server, serve, json, push, periodic, timeout, asynchronous, callba
 
 1. architecture
 
-            +---------+                          
+            +---------+
             | python  |  plots ranges axes glyphs
-            +---------+                          
-                ↑ ↓           +--------------+   
-                ↑ ↓  json <== | bokeh server |   
-                ↑ ↓           +--------------+   
-            +---------+                          
-            | BokehJS |                          
-            +---------+                          
+            +---------+
+                ↑ ↓           +--------------+
+                ↑ ↓  json <== | bokeh server |
+                ↑ ↓           +--------------+
+            +---------+
+            | BokehJS |
+            +---------+
 
 1. sync `model objects` in python and in the browser with each other
 
@@ -40,7 +40,7 @@ tags: [bokeh, server, serve, json, push, periodic, timeout, asynchronous, callba
 
 ### specifying `output_server`
 
-1. check my post [2016-01-29-deploying-the-bokeh-server]({% post_url 2016-01-29-deploying-the-bokeh-server %})
+1. check my post [2016-01-29-deploying-the-bokeh-server]({% post_url 2016/2016-01-29-deploying-the-bokeh-server %})
 
 ### connecting with `bokeh.client`
 

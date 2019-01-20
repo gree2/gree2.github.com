@@ -37,9 +37,9 @@ tags: [ckan, ubuntu, postgresql, solr]
 
             $ sudo apt-get install -y postgresql solr-jetty
 
-    1. [setup solr for ckan]({% post_url 2016-03-12-setup-solr-for-ckan %})
+    1. [setup solr for ckan]({% post_url 2016/2016-03-12-setup-solr-for-ckan %})
 
-    1. [setup postgresql for ckan]({% post_url 2016-03-12-setup-postgresql-for-ckan %})
+    1. [setup postgresql for ckan]({% post_url 2016/2016-03-12-setup-postgresql-for-ckan %})
 
 1. update config and init database
 

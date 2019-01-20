@@ -101,7 +101,7 @@ tags: [homebrew, brew]
             $ brew irb
             ==> Interactive Homebrew Shell
             Example commands available with: brew irb --examples
-            irb(main):001:0> 
+            irb(main):001:0>
 
     1. hiding the beer mug emoji when finishing a build
 
@@ -246,28 +246,28 @@ tags: [homebrew, brew]
 
 ### hadoop ecosystem installation
 
-1. [2015-04-16-apache-spark]({% post_url 2015-04-16-apache-spark %})
+1. [2015-04-16-apache-spark]({% post_url 2015/2015-04-16-apache-spark %})
 
-1. [2015-04-17-apache-hadoop-on-mac-osx-yosemite]({% post_url 2015-04-17-apache-hadoop-on-mac-osx-yosemite %})
+1. [2015-04-17-apache-hadoop-on-mac-osx-yosemite]({% post_url 2015/2015-04-17-apache-hadoop-on-mac-osx-yosemite %})
 
-1. [2015-04-17-apache-spark-with-python-notebook-on-mac]({% post_url 2015-04-17-apache-spark-with-python-notebook-on-mac %})
+1. [2015-04-17-apache-spark-with-python-notebook-on-mac]({% post_url 2015/2015-04-17-apache-spark-with-python-notebook-on-mac %})
 
-1. [2015-05-19-apache-oozie-workflow-scheduler-for-hadoop]({% post_url 2015-05-19-apache-oozie-workflow-scheduler-for-hadoop %})
+1. [2015-05-19-apache-oozie-workflow-scheduler-for-hadoop]({% post_url 2015/2015-05-19-apache-oozie-workflow-scheduler-for-hadoop %})
 
-1. [2015-05-19-impala-native-analytic-database-for-apache-hadoop]({% post_url 2015-05-19-impala-native-analytic-database-for-apache-hadoop %})
+1. [2015-05-19-impala-native-analytic-database-for-apache-hadoop]({% post_url 2015/2015-05-19-impala-native-analytic-database-for-apache-hadoop %})
 
-1. [2015-05-21-apache-getting-started-with-solr]({% post_url 2015-05-21-apache-getting-started-with-solr %})
+1. [2015-05-21-apache-getting-started-with-solr]({% post_url 2015/2015-05-21-apache-getting-started-with-solr %})
 
-1. [2015-05-24-apache-flume-getting-started]({% post_url 2015-05-24-apache-flume-getting-started %})
+1. [2015-05-24-apache-flume-getting-started]({% post_url 2015/2015-05-24-apache-flume-getting-started %})
 
-1. [2015-05-25-apache-hive-getting-started]({% post_url 2015-05-25-apache-hive-getting-started %})
+1. [2015-05-25-apache-hive-getting-started]({% post_url 2015/2015-05-25-apache-hive-getting-started %})
 
-1. [2015-05-25-apache-hive-on-mac-osx-yosemite]({% post_url 2015-05-25-apache-hive-on-mac-osx-yosemite %})
+1. [2015-05-25-apache-hive-on-mac-osx-yosemite]({% post_url 2015/2015-05-25-apache-hive-on-mac-osx-yosemite %})
 
-1. [2015-05-25-apache-sqoop-on-mac-osx-yosemite]({% post_url 2015-05-25-apache-sqoop-on-mac-osx-yosemite %})
+1. [2015-05-25-apache-sqoop-on-mac-osx-yosemite]({% post_url 2015/2015-05-25-apache-sqoop-on-mac-osx-yosemite %})
 
-1. [2015-05-26-apache-hbase-getting-started]({% post_url 2015-05-26-apache-hbase-getting-started %})
+1. [2015-05-26-apache-hbase-getting-started]({% post_url 2015/2015-05-26-apache-hbase-getting-started %})
 
-1. [2015-05-26-apache-sqoop-getting-started]({% post_url 2015-05-26-apache-sqoop-getting-started %})
+1. [2015-05-26-apache-sqoop-getting-started]({% post_url 2015/2015-05-26-apache-sqoop-getting-started %})
 
-1. [2015-05-26-apache-zookeeper-getting-started]({% post_url 2015-05-26-apache-zookeeper-getting-started %})
+1. [2015-05-26-apache-zookeeper-getting-started]({% post_url 2015/2015-05-26-apache-zookeeper-getting-started %})

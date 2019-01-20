@@ -12,7 +12,7 @@ tags: [pentaho, biserver, 6.0, ubuntu, puc]
 
 1. [download pentaho biserver](http://jaist.dl.sourceforge.net/project/pentaho/Business%20Intelligence%20Server/6.0/biserver-ce-6.0.0.0-353.zip)
 
-1. [setup ubuntu with oracle jdk]({% post_url 2015-09-24-install-oracle-jdk-on-ubuntu %})
+1. [setup ubuntu with oracle jdk]({% post_url 2015/2015-09-24-install-oracle-jdk-on-ubuntu %})
 
 1. setup pentaho biserver
 
@@ -28,7 +28,7 @@ tags: [pentaho, biserver, 6.0, ubuntu, puc]
             Offending key for IP in /Users/hqlgree2/.ssh/known_hosts:35
             Matching host key in /Users/hqlgree2/.ssh/known_hosts:38
             Are you sure you want to continue connecting (yes/no)? yes
-            node@pentaho's password: 
+            node@pentaho's password:
             biserver-ce-6.0.0.0-353.zip                               100%  930MB  71.5MB/s   00:13
 
     1. ssh to node pentaho
@@ -38,7 +38,7 @@ tags: [pentaho, biserver, 6.0, ubuntu, puc]
             Offending key for IP in /Users/hqlgree2/.ssh/known_hosts:35
             Matching host key in /Users/hqlgree2/.ssh/known_hosts:38
             Are you sure you want to continue connecting (yes/no)? yes
-            node@pentaho's password: 
+            node@pentaho's password:
             Welcome to Ubuntu 14.04.1 LTS (GNU/Linux 3.13.0-32-generic x86_64)
 
              * Documentation:  https://help.ubuntu.com/
@@ -49,7 +49,7 @@ tags: [pentaho, biserver, 6.0, ubuntu, puc]
             # on node pentaho
             $ unzip biserver-ce-6.0.0.0-353.zip
 
-    1. edit `start-pentaho.sh` check my [post]({% post_url 2015-10-08-pentaho-bi-server-report-designer-on-mac %})
+    1. edit `start-pentaho.sh` check my [post]({% post_url 2015/2015-10-08-pentaho-bi-server-report-designer-on-mac %})
 
             # on node pentaho
             $ pico start-pentaho.sh
@@ -89,10 +89,10 @@ tags: [pentaho, biserver, 6.0, ubuntu, puc]
              will not be shown, you would have to be root to see it all.)
             Active Internet connections (servers and established)
             Proto Recv-Q Send-Q Local Address           Foreign Address         State       PID/Program name
-            tcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTEN      -               
-            tcp        0     36 192.168.1.100:22        192.168.1.101:59894     ESTABLISHED -               
-            tcp6       0      0 :::8009                 :::*                    LISTEN      1066/java       
-            tcp6       0      0 :::8080                 :::*                    LISTEN      1066/java       
-            tcp6       0      0 :::22                   :::*                    LISTEN      -               
+            tcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTEN      -
+            tcp        0     36 192.168.1.100:22        192.168.1.101:59894     ESTABLISHED -
+            tcp6       0      0 :::8009                 :::*                    LISTEN      1066/java
+            tcp6       0      0 :::8080                 :::*                    LISTEN      1066/java
+            tcp6       0      0 :::22                   :::*                    LISTEN      -
 
     1. visit [pentaho user console - puc](http://192.168.1.100:8080/pentaho/Home) from your favourite browser

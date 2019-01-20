@@ -12,7 +12,7 @@ tags: [hive, hadoop, python, mapper]
 
 1. have `hadoop` in your path or `export HADOOP_HOME=hadoop-install-dir`
 
-    * check my post [2015-05-25-apache-hive-on-mac-osx-yosemite]({% post_url 2015-05-25-apache-hive-on-mac-osx-yosemite %})
+    * check my post [2015-05-25-apache-hive-on-mac-osx-yosemite]({% post_url 2015/2015-05-25-apache-hive-on-mac-osx-yosemite %})
 
 1. create dir in hdfs
 
@@ -183,7 +183,7 @@ tags: [hive, hadoop, python, mapper]
             add file weekday_maapper.py
 
             insert overwrite table u_data_new
-            select 
+            select
                 transform (userid, movieid, rating, unixtime)
                 using 'weekday_maapper.py'
                 as (userid, movieid, rating, weekday)
@@ -201,7 +201,7 @@ tags: [hive, hadoop, python, mapper]
             Error during job, obtaining debugging information...
             Job Tracking URL: http://localhost:8080/
             FAILED: Execution Error, return code 2 from org.apache.hadoop.hive.ql.exec.mr.MapRedTask
-            MapReduce Jobs Launched: 
+            MapReduce Jobs Launched:
             Stage-Stage-1:  HDFS Read: 0 HDFS Write: 0 FAIL
             Total MapReduce CPU Time Spent: 0 msec
 
@@ -220,7 +220,7 @@ tags: [hive, hadoop, python, mapper]
             Moving data to: hdfs://localhost:9000/user/hive/warehouse/u_data_new/.hive-staging_hive_2015-06-01_22-15-18_053_7587415369814957289-1/-ext-10000
             Loading data to table default.u_data_new
             Table default.u_data_new stats: [numFiles=1, numRows=100000, totalSize=1179173, rawDataSize=1079173]
-            MapReduce Jobs Launched: 
+            MapReduce Jobs Launched:
             Stage-Stage-1:  HDFS Read: 4134474 HDFS Write: 1179256 SUCCESS
             Total MapReduce CPU Time Spent: 0 msec
             OK
@@ -240,7 +240,7 @@ tags: [hive, hadoop, python, mapper]
             Job running in-process (local Hadoop)
             2015-06-01 22:16:47,499 Stage-1 map = 100%,  reduce = 100%
             Ended Job = job_local111019165_0007
-            MapReduce Jobs Launched: 
+            MapReduce Jobs Launched:
             Stage-Stage-1:  HDFS Read: 10627460 HDFS Write: 2358512 SUCCESS
             Total MapReduce CPU Time Spent: 0 msec
             OK
@@ -333,7 +333,7 @@ tags: [hive, hadoop, python, mapper]
             Job running in-process (local Hadoop)
             2015-06-02 22:15:35,666 Stage-1 map = 100%,  reduce = 100%
             Ended Job = job_local1524182395_0001
-            MapReduce Jobs Launched: 
+            MapReduce Jobs Launched:
             Stage-Stage-1:  HDFS Read: 2358346 HDFS Write: 0 SUCCESS
             Total MapReduce CPU Time Spent: 0 msec
             OK

@@ -145,7 +145,7 @@ tags: [kylin, mondrian, saiku, jdbc, mdx, cube]
             or
             start-saiku.bat
 
-1. create schema, please check my post [2015-11-08-saiku-design-a-schema]({% post_url 2015-11-08-saiku-design-a-schema %})
+1. create schema, please check my post [2015-11-08-saiku-design-a-schema]({% post_url 2015/2015-11-08-saiku-design-a-schema %})
 
     1. create a schema(xml file)
 

@@ -16,7 +16,7 @@ tags: [pandas, sqlalchemy, pyodbc, sql server, plotting]
             import matplotlib
             matplotlib.style.use('ggplot')
 
-1. use font `Microsoft YaHei` check my post [2015-04-27-python-change-matplotlib-font-on-mac]({% post_url 2015-04-27-python-change-matplotlib-font-on-mac %})
+1. use font `Microsoft YaHei` check my post [2015-04-27-python-change-matplotlib-font-on-mac]({% post_url 2015/2015-04-27-python-change-matplotlib-font-on-mac %})
 
             matplotlib.rcParams['font.sans-serif'] = ['Microsoft YaHei']
             matplotlib.rcParams['axes.unicode_minus'] = False

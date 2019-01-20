@@ -217,4 +217,4 @@ tags: [python, data science, network analysis]
 
 ### reference
 
-1. [partial]({% post_url 2016-04-17-python-functools-partial %})
+1. [partial]({% post_url 2016/2016-04-17-python-functools-partial %})

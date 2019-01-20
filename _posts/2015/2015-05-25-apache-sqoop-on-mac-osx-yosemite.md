@@ -10,9 +10,9 @@ tags: [sqoop]
 
 ### prerequisites
 
-1. [hadoop must be installed]({% post_url 2015-04-17-apache-hadoop-on-mac-osx-yosemite %})
+1. [hadoop must be installed]({% post_url 2015/2015-04-17-apache-hadoop-on-mac-osx-yosemite %})
 
-1. [brew must be installed]({% post_url 2015-03-08-setting-up-my-mac %})
+1. [brew must be installed]({% post_url 2015/2015-03-08-setting-up-my-mac %})
 
 ### [steps](http://springandgrailsmusings.blogspot.com/2012/12/install-sqoop-and-hbase-on-macbook-pro.html)
 
